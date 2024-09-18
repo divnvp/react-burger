@@ -1,0 +1,9 @@
+.navigationPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.itemGroup {
+  display: flex;
+}
