@@ -6,7 +6,8 @@ import BurgerConstructorElement from "../burger-constructor-element/burger-const
 import {IngredientType} from "../../shared/consts/ingredient-type.enum";
 
 type Props = {
-  data: Data[]
+  data: Data[],
+  cart: Data[]
 }
 
 function BurgerConstructor(props: Props) {
@@ -22,33 +23,45 @@ function BurgerConstructor(props: Props) {
     return element.name
   }
 
-  const getLocked = (element: Data, index: number) => {
-    return (index === 0 && element.type === IngredientType.Bun) ||
-      (index === props.data.length - 1 && element.type === IngredientType.Bun);
-  }
-
-  const getType = (index: number) => {
-    return index === 0 ? "top" : index === props.data.length - 1 ? "bottom" : undefined;
-  }
-
   useEffect(() => {
     setAmout(props.data.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0))
   }, [props.data]);
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`}>
-      <div className={`mb-10 ${burgerConstructorStyle.grid} ${burgerConstructorStyle.scrollbar}`}>
-        {props.data.map((element, index) => (
+      {
+        props.data.length ?
+        <div className={`mb-10 ${burgerConstructorStyle.grid}`}>
           <BurgerConstructorElement
-            key={element._id}
-            type={getType(index)}
-            title={getTitle(element, index)}
-            price={element.price}
-            thumbnail={element.image_mobile}
-            isLocked={getLocked(element, index)}
+            type="top"
+            title={`${props.data[0].name} (верх)`}
+            price={props.data[0].price}
+            thumbnail={props.data[0].image_mobile}
+            isLocked={true}
           />
-        ))}
-      </div>
+
+          <div className={`${burgerConstructorStyle.scrollbar} ${burgerConstructorStyle.elementsGrid}`}>
+            {props.cart.map((element, index) => (
+              <BurgerConstructorElement
+                key={index}
+                title={getTitle(element, index)}
+                price={element.price}
+                thumbnail={element.image_mobile}
+                isLocked={false}
+              />
+            ))}
+          </div>
+
+          <BurgerConstructorElement
+            type="bottom"
+            title={`${props.data[0].name} (низ)`}
+            price={props.data[0].price}
+            thumbnail={props.data[0].image_mobile}
+            isLocked={true}
+          />
+        </div> :
+          ''
+      }
 
       <div className={burgerConstructorStyle.buttonGrid}>
         <p className="text text_type_digits-medium">{amount}</p>

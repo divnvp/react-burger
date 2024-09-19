@@ -5,18 +5,20 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-devel
 function AppHeader() {
   return (
     <div className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}>
-      <div className={appHeaderStyle.itemGroup}>
-        <HeaderItem title="Конструктор" isActive={true}>
-          <BurgerIcon type="primary" />
-        </HeaderItem>
-        <HeaderItem title="Лента заказов" isActive={false}>
-          <ListIcon type="secondary" />
+      <div className={appHeaderStyle.grid}>
+        <div className={appHeaderStyle.itemGroup}>
+          <HeaderItem title="Конструктор" isActive={true}>
+            <BurgerIcon type="primary" />
+          </HeaderItem>
+          <HeaderItem title="Лента заказов" isActive={false}>
+            <ListIcon type="secondary" />
+          </HeaderItem>
+        </div>
+        <Logo />
+        <HeaderItem title="Личный кабинет" isActive={false}>
+          <ProfileIcon type="secondary" />
         </HeaderItem>
       </div>
-      <Logo />
-      <HeaderItem title="Личный кабинет" isActive={false}>
-        <ProfileIcon type="secondary" />
-      </HeaderItem>
     </div>
   )
 }

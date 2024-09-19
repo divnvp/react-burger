@@ -35,7 +35,7 @@ function App() {
           <BurgerIngredients data={data} onClick={addToCart} />
         </div>
         <div>
-          <BurgerConstructor data={cart} />
+          <BurgerConstructor data={data} cart={cart} />
         </div>
       </div>
     </div>

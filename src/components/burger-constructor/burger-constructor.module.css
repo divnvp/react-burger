@@ -4,7 +4,7 @@
 }
 
 .grid {
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     gap: 1rem;
 }
@@ -12,7 +12,13 @@
 .scrollbar {
     overflow: auto;
     height:auto;
-    max-height: calc(100vh - 35vh);
+    max-height: calc(100vh - 60vh);
+}
+
+.elementsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .buttonGrid {

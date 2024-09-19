@@ -1,4 +1,5 @@
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import constructorElementStyles from './burger-constructor-element.module.css';
 
 type Props = {
   title: string;
@@ -12,7 +13,7 @@ function BurgerConstructorElement(props: Props) {
   return (
     <div>
       {props.isLocked ?
-        <div className="ml-6">
+        <div className="ml-8">
           <ConstructorElement
             type={props.type}
             text={props.title}
@@ -21,7 +22,7 @@ function BurgerConstructorElement(props: Props) {
             isLocked={true}
           />
         </div> :
-        <div>
+        <div className={constructorElementStyles.grid}>
           <DragIcon type="primary" />
           <ConstructorElement
             type={props.type}
