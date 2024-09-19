@@ -4,7 +4,7 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-devel
 
 function AppHeader() {
   return (
-    <div className={appHeaderStyle.navigationPanel}>
+    <div className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}>
         <div className={appHeaderStyle.itemGroup}>
             <HeaderItem title="Конструктор">
                 <BurgerIcon type="primary" />

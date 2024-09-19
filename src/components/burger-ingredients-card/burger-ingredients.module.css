@@ -1,11 +1,10 @@
-.app {
+.card {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 50%;
 }
 
-.parent {
+.price {
     display: flex;
-    flex-direction: row;
-    width: 50%;
 }
