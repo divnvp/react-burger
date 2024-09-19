@@ -6,7 +6,8 @@ import {Data} from "../../shared/models/data.type";
 import {IngredientType} from "../../shared/consts/ingredient-type.enum";
 
 type Props = {
-  data: Data[]
+  data: Data[],
+  onClick: (element: Data) => unknown;
 }
 
 function BurgerIngredients(props: Props) {
@@ -34,7 +35,7 @@ function BurgerIngredients(props: Props) {
           <div className={ingredientsStyles.wrap}>
             {props.data.map((element)=>(
               element.type === IngredientType.Bun ?
-              <div key={element._id}>
+              <div key={element._id} onClick={() => props.onClick(element)}>
                 <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
               </div> : ''
             ))}
@@ -46,7 +47,7 @@ function BurgerIngredients(props: Props) {
           <div className={ingredientsStyles.wrap}>
             {props.data.map((element)=>(
               element.type === IngredientType.Sauce ?
-                <div key={element._id}>
+                <div key={element._id} onClick={() => props.onClick(element)}>
                   <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
                 </div> : ''
             ))}
@@ -58,7 +59,7 @@ function BurgerIngredients(props: Props) {
           <div className={ingredientsStyles.wrap}>
             {props.data.map((element)=>(
               element.type === IngredientType.Main ?
-                <div key={element._id}>
+                <div key={element._id} onClick={() => props.onClick(element)}>
                   <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
                 </div> : ''
             ))}

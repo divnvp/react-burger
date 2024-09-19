@@ -18,6 +18,7 @@ function BurgerConstructorElement(props: Props) {
             text={props.title}
             price={props.price}
             thumbnail={props.thumbnail}
+            isLocked={true}
           />
         </div> :
         <div>

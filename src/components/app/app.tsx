@@ -8,6 +8,7 @@ import {Data} from "../../shared/models/data.type";
 
 function App() {
   const [data, setData] = useState<Data[]>([]);
+  const [cart, setCart] = useState<Data[]>([])
 
   useEffect(() => {
     fetchData();
@@ -22,15 +23,19 @@ function App() {
     }
   }
 
+  const addToCart = (element: Data) => {
+    setCart(oldCart => [...oldCart, element])
+  }
+
   return (
     <div className={`text text_type_main-default ${appStyles.app}`}>
       <AppHeader />
       <div className={appStyles.parent}>
         <div>
-          <BurgerIngredients data={data} />
+          <BurgerIngredients data={data} onClick={addToCart} />
         </div>
         <div>
-          <BurgerConstructor />
+          <BurgerConstructor data={cart} />
         </div>
       </div>
     </div>
