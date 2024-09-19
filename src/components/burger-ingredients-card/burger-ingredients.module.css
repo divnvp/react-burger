@@ -9,3 +9,8 @@
 .price {
     display: flex;
 }
+
+.counter {
+    position: relative;
+    left: 100px;
+}

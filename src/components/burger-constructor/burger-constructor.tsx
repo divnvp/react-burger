@@ -24,7 +24,15 @@ function BurgerConstructor(props: Props) {
   }
 
   useEffect(() => {
-    setAmout(props.data.reduce((previousValue, currentValue) => previousValue + currentValue.price, 0))
+    if (props.data.length) {
+      setAmout(props.cart.reduce((previousValue, currentValue) => previousValue + currentValue.price, props.data[0].price * 2))
+    }
+  }, [props.cart]);
+
+  useEffect(() => {
+    if (props.data.length) {
+      setAmout(props.data[0].price * 2);
+    }
   }, [props.data]);
 
   return (

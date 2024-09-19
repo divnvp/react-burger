@@ -13,13 +13,13 @@
 }
 
 .wrapper {
-    width: 500px;
+    width: 600px;
 }
 
 .wrap {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 24px;
 }
 
 .wrap > * {

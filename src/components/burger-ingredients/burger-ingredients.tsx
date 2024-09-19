@@ -33,10 +33,10 @@ function BurgerIngredients(props: Props) {
         <div className={`mb-10 ${ingredientsStyles.wrapper}`}>
           <p className="text text_type_main-medium">Булки</p>
           <div className={ingredientsStyles.wrap}>
-            {props.data.map((element)=>(
+            {props.data.map((element, index)=>(
               element.type === IngredientType.Bun ?
               <div key={element._id} onClick={() => props.onClick(element)}>
-                <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
+                <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} count={index === 0 ? 1 : undefined} />
               </div> : ''
             ))}
           </div>
