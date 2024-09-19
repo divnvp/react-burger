@@ -1,17 +1,14 @@
-.grid {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-
 .cardGrid {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
 }
 
 .scrollbar {
     overflow: auto;
     height:auto;
     max-height: calc(100vh - 35vh);
+}
+
+.col {
+    width: 50%;
 }
