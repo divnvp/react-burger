@@ -1,15 +1,15 @@
-import {Counter, Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import BurgerIngredientsCard from "../burger-ingredients-card/burger-ingredients";
-import craterBun from "../../images/crater-bun.png";
-import fluorescentBread from "../../images/fluorescent-bread.png";
 import ingredientsStyles from './burger-ingredients.module.css'
-import souseSpicyX from '../../images/souse-spicy-x.png'
-import firmSouseSpaceSauce from '../../images/firm-souse-space-sauce.png'
-import souse1 from '../../images/traditionalSouse.png'
-import souse2 from '../../images/souse-2.png'
+import {Data} from "../../shared/models/data.type";
+import {IngredientType} from "../../shared/consts/ingredient-type.enum";
 
-function BurgerIngredients() {
+type Props = {
+  data: Data[]
+}
+
+function BurgerIngredients(props: Props) {
   const [current, setCurrent] = React.useState('one');
 
   return (
@@ -28,30 +28,40 @@ function BurgerIngredients() {
         </Tab>
       </div>
 
-      <div className={ingredientsStyles.scrollbar}>
-        <div className={`mb-10`}>
+      <div className={`${ingredientsStyles.scrollbar}`}>
+        <div className={`mb-10 ${ingredientsStyles.wrapper}`}>
           <p className="text text_type_main-medium">Булки</p>
-          <div className={ingredientsStyles.cardGrid}>
-            <div>
-              <BurgerIngredientsCard srcImg={craterBun} price={20} title="Краторная булка N-200i" />
-            </div>
-            <div>
-              <BurgerIngredientsCard srcImg={fluorescentBread} price={20} title="Флюоресцентная булка R2-D3" />
-            </div>
+          <div className={ingredientsStyles.wrap}>
+            {props.data.map((element)=>(
+              element.type === IngredientType.Bun ?
+              <div key={element._id}>
+                <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
+              </div> : ''
+            ))}
           </div>
         </div>
 
-        <div>
+        <div className={ingredientsStyles.wrapper}>
           <p className="text text_type_main-medium pb-6">Соусы</p>
-          <div className={ingredientsStyles.cardGrid}>
-            <div>
-              <BurgerIngredientsCard srcImg={souseSpicyX} price={30} title="Соус Spicy-X" />
-              <BurgerIngredientsCard srcImg={firmSouseSpaceSauce} price={30} title="Соус фирменный Space Sauce" />
-            </div>
-            <div>
-              <BurgerIngredientsCard srcImg={souse1} price={30} title="Соус традиционный галактический" />
-              <BurgerIngredientsCard srcImg={souse2} price={30} title="Соус фирменный Space Sauce" />
-            </div>
+          <div className={ingredientsStyles.wrap}>
+            {props.data.map((element)=>(
+              element.type === IngredientType.Sauce ?
+                <div key={element._id}>
+                  <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
+                </div> : ''
+            ))}
+          </div>
+        </div>
+
+        <div className={ingredientsStyles.wrapper}>
+          <p className="text text_type_main-medium pb-6">Начинки</p>
+          <div className={ingredientsStyles.wrap}>
+            {props.data.map((element)=>(
+              element.type === IngredientType.Main ?
+                <div key={element._id}>
+                  <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
+                </div> : ''
+            ))}
           </div>
         </div>
       </div>

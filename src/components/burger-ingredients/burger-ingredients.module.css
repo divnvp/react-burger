@@ -4,11 +4,24 @@
 }
 
 .scrollbar {
+    display: flex;
+    flex-direction: column;
+
     overflow: auto;
     height:auto;
     max-height: calc(100vh - 35vh);
 }
 
-.col {
-    width: 50%;
+.wrapper {
+    width: 500px;
+}
+
+.wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.wrap > * {
+    flex: 1 1 160px;
 }

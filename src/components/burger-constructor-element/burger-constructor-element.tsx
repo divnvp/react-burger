@@ -1,5 +1,4 @@
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructorElementStyle from './burger-constructor-element.module.css'
 
 type Props = {
   title: string;
