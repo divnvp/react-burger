@@ -30,14 +30,14 @@ function App() {
   return (
     <div className={`text text_type_main-default ${appStyles.app}`}>
       <AppHeader />
-      <div className={appStyles.parent}>
+      <main className={appStyles.parent}>
         <div>
           <BurgerIngredients data={data} onClick={addToCart} />
         </div>
         <div>
           <BurgerConstructor data={data} cart={cart} />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

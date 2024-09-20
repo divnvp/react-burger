@@ -39,7 +39,7 @@ function BurgerConstructor(props: Props) {
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`}>
       {
         props.data.length ?
-        <div className={`mb-10 ${burgerConstructorStyle.grid}`}>
+        <section className={`mb-10 ${burgerConstructorStyle.grid}`}>
           <BurgerConstructorElement
             type="top"
             title={`${props.data[0].name} (верх)`}
@@ -67,17 +67,17 @@ function BurgerConstructor(props: Props) {
             thumbnail={props.data[0].image_mobile}
             isLocked={true}
           />
-        </div> :
+        </section> :
           ''
       }
 
-      <div className={burgerConstructorStyle.buttonGrid}>
+      <section className={burgerConstructorStyle.buttonGrid}>
         <p className="text text_type_digits-medium">{amount}</p>
         <CurrencyIcon type="primary" className="mr-10" />
         <Button htmlType="button" type="primary" size="medium">
           Оформить заказ
         </Button>
-      </div>
+      </section>
     </div>
   )
 }

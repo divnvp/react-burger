@@ -11,7 +11,7 @@ type Props = {
 
 function BurgerConstructorElement(props: Props) {
   return (
-    <div>
+    <>
       {props.isLocked ?
         <div className="ml-8">
           <ConstructorElement
@@ -31,7 +31,7 @@ function BurgerConstructorElement(props: Props) {
             thumbnail={props.thumbnail}
           />
         </div>}
-    </div>
+    </>
   )
 }
 
