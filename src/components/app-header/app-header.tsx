@@ -5,7 +5,7 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-devel
 function AppHeader() {
   return (
     <header className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}>
-      <div className={appHeaderStyle.grid}>
+      <nav className={appHeaderStyle.grid}>
         <div className={appHeaderStyle.itemGroup}>
           <HeaderItem title="Конструктор" isActive={true}>
             <BurgerIcon type="primary" />
@@ -18,7 +18,7 @@ function AppHeader() {
         <HeaderItem title="Личный кабинет" isActive={false}>
           <ProfileIcon type="secondary" />
         </HeaderItem>
-      </div>
+      </nav>
     </header>
   )
 }

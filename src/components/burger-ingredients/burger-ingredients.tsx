@@ -17,7 +17,7 @@ function BurgerIngredients(props: Props) {
     <div className={`pt-10`}>
       <p className="text text_type_main-large pb-5">Соберите бургер</p>
 
-      <nav style={{ display: 'flex' }} className="mb-10">
+      <div style={{ display: 'flex' }} className="mb-10">
         <Tab value="one" active={current === 'one'} onClick={setCurrent}>
           Булки
         </Tab>
@@ -27,7 +27,7 @@ function BurgerIngredients(props: Props) {
         <Tab value="three" active={current === 'three'} onClick={setCurrent}>
           Начинки
         </Tab>
-      </nav>
+      </div>
 
       <div className={`${ingredientsStyles.scrollbar}`}>
         <section className={`mb-10 ${ingredientsStyles.wrapper}`}>
