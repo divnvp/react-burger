@@ -1,28 +1,28 @@
 .cardGrid {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .scrollbar {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    overflow: auto;
-    height:auto;
-    max-height: calc(100vh - 35vh);
+  overflow: auto;
+  height: auto;
+  max-height: calc(100vh - 35vh);
 }
 
 .wrapper {
-    width: 600px;
+  width: 600px;
 }
 
 .wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  text-align: center;
 }
 
 .wrap > * {
-    flex: 1 1 160px;
+  flex: 1 1 160px;
 }

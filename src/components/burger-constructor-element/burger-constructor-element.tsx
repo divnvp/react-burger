@@ -1,4 +1,7 @@
-import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  ConstructorElement,
+  DragIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import constructorElementStyles from './burger-constructor-element.module.css';
 
 type Props = {
@@ -6,14 +9,14 @@ type Props = {
   price: number;
   thumbnail: string;
   isLocked?: boolean;
-  type?: "top" | "bottom" | undefined
-}
+  type?: 'top' | 'bottom' | undefined;
+};
 
 function BurgerConstructorElement(props: Props) {
   return (
     <>
-      {props.isLocked ?
-        <div className="ml-8">
+      {props.isLocked ? (
+        <div className='ml-8'>
           <ConstructorElement
             type={props.type}
             text={props.title}
@@ -21,18 +24,20 @@ function BurgerConstructorElement(props: Props) {
             thumbnail={props.thumbnail}
             isLocked={true}
           />
-        </div> :
+        </div>
+      ) : (
         <div className={constructorElementStyles.grid}>
-          <DragIcon type="primary" />
+          <DragIcon type='primary' />
           <ConstructorElement
             type={props.type}
             text={props.title}
             price={props.price}
             thumbnail={props.thumbnail}
           />
-        </div>}
+        </div>
+      )}
     </>
-  )
+  );
 }
 
 export default BurgerConstructorElement;

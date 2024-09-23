@@ -1,28 +1,28 @@
 .gridColumn {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .scrollbar {
-    overflow: auto;
-    height:auto;
-    max-height: calc(100vh - 60vh);
+  overflow: auto;
+  height: auto;
+  max-height: calc(100vh - 60vh);
 }
 
 .elementsGrid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .buttonGrid {
-    display: flex;
-    align-items: center;
-    justify-content: end;
+  display: flex;
+  align-items: center;
+  justify-content: end;
 }
