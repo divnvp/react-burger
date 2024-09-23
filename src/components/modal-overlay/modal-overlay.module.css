@@ -9,7 +9,7 @@
   left: 30%;
   z-index: 999;
 
-  box-shadow: 0 0 0 50vmax rgba(0,0,0,.5);
+  box-shadow: 0 0 0 50vmax rgba(0,0,0,.6);
 
   width: 720px;
 }
