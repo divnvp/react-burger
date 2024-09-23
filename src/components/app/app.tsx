@@ -4,11 +4,11 @@ import appStyles from './app.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { getData } from '../../shared/api/data.service';
-import { Data } from '../../shared/models/data.type';
+import { Ingredient } from '../../shared/models/data.type';
 
 function App() {
-  const [data, setData] = useState<Data[]>([]);
-  const [cart, setCart] = useState<Data[]>([]);
+  const [data, setData] = useState<Ingredient[]>([]);
+  const [cart, setCart] = useState<Ingredient[]>([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function App() {
     }
   };
 
-  const addToCart = (element: Data) => {
+  const addToCart = (element: Ingredient) => {
     setCart(oldCart => [...oldCart, element]);
   };
 

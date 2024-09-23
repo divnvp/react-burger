@@ -1,20 +1,43 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
-import { Data } from '../../shared/models/data.type';
+import { Ingredient } from '../../shared/models/data.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import OrderDetails from '../order-details/order-details';
 
 type Props = {
-  data: Data[];
-  onClick: (element: Data) => unknown;
+  data: Ingredient[];
+  onClick: (element: Ingredient) => unknown;
 };
 
 function BurgerIngredients(props: Props) {
-  const [current, setCurrent] = React.useState('one');
+  const [current, setCurrent] = useState('one');
+  const [ingredient, setIngredient] = useState<Ingredient | null>(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const onIngredientClick = (element: Ingredient) => {
+    setIngredient(element);
+    setModalOpen(true);
+  };
+
+  const close = useCallback(() => {
+    setModalOpen(false);
+  }, []);
 
   return (
     <div className={`pt-10`}>
+      {ingredient && isModalOpen && (
+        <ModalOverlay
+          isOpen={isModalOpen}
+          title='Детали ингредиента'
+          onClick={close}
+        >
+          <OrderDetails ingredient={ingredient} />
+        </ModalOverlay>
+      )}
+
       <p className='text text_type_main-large pb-5'>Соберите бургер</p>
 
       <div style={{ display: 'flex' }} className='mb-10'>
@@ -36,7 +59,10 @@ function BurgerIngredients(props: Props) {
             <div className={ingredientsStyles.wrap}>
               {props.data.map((element, index) =>
                 element.type === IngredientType.Bun ? (
-                  <div key={element._id} onClick={() => props.onClick(element)}>
+                  <div
+                    key={element._id}
+                    onClick={() => onIngredientClick(element)}
+                  >
                     <BurgerIngredientsCard
                       srcImg={element.image}
                       price={element.price}

@@ -3,20 +3,20 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Data } from '../../shared/models/data.type';
+import { Ingredient } from '../../shared/models/data.type';
 import React, { useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 
 type Props = {
-  data: Data[];
-  cart: Data[];
+  data: Ingredient[];
+  cart: Ingredient[];
 };
 
 function BurgerConstructor(props: Props) {
   const [amount, setAmout] = useState<number>(0);
 
-  const getTitle = (element: Data, index: number) => {
+  const getTitle = (element: Ingredient, index: number) => {
     if (index === 0 && element.type === IngredientType.Bun) {
       return `${element.name} (верх)`;
     }

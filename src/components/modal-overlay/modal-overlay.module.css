@@ -1,0 +1,15 @@
+.modalOverlay {
+  background-color: #1c1c21;
+  border-radius: 40px;
+
+  position: absolute;
+  right: auto;
+  bottom: auto;
+  top: 20%;
+  left: 30%;
+  z-index: 999;
+
+  box-shadow: 0 0 0 50vmax rgba(0,0,0,.5);
+
+  width: 40vw;
+}
