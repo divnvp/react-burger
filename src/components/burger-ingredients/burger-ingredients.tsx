@@ -29,26 +29,27 @@ function BurgerIngredients(props: Props) {
         </Tab>
       </div>
 
-      <div className={`${ingredientsStyles.scrollbar}`}>
+      {props.data.length ? <div className={`${ingredientsStyles.scrollbar}`}>
         <section className={`mb-10 ${ingredientsStyles.wrapper}`}>
           <p className="text text_type_main-medium">Булки</p>
           <div className={ingredientsStyles.wrap}>
-            {props.data.map((element, index)=>(
+            {props.data.map((element, index) => (
               element.type === IngredientType.Bun ?
-              <div key={element._id} onClick={() => props.onClick(element)}>
-                <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} count={index === 0 ? 1 : undefined} />
-              </div> : ''
+                <div key={element._id} onClick={() => props.onClick(element)}>
+                  <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name}
+                                         count={index === 0 ? 1 : undefined}/>
+                </div> : ''
             ))}
           </div>
         </section>
 
-        <section className={ingredientsStyles.wrapper}>
+        <section className={`${ingredientsStyles.wrapper} pt-10 pb-10`}>
           <p className="text text_type_main-medium pb-6">Соусы</p>
           <div className={ingredientsStyles.wrap}>
-            {props.data.map((element)=>(
+            {props.data.map((element) => (
               element.type === IngredientType.Sauce ?
                 <div key={element._id} onClick={() => props.onClick(element)}>
-                  <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
+                  <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name}/>
                 </div> : ''
             ))}
           </div>
@@ -57,15 +58,15 @@ function BurgerIngredients(props: Props) {
         <section className={ingredientsStyles.wrapper}>
           <p className="text text_type_main-medium pb-6">Начинки</p>
           <div className={ingredientsStyles.wrap}>
-            {props.data.map((element)=>(
+            {props.data.map((element) => (
               element.type === IngredientType.Main ?
                 <div key={element._id} onClick={() => props.onClick(element)}>
-                  <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name} />
+                  <BurgerIngredientsCard srcImg={element.image} price={element.price} title={element.name}/>
                 </div> : ''
             ))}
           </div>
         </section>
-      </div>
+      </div> : ''}
     </div>
   )
 }

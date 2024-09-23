@@ -8,7 +8,8 @@ import {Data} from "../../shared/models/data.type";
 
 function App() {
   const [data, setData] = useState<Data[]>([]);
-  const [cart, setCart] = useState<Data[]>([])
+  const [cart, setCart] = useState<Data[]>([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -16,10 +17,11 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const data = await getData();
-      setData(data);
+      const data = await getData()
+        .then(res => res.json())
+      setData(data.data);
     } catch (e) {
-      console.log(e);
+      setError((e as {message?: string})?.message ?? '');
     }
   }
 
@@ -31,12 +33,15 @@ function App() {
     <div className={`text text_type_main-default ${appStyles.app}`}>
       <AppHeader />
       <main className={appStyles.parent}>
-        <div>
-          <BurgerIngredients data={data} onClick={addToCart} />
-        </div>
-        <div>
-          <BurgerConstructor data={data} cart={cart} />
-        </div>
+        {error ? <h1>{error}</h1> : <>
+          <div>
+            <BurgerIngredients data={data} onClick={addToCart}/>
+          </div>
+          <div>
+            <BurgerConstructor data={data} cart={cart}/>
+          </div>
+        </>
+        }
       </main>
     </div>
   );

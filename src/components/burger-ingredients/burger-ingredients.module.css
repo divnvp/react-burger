@@ -20,6 +20,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
+    text-align: center;
 }
 
 .wrap > * {
