@@ -3,42 +3,16 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Ingredient } from '../../shared/models/data.type';
+import { Ingredient } from '../../shared/models/ingredient.type';
 import React, { useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
-import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 
 type Props = {
   data: Ingredient[];
-  cart: Ingredient[];
 };
 
 function BurgerConstructor(props: Props) {
   const [amount, setAmout] = useState<number>(0);
-
-  const getTitle = (element: Ingredient, index: number) => {
-    if (index === 0 && element.type === IngredientType.Bun) {
-      return `${element.name} (верх)`;
-    }
-    if (
-      index === props.data.length - 1 &&
-      element.type === IngredientType.Bun
-    ) {
-      return `${element.name} (низ)`;
-    }
-    return element.name;
-  };
-
-  useEffect(() => {
-    if (props.data.length) {
-      setAmout(
-        props.cart.reduce(
-          (previousValue, currentValue) => previousValue + currentValue.price,
-          props.data[0].price * 2
-        )
-      );
-    }
-  }, [props.cart]);
 
   useEffect(() => {
     if (props.data.length) {
@@ -60,17 +34,7 @@ function BurgerConstructor(props: Props) {
 
           <div
             className={`${burgerConstructorStyle.scrollbar} ${burgerConstructorStyle.elementsGrid}`}
-          >
-            {props.cart.map((element, index) => (
-              <BurgerConstructorElement
-                key={index}
-                title={getTitle(element, index)}
-                price={element.price}
-                thumbnail={element.image_mobile}
-                isLocked={false}
-              />
-            ))}
-          </div>
+          ></div>
 
           <BurgerConstructorElement
             type='bottom'

@@ -12,7 +12,7 @@ function Modal(props: Props) {
   return (
     <>
       <div className={modalStyles.header}>
-        <p className='text text_type_main-medium'>{props.title}</p>
+        <p className='text text_type_main-large'>{props.title}</p>
         <CloseIcon
           type='primary'
           onClick={() => props.onClick()}

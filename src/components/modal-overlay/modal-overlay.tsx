@@ -17,7 +17,6 @@ function ModalOverlay(props: Props) {
   useEffect(() => {
     const modalOverlay = document.getElementById(MODAL_OVERLAY_ID);
     setPortal(modalOverlay);
-    console.log(props);
 
     return () => {
       setPortal(null);

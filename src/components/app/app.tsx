@@ -4,7 +4,7 @@ import appStyles from './app.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { getData } from '../../shared/api/data.service';
-import { Ingredient } from '../../shared/models/data.type';
+import { Ingredient } from '../../shared/models/ingredient.type';
 
 function App() {
   const [data, setData] = useState<Ingredient[]>([]);
@@ -24,10 +24,6 @@ function App() {
     }
   };
 
-  const addToCart = (element: Ingredient) => {
-    setCart(oldCart => [...oldCart, element]);
-  };
-
   return (
     <div className={`text text_type_main-default ${appStyles.app}`}>
       <AppHeader />
@@ -37,10 +33,10 @@ function App() {
         ) : (
           <>
             <div>
-              <BurgerIngredients data={data} onClick={addToCart} />
+              <BurgerIngredients data={data} />
             </div>
             <div>
-              <BurgerConstructor data={data} cart={cart} />
+              <BurgerConstructor data={data} />
             </div>
           </>
         )}

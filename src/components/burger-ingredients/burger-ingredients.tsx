@@ -2,14 +2,13 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useCallback, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
-import { Ingredient } from '../../shared/models/data.type';
+import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import OrderDetails from '../order-details/order-details';
 
 type Props = {
   data: Ingredient[];
-  onClick: (element: Ingredient) => unknown;
 };
 
 function BurgerIngredients(props: Props) {
@@ -82,7 +81,10 @@ function BurgerIngredients(props: Props) {
             <div className={ingredientsStyles.wrap}>
               {props.data.map(element =>
                 element.type === IngredientType.Sauce ? (
-                  <div key={element._id} onClick={() => props.onClick(element)}>
+                  <div
+                    key={element._id}
+                    onClick={() => onIngredientClick(element)}
+                  >
                     <BurgerIngredientsCard
                       srcImg={element.image}
                       price={element.price}
@@ -101,7 +103,10 @@ function BurgerIngredients(props: Props) {
             <div className={ingredientsStyles.wrap}>
               {props.data.map(element =>
                 element.type === IngredientType.Main ? (
-                  <div key={element._id} onClick={() => props.onClick(element)}>
+                  <div
+                    key={element._id}
+                    onClick={() => onIngredientClick(element)}
+                  >
                     <BurgerIngredientsCard
                       srcImg={element.image}
                       price={element.price}
