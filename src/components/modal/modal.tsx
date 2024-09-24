@@ -1,6 +1,8 @@
 import modalStyles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Key } from '../../shared/consts/key.enum';
+import { BrowserActions } from '../../shared/consts/browser-actions.enum';
 
 type Props = {
   title: string;
@@ -8,7 +10,24 @@ type Props = {
   children?: React.ReactNode;
 };
 
+type EventKey = {
+  key: string;
+};
+
 function Modal(props: Props) {
+  useEffect(() => {
+    const closeOnEsc = (event: EventKey) => {
+      if (event.key === Key.Esc) {
+        props.onClick();
+      }
+    };
+    window.addEventListener(BrowserActions.Keydown, closeOnEsc);
+
+    return () => {
+      window.removeEventListener(BrowserActions.Keydown, closeOnEsc);
+    };
+  }, []);
+
   return (
     <>
       <div className={modalStyles.header}>
