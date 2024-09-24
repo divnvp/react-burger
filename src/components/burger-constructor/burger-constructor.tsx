@@ -46,11 +46,9 @@ function BurgerConstructor(props: Props) {
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`}>
-      {oderDetails && (
-        <Modal title='' onClick={close}>
-          <OrderDetails />
-        </Modal>
-      )}
+      <Modal isOpen={oderDetails} title='' onClick={close}>
+        <OrderDetails />
+      </Modal>
 
       {props.data.length ? (
         <section className={`mb-10 ${burgerConstructorStyle.grid}`}>

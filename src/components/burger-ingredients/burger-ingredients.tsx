@@ -4,8 +4,8 @@ import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
-import ModalOverlay from '../modal-overlay/modal-overlay';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
 type Props = {
   data: Ingredient[];
@@ -27,14 +27,10 @@ function BurgerIngredients(props: Props) {
 
   return (
     <div className={`pt-10`}>
-      {ingredient && isModalOpen && (
-        <ModalOverlay
-          isOpen={isModalOpen}
-          title='Детали ингредиента'
-          onClick={close}
-        >
+      {ingredient && (
+        <Modal isOpen={isModalOpen} title='Детали ингредиента' onClick={close}>
           <IngredientDetails ingredient={ingredient} />
-        </ModalOverlay>
+        </Modal>
       )}
 
       <p className='text text_type_main-large pb-5'>Соберите бургер</p>
