@@ -4,10 +4,10 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Ingredient } from '../../shared/models/ingredient.type';
-import React, { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
-import ModalOverlay from '../modal-overlay/modal-overlay';
 import OrderDetails from '../order-details/order-details';
+import Modal from '../modal/modal';
 
 type Props = {
   data: Ingredient[];
@@ -20,7 +20,8 @@ function BurgerConstructor(props: Props) {
 
   useEffect(() => {
     if (props.data.length) {
-      setCart(props.data.splice(1, 5));
+      const localCart = Object.freeze(props.data);
+      setCart(localCart.slice(1, 6) as SetStateAction<Ingredient[]>);
     }
   }, [props.data]);
 
@@ -46,9 +47,9 @@ function BurgerConstructor(props: Props) {
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`}>
       {oderDetails && (
-        <ModalOverlay isOpen={oderDetails} title='' onClick={close}>
+        <Modal title='' onClick={close}>
           <OrderDetails />
-        </ModalOverlay>
+        </Modal>
       )}
 
       {props.data.length ? (
