@@ -20,10 +20,20 @@ function BurgerConstructor(props: Props) {
 
   useEffect(() => {
     if (props.data.length) {
-      setAmout(props.data[0].price * 2);
       setCart(props.data.splice(1, 5));
     }
   }, [props.data]);
+
+  useEffect(() => {
+    if (cart.length) {
+      setAmout(
+        cart.reduce(
+          (previousValue, currentValue) => previousValue + currentValue.price,
+          props.data[0].price * 2
+        )
+      );
+    }
+  }, [cart]);
 
   const showOrderDetails = () => {
     setOrderDetails(true);
