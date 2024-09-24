@@ -8,7 +8,6 @@ import { Ingredient } from '../../shared/models/ingredient.type';
 
 function App() {
   const [data, setData] = useState<Ingredient[]>([]);
-  const [cart, setCart] = useState<Ingredient[]>([]);
   const [error, setError] = useState('');
 
   useEffect(() => {

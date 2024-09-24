@@ -6,6 +6,8 @@ import {
 import { Ingredient } from '../../shared/models/ingredient.type';
 import React, { useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import OrderDetails from '../order-details/order-details';
 
 type Props = {
   data: Ingredient[];
@@ -13,15 +15,32 @@ type Props = {
 
 function BurgerConstructor(props: Props) {
   const [amount, setAmout] = useState<number>(0);
+  const [oderDetails, setOrderDetails] = useState<boolean>(false);
+  const [cart, setCart] = useState<Ingredient[]>([]);
 
   useEffect(() => {
     if (props.data.length) {
       setAmout(props.data[0].price * 2);
+      setCart(props.data.splice(1, 5));
     }
   }, [props.data]);
 
+  const showOrderDetails = () => {
+    setOrderDetails(true);
+  };
+
+  const close = () => {
+    setOrderDetails(false);
+  };
+
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`}>
+      {oderDetails && (
+        <ModalOverlay isOpen={oderDetails} title='' onClick={close}>
+          <OrderDetails />
+        </ModalOverlay>
+      )}
+
       {props.data.length ? (
         <section className={`mb-10 ${burgerConstructorStyle.grid}`}>
           <BurgerConstructorElement
@@ -34,7 +53,17 @@ function BurgerConstructor(props: Props) {
 
           <div
             className={`${burgerConstructorStyle.scrollbar} ${burgerConstructorStyle.elementsGrid}`}
-          ></div>
+          >
+            {cart.map((ingredient, index) => (
+              <BurgerConstructorElement
+                key={index}
+                title={`${ingredient.name} (низ)`}
+                price={ingredient.price}
+                thumbnail={ingredient.image_mobile}
+                isLocked={true}
+              />
+            ))}
+          </div>
 
           <BurgerConstructorElement
             type='bottom'
@@ -51,7 +80,12 @@ function BurgerConstructor(props: Props) {
       <section className={burgerConstructorStyle.buttonGrid}>
         <p className='text text_type_digits-medium'>{amount}</p>
         <CurrencyIcon type='primary' className='mr-10' />
-        <Button htmlType='button' type='primary' size='medium'>
+        <Button
+          htmlType='button'
+          type='primary'
+          size='medium'
+          onClick={showOrderDetails}
+        >
           Оформить заказ
         </Button>
       </section>

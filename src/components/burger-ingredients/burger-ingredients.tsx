@@ -5,7 +5,7 @@ import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import OrderDetails from '../order-details/order-details';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 type Props = {
   data: Ingredient[];
@@ -33,7 +33,7 @@ function BurgerIngredients(props: Props) {
           title='Детали ингредиента'
           onClick={close}
         >
-          <OrderDetails ingredient={ingredient} />
+          <IngredientDetails ingredient={ingredient} />
         </ModalOverlay>
       )}
 

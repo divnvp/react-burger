@@ -1,38 +1,20 @@
-import { Ingredient } from '../../shared/models/ingredient.type';
 import orderDetailsStyles from './order-details.module.css';
-import MacronutrientComponent from '../macronutrient/macronutrient';
-import { Macronutrient } from '../../shared/consts/macronutrient.enum';
+import doneImage from '../../images/done.svg';
 
-type Props = {
-  ingredient: Ingredient;
-};
-
-function OrderDetails(props: Props) {
+function OrderDetails() {
   return (
-    <div className={orderDetailsStyles.grid}>
-      <img alt={props.ingredient.name} src={props.ingredient.image_large} />
-      <p className='text text_type_main-medium pt-4 pb-8'>
-        {props.ingredient.name}
+    <div className={`${orderDetailsStyles.grid} pt-8`}>
+      <p
+        className={`text text_type_digits-large ${orderDetailsStyles.glow} pb-8`}
+      >
+        034536
       </p>
-
-      <div className={orderDetailsStyles.macronutrients}>
-        <MacronutrientComponent
-          value={props.ingredient.calories}
-          name={`${Macronutrient.Calories},ккал`}
-        />
-        <MacronutrientComponent
-          value={props.ingredient.proteins}
-          name={`${Macronutrient.Proteins},г`}
-        />
-        <MacronutrientComponent
-          value={props.ingredient.fat}
-          name={`${Macronutrient.Fat},г`}
-        />
-        <MacronutrientComponent
-          value={props.ingredient.carbohydrates}
-          name={`${Macronutrient.Carbohydrates},г`}
-        />
-      </div>
+      <p className='text text_type_main-medium pb-15'>идентификатор заказа</p>
+      <img src={doneImage} alt='Done' />
+      <p className='pt-15 pb-2'>Ваш заказ начали готовить</p>
+      <p className='text text_type_main-default text_color_inactive'>
+        Дождитесь готовности на орбитальной станции
+      </p>
     </div>
   );
 }
