@@ -47,7 +47,7 @@ function Modal(props: Props) {
     <>
       {props.isOpen && (
         <>
-          <ModalOverlay />
+          <ModalOverlay onClick={props.onClick} />
           {portal &&
             createPortal(
               <>
