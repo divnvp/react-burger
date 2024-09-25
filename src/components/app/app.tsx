@@ -16,7 +16,12 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const data = await getData().then(res => res.json());
+      const data = await getData().then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      });
       setData(data.data);
     } catch (e) {
       setError((e as { message?: string })?.message ?? '');
