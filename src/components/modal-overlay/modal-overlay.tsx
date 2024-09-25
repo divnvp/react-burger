@@ -15,6 +15,7 @@ function ModalOverlay(props: Props) {
       <div
         id={MODAL_OVERLAY_ID}
         className={`${modalOverlayStyles.modalCard} pt-10 pb-15 pr-10 pl-10`}
+        onClick={e => e.stopPropagation()}
       ></div>
     </div>
   );
