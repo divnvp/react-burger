@@ -6,12 +6,13 @@ import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { useSelector } from 'react-redux';
 
-type Props = {
-  data: Ingredient[];
-};
-
-function BurgerIngredients(props: Props) {
+function BurgerIngredients() {
+  const ingredients = useSelector((state: unknown) => {
+    return (state as { burgerIngredients: { ingredients: Ingredient[] } })
+      .burgerIngredients.ingredients;
+  });
   const [current, setCurrent] = useState('one');
   const [ingredient, setIngredient] = useState<Ingredient | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -47,12 +48,12 @@ function BurgerIngredients(props: Props) {
         </Tab>
       </div>
 
-      {props.data.length ? (
+      {ingredients?.length ? (
         <div className={`${ingredientsStyles.scrollbar}`}>
           <section className={`mb-10 ${ingredientsStyles.wrapper}`}>
             <p className='text text_type_main-medium'>Булки</p>
             <div className={ingredientsStyles.wrap}>
-              {props.data.map((element, index) =>
+              {ingredients?.map((element, index) =>
                 element.type === IngredientType.Bun ? (
                   <div
                     key={element._id}
@@ -75,7 +76,7 @@ function BurgerIngredients(props: Props) {
           <section className={`${ingredientsStyles.wrapper} pt-10 pb-10`}>
             <p className='text text_type_main-medium pb-6'>Соусы</p>
             <div className={ingredientsStyles.wrap}>
-              {props.data.map(element =>
+              {ingredients?.map(element =>
                 element.type === IngredientType.Sauce ? (
                   <div
                     key={element._id}
@@ -97,7 +98,7 @@ function BurgerIngredients(props: Props) {
           <section className={ingredientsStyles.wrapper}>
             <p className='text text_type_main-medium pb-6'>Начинки</p>
             <div className={ingredientsStyles.wrap}>
-              {props.data.map(element =>
+              {ingredients?.map(element =>
                 element.type === IngredientType.Main ? (
                   <div
                     key={element._id}

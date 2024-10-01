@@ -8,12 +8,16 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
+import { useSelector } from 'react-redux';
+import { State } from '../../shared/models/state.type';
 
 type Props = {
   data: Ingredient[];
 };
 
 function BurgerConstructor(props: Props) {
+  const ingredients = useSelector((state: State) => state.ingredients);
+
   const [amount, setAmout] = useState<number>(0);
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
   const [cart, setCart] = useState<Ingredient[]>([]);
