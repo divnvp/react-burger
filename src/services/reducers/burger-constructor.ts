@@ -1,9 +1,9 @@
 import {
   AMOUNT_RECALCULATING,
   BURGER_CONSTRUCTOR_GETTING,
-  INGREDIENT_ADDING
+  INGREDIENT_ADDING,
+  INGREDIENT_MOVING
 } from '../actions/burger-constructor';
-import { State } from '../../shared/models/state.type';
 import { ActionType } from '../../shared/models/action.type';
 
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
 
 export const burgerConstructorReducer = (
   state = initialState,
-  action: ActionType & State
+  action: ActionType
 ) => {
   switch (action.type) {
     case BURGER_CONSTRUCTOR_GETTING: {
@@ -25,14 +25,19 @@ export const burgerConstructorReducer = (
     }
     case INGREDIENT_ADDING: {
       return {
+        ...state
+      };
+    }
+    case INGREDIENT_MOVING: {
+      return {
         ...state,
-        ingredient: action.ingredient
+        cart: action.payload.burgerConstructor
       };
     }
     case AMOUNT_RECALCULATING: {
       return {
         ...state,
-        amount: action.amount
+        amount: action.payload.amount
       };
     }
     default:
