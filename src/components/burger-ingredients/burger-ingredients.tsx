@@ -6,19 +6,28 @@ import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
 
 function BurgerIngredients() {
   const ingredients = useSelector((state: unknown) => {
     return (state as { burgerIngredients: { ingredients: Ingredient[] } })
       .burgerIngredients.ingredients;
   });
+  const ingredient = useSelector((state: unknown) => {
+    return (state as { ingredient: { ingredient: Ingredient } }).ingredient
+      .ingredient;
+  });
+  const dispatch = useDispatch();
   const [current, setCurrent] = useState('one');
-  const [ingredient, setIngredient] = useState<Ingredient | null>(null);
+  // const [ingredient, setIngredient] = useState<Ingredient | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const onIngredientClick = (element: Ingredient) => {
-    setIngredient(element);
+    dispatch({
+      type: INGREDIENT_DETAILS_GETTING,
+      payload: element
+    });
     setModalOpen(true);
   };
 
@@ -30,7 +39,7 @@ function BurgerIngredients() {
     <div className={`pt-10`}>
       {ingredient && (
         <Modal isOpen={isModalOpen} title='Детали ингредиента' onClick={close}>
-          <IngredientDetails ingredient={ingredient} />
+          <IngredientDetails />
         </Modal>
       )}
 
