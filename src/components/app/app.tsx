@@ -41,16 +41,14 @@ function App() {
         {error ? (
           <h1>{error}</h1>
         ) : (
-          <>
+          <DndProvider backend={HTML5Backend}>
             <div>
               <BurgerIngredients />
             </div>
             <div>
-              <DndProvider backend={HTML5Backend}>
-                <BurgerConstructor />
-              </DndProvider>
+              <BurgerConstructor />
             </div>
-          </>
+          </DndProvider>
         )}
       </main>
     </div>

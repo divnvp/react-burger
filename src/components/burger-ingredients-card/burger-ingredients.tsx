@@ -4,6 +4,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardStyles from './burger-ingredients.module.css';
 import React from 'react';
+import { Simulate } from 'react-dom/test-utils';
+import { useDrag } from 'react-dnd';
+import { DndType } from '../../shared/consts/dnd-type.enum';
 
 type Props = {
   title: string;
@@ -13,8 +16,15 @@ type Props = {
 };
 
 function BurgerIngredientsCard(props: Props) {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: DndType.NewIngredient,
+    collect: monitor => ({
+      isDragging: monitor.isDragging()
+    })
+  }));
+
   return (
-    <div className={cardStyles.card}>
+    <div className={cardStyles.card} ref={drag}>
       {props.count ? (
         <div className={`${cardStyles.counter}`}>
           <Counter count={1} size='default' />

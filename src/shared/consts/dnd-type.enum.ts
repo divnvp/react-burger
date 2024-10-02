@@ -1,3 +1,4 @@
 export enum DndType {
-  Ingredient = 'ingredient'
+  Ingredient = 'ingredient',
+  NewIngredient = 'new-ingredient'
 }
