@@ -1,5 +1,5 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
@@ -8,6 +8,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
+import { TabEnum } from '../../shared/consts/tab.enum';
 
 function BurgerIngredients() {
   const ingredients = useSelector((state: unknown) => {
@@ -20,7 +21,6 @@ function BurgerIngredients() {
   });
   const dispatch = useDispatch();
   const [current, setCurrent] = useState('one');
-  // const [ingredient, setIngredient] = useState<Ingredient | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const onIngredientClick = (element: Ingredient) => {
@@ -35,6 +35,20 @@ function BurgerIngredients() {
     setModalOpen(false);
   }, []);
 
+  const bunRef = useRef<HTMLDivElement>(null);
+  const sauceRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const scrollBy = (
+    ref: React.RefObject<HTMLDivElement>,
+    activeTab: TabEnum
+  ) => {
+    setCurrent(activeTab);
+    ref.current?.scrollIntoView({
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div className={`pt-10`}>
       {ingredient && (
@@ -46,20 +60,35 @@ function BurgerIngredients() {
       <p className='text text_type_main-large pb-5'>Соберите бургер</p>
 
       <div style={{ display: 'flex' }} className='mb-10'>
-        <Tab value='one' active={current === 'one'} onClick={setCurrent}>
+        <Tab
+          value={TabEnum.One}
+          active={current === TabEnum.One}
+          onClick={() => scrollBy(bunRef, TabEnum.One)}
+        >
           Булки
         </Tab>
-        <Tab value='two' active={current === 'two'} onClick={setCurrent}>
+        <Tab
+          value={TabEnum.Two}
+          active={current === TabEnum.Two}
+          onClick={() => scrollBy(sauceRef, TabEnum.Two)}
+        >
           Соусы
         </Tab>
-        <Tab value='three' active={current === 'three'} onClick={setCurrent}>
+        <Tab
+          value={TabEnum.Three}
+          active={current === TabEnum.Three}
+          onClick={() => scrollBy(mainRef, TabEnum.Three)}
+        >
           Начинки
         </Tab>
       </div>
 
       {ingredients?.length ? (
         <div className={`${ingredientsStyles.scrollbar}`}>
-          <section className={`mb-10 ${ingredientsStyles.wrapper}`}>
+          <section
+            className={`mb-10 ${ingredientsStyles.wrapper}`}
+            ref={bunRef}
+          >
             <p className='text text_type_main-medium'>Булки</p>
             <div className={ingredientsStyles.wrap}>
               {ingredients?.map((element, index) =>
@@ -82,7 +111,10 @@ function BurgerIngredients() {
             </div>
           </section>
 
-          <section className={`${ingredientsStyles.wrapper} pt-10 pb-10`}>
+          <section
+            className={`${ingredientsStyles.wrapper} pt-10 pb-10`}
+            ref={sauceRef}
+          >
             <p className='text text_type_main-medium pb-6'>Соусы</p>
             <div className={ingredientsStyles.wrap}>
               {ingredients?.map(element =>
@@ -104,7 +136,7 @@ function BurgerIngredients() {
             </div>
           </section>
 
-          <section className={ingredientsStyles.wrapper}>
+          <section className={ingredientsStyles.wrapper} ref={mainRef}>
             <p className='text text_type_main-medium pb-6'>Начинки</p>
             <div className={ingredientsStyles.wrap}>
               {ingredients?.map(element =>
