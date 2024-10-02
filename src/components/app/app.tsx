@@ -4,13 +4,13 @@ import appStyles from './app.module.css';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { getData } from '../../shared/api/data.service';
-import { Ingredient } from '../../shared/models/ingredient.type';
 import { useDispatch } from 'react-redux';
 import { INGREDIENTS_GETTING } from '../../services/actions/burger-ingredients';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 function App() {
   const dispatch = useDispatch();
-  const [data, setData] = useState<Ingredient[]>([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -29,7 +29,6 @@ function App() {
         type: INGREDIENTS_GETTING,
         payload: data
       });
-      setData(data.data);
     } catch (e) {
       setError((e as { message?: string })?.message ?? '');
     }
@@ -47,7 +46,9 @@ function App() {
               <BurgerIngredients />
             </div>
             <div>
-              <BurgerConstructor data={data} />
+              <DndProvider backend={HTML5Backend}>
+                <BurgerConstructor />
+              </DndProvider>
             </div>
           </>
         )}
