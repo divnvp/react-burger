@@ -98,9 +98,7 @@ function BurgerIngredients() {
                     onClick={() => onIngredientClick(element)}
                   >
                     <BurgerIngredientsCard
-                      srcImg={element.image}
-                      price={element.price}
-                      title={element.name}
+                      element={element}
                       count={index === 0 ? 1 : undefined}
                     />
                   </div>
@@ -123,11 +121,7 @@ function BurgerIngredients() {
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
                   >
-                    <BurgerIngredientsCard
-                      srcImg={element.image}
-                      price={element.price}
-                      title={element.name}
-                    />
+                    <BurgerIngredientsCard element={element} />
                   </div>
                 ) : (
                   ''
@@ -145,11 +139,7 @@ function BurgerIngredients() {
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
                   >
-                    <BurgerIngredientsCard
-                      srcImg={element.image}
-                      price={element.price}
-                      title={element.name}
-                    />
+                    <BurgerIngredientsCard element={element} />
                   </div>
                 ) : (
                   ''

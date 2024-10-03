@@ -3,40 +3,49 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Ingredient } from '../../shared/models/ingredient.type';
 import React, { SetStateAction, useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { DndType } from '../../shared/consts/dnd-type.enum';
+import {
+  BUN_ADDING,
+  INGREDIENT_ADDING
+} from '../../services/actions/burger-constructor';
+import { Ingredient } from '../../shared/models/ingredient.type';
+import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 
 function BurgerConstructor() {
-  const ingredients = useSelector((state: unknown) => {
-    return (state as { burgerIngredients: { ingredients: Ingredient[] } })
-      .burgerIngredients.ingredients;
+  const dispatch = useDispatch();
+  const ingredients = useSelector(
+    (state: { burgerConstructor: Ingredient[] }) => {
+      return state.burgerConstructor;
+    }
+  );
+  const [{ isOver }, drop] = useDrop({
+    accept: DndType.NewIngredient,
+    drop: (ingredient: Ingredient) => {
+      if (ingredient.type === IngredientType.Bun) {
+        dispatch({
+          type: BUN_ADDING,
+          payload: ingredient
+        });
+      } else {
+        dispatch({
+          type: INGREDIENT_ADDING,
+          payload: ingredient
+        });
+      }
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver()
+    })
   });
 
   const [amount, setAmount] = useState<number>(0);
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
-  const [cart, setCart] = useState<Ingredient[]>([]);
-
-  useEffect(() => {
-    if (ingredients?.length) {
-      const localCart = Object.freeze(ingredients);
-      setCart(localCart.slice(1, 6) as SetStateAction<Ingredient[]>);
-    }
-  }, [ingredients]);
-
-  useEffect(() => {
-    if (cart.length) {
-      setAmount(
-        cart.reduce(
-          (previousValue, currentValue) => previousValue + currentValue.price,
-          ingredients[0].price * 2
-        )
-      );
-    }
-  }, [cart]);
 
   const showOrderDetails = () => {
     setOrderDetails(true);
@@ -47,7 +56,7 @@ function BurgerConstructor() {
   };
 
   return (
-    <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`}>
+    <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`} ref={drop}>
       <Modal isOpen={oderDetails} title='' onClick={close}>
         <OrderDetails />
       </Modal>
@@ -65,7 +74,7 @@ function BurgerConstructor() {
           <div
             className={`${burgerConstructorStyle.scrollbar} ${burgerConstructorStyle.elementsGrid}`}
           >
-            {cart.map((ingredient, index) => (
+            {ingredients.map((ingredient, index) => (
               <BurgerConstructorElement
                 key={index}
                 title={`${ingredient.name}`}

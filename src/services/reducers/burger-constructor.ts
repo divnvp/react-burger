@@ -1,5 +1,6 @@
 import {
   AMOUNT_RECALCULATING,
+  BUN_ADDING,
   BURGER_CONSTRUCTOR_GETTING,
   INGREDIENT_ADDING,
   INGREDIENT_MOVING
@@ -20,18 +21,26 @@ export const burgerConstructorReducer = (
     case BURGER_CONSTRUCTOR_GETTING: {
       return {
         ...state,
-        cart: [...state.burgerConstructor, action.payload]
+        burgerConstructor: [...state.burgerConstructor, action.payload]
+      };
+    }
+    case BUN_ADDING: {
+      console.log(state);
+      return {
+        ...state,
+        burgerConstructor: [...state.burgerConstructor]
       };
     }
     case INGREDIENT_ADDING: {
       return {
-        ...state
+        ...state,
+        burgerConstructor: [...state.burgerConstructor, action.payload]
       };
     }
     case INGREDIENT_MOVING: {
       return {
         ...state,
-        cart: action.payload.burgerConstructor
+        burgerConstructor: action.payload.burgerConstructor
       };
     }
     case AMOUNT_RECALCULATING: {
@@ -40,7 +49,8 @@ export const burgerConstructorReducer = (
         amount: action.payload.amount
       };
     }
-    default:
+    default: {
       return state;
+    }
   }
 };
