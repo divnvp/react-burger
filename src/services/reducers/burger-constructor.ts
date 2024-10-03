@@ -9,6 +9,7 @@ import { ActionType } from '../../shared/models/action.type';
 
 const initialState = {
   burgerConstructor: [],
+  buns: {},
   ingredient: {},
   amount: 0
 };
@@ -25,10 +26,9 @@ export const burgerConstructorReducer = (
       };
     }
     case BUN_ADDING: {
-      console.log(state);
       return {
         ...state,
-        burgerConstructor: [...state.burgerConstructor]
+        buns: action.payload
       };
     }
     case INGREDIENT_ADDING: {

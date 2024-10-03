@@ -3,7 +3,7 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
@@ -20,8 +20,15 @@ import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const ingredients = useSelector(
-    (state: { burgerConstructor: Ingredient[] }) => {
-      return state.burgerConstructor;
+    (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
+      console.log(state.burgerConstructor);
+      return state.burgerConstructor.burgerConstructor;
+    }
+  );
+  const buns = useSelector(
+    (state: { burgerConstructor: { buns: Ingredient } }) => {
+      console.log(state.burgerConstructor);
+      return state.burgerConstructor.buns;
     }
   );
   const [{ isOver }, drop] = useDrop({
@@ -61,16 +68,20 @@ function BurgerConstructor() {
         <OrderDetails />
       </Modal>
 
-      {ingredients.length ? (
-        <section className={`mb-10 ${burgerConstructorStyle.grid}`}>
+      <section className={`mb-10 ${burgerConstructorStyle.grid}`}>
+        {Object.keys(buns).length ? (
           <BurgerConstructorElement
             type='top'
-            title={`${ingredients[0].name} (верх)`}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image_mobile}
+            title={`${buns.name} (верх)`}
+            price={buns.price}
+            thumbnail={buns.image_mobile}
             isLocked={true}
           />
+        ) : (
+          ''
+        )}
 
+        {ingredients.length ? (
           <div
             className={`${burgerConstructorStyle.scrollbar} ${burgerConstructorStyle.elementsGrid}`}
           >
@@ -84,18 +95,22 @@ function BurgerConstructor() {
               />
             ))}
           </div>
+        ) : (
+          ''
+        )}
 
+        {Object.keys(buns).length ? (
           <BurgerConstructorElement
             type='bottom'
-            title={`${ingredients[0].name} (низ)`}
-            price={ingredients[0].price}
-            thumbnail={ingredients[0].image_mobile}
+            title={`${buns.name} (низ)`}
+            price={buns.price}
+            thumbnail={buns.image_mobile}
             isLocked={true}
           />
-        </section>
-      ) : (
-        ''
-      )}
+        ) : (
+          ''
+        )}
+      </section>
 
       <section className={burgerConstructorStyle.buttonGrid}>
         <p className='text text_type_digits-medium'>{amount}</p>
