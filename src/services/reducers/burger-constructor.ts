@@ -40,7 +40,7 @@ export const burgerConstructorReducer = (
     case INGREDIENT_MOVING: {
       return {
         ...state,
-        burgerConstructor: action.payload.burgerConstructor
+        burgerConstructor: action.payload
       };
     }
     case AMOUNT_RECALCULATING: {

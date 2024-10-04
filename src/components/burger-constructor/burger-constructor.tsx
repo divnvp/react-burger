@@ -3,7 +3,7 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
@@ -12,7 +12,8 @@ import { useDrop } from 'react-dnd';
 import { DndType } from '../../shared/consts/dnd-type.enum';
 import {
   BUN_ADDING,
-  INGREDIENT_ADDING
+  INGREDIENT_ADDING,
+  INGREDIENT_MOVING
 } from '../../services/actions/burger-constructor';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
@@ -21,13 +22,11 @@ function BurgerConstructor() {
   const dispatch = useDispatch();
   const ingredients = useSelector(
     (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
-      console.log(state.burgerConstructor);
       return state.burgerConstructor.burgerConstructor;
     }
   );
   const buns = useSelector(
     (state: { burgerConstructor: { buns: Ingredient } }) => {
-      console.log(state.burgerConstructor);
       return state.burgerConstructor.buns;
     }
   );
@@ -50,6 +49,21 @@ function BurgerConstructor() {
       isOver: monitor.isOver()
     })
   });
+  const moveIngredient = useCallback(
+    (dragIndex: number, hoverIndex: number) => {
+      console.log(dragIndex, hoverIndex);
+      const dragItem = ingredients[dragIndex];
+      const updatedIngredients = [...ingredients];
+      updatedIngredients.splice(dragIndex, 1);
+      updatedIngredients.splice(hoverIndex, 0, dragItem);
+
+      dispatch({
+        type: INGREDIENT_MOVING,
+        payload: updatedIngredients
+      });
+    },
+    [ingredients, dispatch]
+  );
 
   const [amount, setAmount] = useState<number>(0);
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
@@ -92,6 +106,8 @@ function BurgerConstructor() {
                 price={ingredient.price}
                 thumbnail={ingredient.image_mobile}
                 isLocked={false}
+                index={index}
+                moveIngredient={moveIngredient}
               />
             ))}
           </div>
