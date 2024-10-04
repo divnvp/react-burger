@@ -46,7 +46,7 @@ export const burgerConstructorReducer = (
     case AMOUNT_RECALCULATING: {
       return {
         ...state,
-        amount: action.payload.amount
+        amount: action.payload
       };
     }
     default: {

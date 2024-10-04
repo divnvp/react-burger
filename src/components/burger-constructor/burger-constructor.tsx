@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { DndType } from '../../shared/consts/dnd-type.enum';
 import {
+  AMOUNT_RECALCULATING,
   BUN_ADDING,
   INGREDIENT_ADDING,
   INGREDIENT_MOVING
@@ -30,6 +31,12 @@ function BurgerConstructor() {
       return state.burgerConstructor.buns;
     }
   );
+  const amount = useSelector(
+    (state: { burgerConstructor: { amount: number } }) => {
+      return state.burgerConstructor.amount;
+    }
+  );
+
   const [{ isOver }, drop] = useDrop({
     accept: DndType.NewIngredient,
     drop: (ingredient: Ingredient) => {
@@ -64,7 +71,6 @@ function BurgerConstructor() {
     [ingredients, dispatch]
   );
 
-  const [amount, setAmount] = useState<number>(0);
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
 
   const showOrderDetails = () => {
@@ -81,13 +87,19 @@ function BurgerConstructor() {
         (sum, ingredient) => sum + ingredient.price,
         buns.price * 2
       );
-      setAmount(totalAmount);
+      dispatch({
+        type: AMOUNT_RECALCULATING,
+        payload: totalAmount
+      });
     } else {
       const totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient.price,
         0
       );
-      setAmount(totalAmount);
+      dispatch({
+        type: AMOUNT_RECALCULATING,
+        payload: totalAmount
+      });
     }
   }, [ingredients, buns]);
 
