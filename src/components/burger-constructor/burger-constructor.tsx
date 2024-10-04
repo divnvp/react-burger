@@ -3,7 +3,7 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
@@ -74,6 +74,22 @@ function BurgerConstructor() {
   const close = () => {
     setOrderDetails(false);
   };
+
+  useEffect(() => {
+    if (Object.keys(buns).length) {
+      const totalAmount = ingredients.reduce(
+        (sum, ingredient) => sum + ingredient.price,
+        buns.price * 2
+      );
+      setAmount(totalAmount);
+    } else {
+      const totalAmount = ingredients.reduce(
+        (sum, ingredient) => sum + ingredient.price,
+        0
+      );
+      setAmount(totalAmount);
+    }
+  }, [ingredients, buns]);
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`} ref={drop}>
