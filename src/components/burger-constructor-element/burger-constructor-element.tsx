@@ -28,26 +28,33 @@ function BurgerConstructorElement(props: Props) {
     })
   }));
 
-  const [, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: DndType.Ingredient,
-    hover: (item: { index: number }) => {
-      if (!ref.current) {
-        return;
-      }
-
-      const dragIndex = item.index;
-      const hoverIndex = props.index;
-
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      if (hoverIndex !== undefined) {
-        item.index = hoverIndex;
-        props.moveIngredient!(dragIndex, hoverIndex);
-      }
-    }
+    hover: (item: Props, monitor) => {
+      calculateNewElementPosition(item);
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver()
+    })
   });
+
+  const calculateNewElementPosition = (item: Props) => {
+    if (!ref.current) {
+      return;
+    }
+
+    if (item.index) {
+      const dragIndex = item.index;
+      const dropIndex = props.index;
+
+      if (dropIndex === dragIndex) {
+        return;
+      }
+
+      props.moveIngredient!(dragIndex, dropIndex!);
+      item.index = dropIndex!;
+    }
+  };
 
   drag(drop(ref));
 

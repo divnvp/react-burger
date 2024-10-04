@@ -51,7 +51,6 @@ function BurgerConstructor() {
   });
   const moveIngredient = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      console.log(dragIndex, hoverIndex);
       const dragItem = ingredients[dragIndex];
       const updatedIngredients = [...ingredients];
       updatedIngredients.splice(dragIndex, 1);
