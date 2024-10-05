@@ -14,10 +14,12 @@ import {
   AMOUNT_RECALCULATING,
   BUN_ADDING,
   INGREDIENT_ADDING,
-  INGREDIENT_MOVING
+  INGREDIENT_MOVING,
+  MAKING_ORDER
 } from '../../services/actions/burger-constructor';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
+import { makeOrder } from '../../shared/api/data.service';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -36,6 +38,7 @@ function BurgerConstructor() {
       return state.burgerConstructor.amount;
     }
   );
+  const [error, setError] = useState('');
 
   const [{ isOver }, drop] = useDrop({
     accept: DndType.NewIngredient,
@@ -74,11 +77,33 @@ function BurgerConstructor() {
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
 
   const showOrderDetails = () => {
-    setOrderDetails(true);
+    createOrder();
   };
 
   const close = () => {
     setOrderDetails(false);
+  };
+
+  const createOrder = async () => {
+    try {
+      const orderDetails = [...ingredients.map(v => v._id), buns._id, buns._id];
+      await makeOrder(orderDetails)
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+          return Promise.reject(`Ошибка ${res.status}`);
+        })
+        .then(orderData => {
+          dispatch({
+            type: MAKING_ORDER,
+            payload: orderData
+          });
+          setOrderDetails(true);
+        });
+    } catch (e) {
+      setError((e as { message?: string })?.message ?? '');
+    }
   };
 
   useEffect(() => {
@@ -105,9 +130,13 @@ function BurgerConstructor() {
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`} ref={drop}>
-      <Modal isOpen={oderDetails} title='' onClick={close}>
-        <OrderDetails />
-      </Modal>
+      {error ? (
+        <h1>{error}</h1>
+      ) : (
+        <Modal isOpen={oderDetails} title='' onClick={close}>
+          <OrderDetails />
+        </Modal>
+      )}
 
       <section className={`mb-10 ${burgerConstructorStyle.grid}`}>
         {Object.keys(buns).length ? (
