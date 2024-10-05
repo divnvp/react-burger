@@ -15,6 +15,7 @@ type Props = {
   type?: 'top' | 'bottom' | undefined;
   index?: number;
   moveIngredient?: (dragIndex: number, hoverIndex: number) => void;
+  onRemove?: () => void;
 };
 
 function BurgerConstructorElement(props: Props) {
@@ -78,6 +79,7 @@ function BurgerConstructorElement(props: Props) {
             text={props.title}
             price={props.price}
             thumbnail={props.thumbnail}
+            handleClose={props.onRemove}
           />
         </div>
       )}

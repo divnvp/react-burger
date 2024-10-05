@@ -4,6 +4,7 @@ import {
   BURGER_CONSTRUCTOR_GETTING,
   INGREDIENT_ADDING,
   INGREDIENT_MOVING,
+  INGREDIENT_REMOVING,
   MAKING_ORDER
 } from '../actions/burger-constructor';
 import { ActionType } from '../../shared/models/action.type';
@@ -24,7 +25,7 @@ export const burgerConstructorReducer = (
     case BURGER_CONSTRUCTOR_GETTING: {
       return {
         ...state,
-        burgerConstructor: [...state.burgerConstructor, action.payload]
+        burgerConstructor: [...state.burgerConstructor]
       };
     }
     case BUN_ADDING: {
@@ -55,6 +56,13 @@ export const burgerConstructorReducer = (
       return {
         ...state,
         order: action.payload
+      };
+    }
+    case INGREDIENT_REMOVING: {
+      console.log(action.payload);
+      return {
+        ...state,
+        burgerConstructor: action.payload
       };
     }
     default: {

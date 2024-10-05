@@ -13,8 +13,10 @@ import { DndType } from '../../shared/consts/dnd-type.enum';
 import {
   AMOUNT_RECALCULATING,
   BUN_ADDING,
+  BURGER_CONSTRUCTOR_GETTING,
   INGREDIENT_ADDING,
   INGREDIENT_MOVING,
+  INGREDIENT_REMOVING,
   MAKING_ORDER
 } from '../../services/actions/burger-constructor';
 import { Ingredient } from '../../shared/models/ingredient.type';
@@ -107,26 +109,41 @@ function BurgerConstructor() {
   };
 
   useEffect(() => {
-    if (Object.keys(buns).length) {
-      const totalAmount = ingredients.reduce(
-        (sum, ingredient) => sum + ingredient.price,
-        buns.price * 2
-      );
-      dispatch({
-        type: AMOUNT_RECALCULATING,
-        payload: totalAmount
-      });
-    } else {
-      const totalAmount = ingredients.reduce(
-        (sum, ingredient) => sum + ingredient.price,
-        0
-      );
-      dispatch({
-        type: AMOUNT_RECALCULATING,
-        payload: totalAmount
-      });
+    if (ingredients.length) {
+      if (Object.keys(buns).length) {
+        const totalAmount = ingredients.reduce(
+          (sum, ingredient) => sum + ingredient.price,
+          buns.price * 2
+        );
+        dispatch({
+          type: AMOUNT_RECALCULATING,
+          payload: totalAmount
+        });
+      } else {
+        const totalAmount = ingredients.reduce(
+          (sum, ingredient) => sum + ingredient.price,
+          0
+        );
+        dispatch({
+          type: AMOUNT_RECALCULATING,
+          payload: totalAmount
+        });
+      }
     }
   }, [ingredients, buns]);
+
+  const onRemove = (index: number) => {
+    ingredients.splice(index, 1);
+
+    dispatch({
+      type: INGREDIENT_REMOVING,
+      payload: ingredients
+    });
+
+    dispatch({
+      type: BURGER_CONSTRUCTOR_GETTING
+    });
+  };
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`} ref={drop}>
@@ -164,6 +181,7 @@ function BurgerConstructor() {
                 isLocked={false}
                 index={index}
                 moveIngredient={moveIngredient}
+                onRemove={() => onRemove(index)}
               />
             ))}
           </div>
