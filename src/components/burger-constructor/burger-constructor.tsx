@@ -109,26 +109,24 @@ function BurgerConstructor() {
   };
 
   useEffect(() => {
-    if (ingredients.length) {
-      if (Object.keys(buns).length) {
-        const totalAmount = ingredients.reduce(
-          (sum, ingredient) => sum + ingredient.price,
-          buns.price * 2
-        );
-        dispatch({
-          type: AMOUNT_RECALCULATING,
-          payload: totalAmount
-        });
-      } else {
-        const totalAmount = ingredients.reduce(
-          (sum, ingredient) => sum + ingredient.price,
-          0
-        );
-        dispatch({
-          type: AMOUNT_RECALCULATING,
-          payload: totalAmount
-        });
-      }
+    if (Object.keys(buns).length) {
+      const totalAmount = ingredients.reduce(
+        (sum, ingredient) => sum + ingredient.price,
+        buns.price * 2
+      );
+      dispatch({
+        type: AMOUNT_RECALCULATING,
+        payload: totalAmount
+      });
+    } else {
+      const totalAmount = ingredients.reduce(
+        (sum, ingredient) => sum + ingredient.price,
+        0
+      );
+      dispatch({
+        type: AMOUNT_RECALCULATING,
+        payload: totalAmount
+      });
     }
   }, [ingredients, buns]);
 

@@ -59,7 +59,6 @@ export const burgerConstructorReducer = (
       };
     }
     case INGREDIENT_REMOVING: {
-      console.log(action.payload);
       return {
         ...state,
         burgerConstructor: action.payload
