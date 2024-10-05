@@ -20,6 +20,16 @@ function BurgerIngredients() {
     return (state as { ingredient: { ingredient: Ingredient } }).ingredient
       .ingredient;
   });
+  const cart = useSelector(
+    (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
+      return state.burgerConstructor.burgerConstructor;
+    }
+  );
+  const buns = useSelector(
+    (state: { burgerConstructor: { buns: Ingredient } }) => {
+      return state.burgerConstructor.buns;
+    }
+  );
   const dispatch = useDispatch();
   const [current, setCurrent] = useState('one');
   const [isModalOpen, setModalOpen] = useState(false);
@@ -110,7 +120,7 @@ function BurgerIngredients() {
                   >
                     <BurgerIngredientsCard
                       element={element}
-                      count={index === 0 ? 1 : undefined}
+                      count={buns._id === element._id ? 2 : undefined}
                     />
                   </div>
                 ) : (
@@ -132,7 +142,14 @@ function BurgerIngredients() {
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
                   >
-                    <BurgerIngredientsCard element={element} />
+                    <BurgerIngredientsCard
+                      element={element}
+                      count={
+                        cart?.length
+                          ? cart.filter(c => c._id === element._id).length
+                          : undefined
+                      }
+                    />
                   </div>
                 ) : (
                   ''

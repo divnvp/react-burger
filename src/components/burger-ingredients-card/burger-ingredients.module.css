@@ -4,6 +4,7 @@
   align-items: center;
 
   cursor: pointer;
+  position: relative
 }
 
 .price {
@@ -11,6 +12,5 @@
 }
 
 .counter {
-  position: relative;
   left: 100px;
 }

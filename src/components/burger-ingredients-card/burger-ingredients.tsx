@@ -29,7 +29,7 @@ function BurgerIngredientsCard(props: Props) {
     <div className={cardStyles.card} ref={drag}>
       {props.count ? (
         <div className={`${cardStyles.counter}`}>
-          <Counter count={1} size='default' />
+          <Counter count={props.count} size='default' />
         </div>
       ) : (
         ''
