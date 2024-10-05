@@ -1,5 +1,5 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
@@ -9,6 +9,7 @@ import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
 import { TabEnum } from '../../shared/consts/tab.enum';
+import { BUN_ADDING } from '../../services/actions/burger-constructor';
 
 function BurgerIngredients() {
   const ingredients = useSelector((state: unknown) => {
@@ -48,6 +49,16 @@ function BurgerIngredients() {
       behavior: 'smooth'
     });
   };
+
+  useEffect(() => {
+    const defaultBun = ingredients.find(v => v.type === IngredientType.Bun);
+    if (defaultBun) {
+      dispatch({
+        type: BUN_ADDING,
+        payload: defaultBun
+      });
+    }
+  }, [ingredients]);
 
   return (
     <div className={`pt-10`}>
