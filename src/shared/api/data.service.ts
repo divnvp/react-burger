@@ -1,13 +1,12 @@
 import { Request } from '../consts/request.enum';
-
-const apiUrl = 'https://norma.nomoreparties.space/api';
+import { request } from '../utils/request';
 
 const getData = () => {
-  return fetch(`${apiUrl}/ingredients`);
+  return request(`/ingredients`);
 };
 
 const makeOrder = (ingredients: string[]) => {
-  return fetch(`${apiUrl}/orders`, {
+  return request(`/orders`, {
     method: Request.POST,
     headers: {
       'Content-Type': 'application/json'

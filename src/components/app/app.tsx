@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { INGREDIENTS_GETTING } from '../../services/actions/burger-ingredients';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { checkResponse } from '../../shared/utils/check-response';
 
 function App() {
   const dispatch = useDispatch();
@@ -19,12 +20,7 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const data = await getData().then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      });
+      const data = await getData();
       dispatch({
         type: INGREDIENTS_GETTING,
         payload: data
