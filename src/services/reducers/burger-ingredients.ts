@@ -1,5 +1,4 @@
 import { INGREDIENTS_GETTING } from '../actions/burger-ingredients';
-import { State } from '../../shared/models/state.type';
 import { ActionType } from '../../shared/models/action.type';
 
 const initialState = {
@@ -8,7 +7,7 @@ const initialState = {
 
 export const burgerIngredientsReducer = (
   state = initialState,
-  action: ActionType & State
+  action: ActionType
 ) => {
   switch (action.type) {
     case INGREDIENTS_GETTING: {
