@@ -14,18 +14,22 @@ import {
   AMOUNT_RECALCULATING,
   BUN_ADDING,
   BURGER_CONSTRUCTOR_GETTING,
+  fetchMakingOrderThunk,
   INGREDIENT_ADDING,
   INGREDIENT_MOVING,
-  INGREDIENT_REMOVING,
-  MAKING_ORDER
+  INGREDIENT_REMOVING
 } from '../../services/actions/burger-constructor';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
-import { makeOrder } from '../../shared/api/data.service';
 import { v4 as uuid4 } from 'uuid';
+import { UnknownAction } from 'redux';
+import { ErrorType } from '../../shared/models/error.type';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const error = useSelector(
+    (state: { error?: ErrorType }) => state?.error?.message
+  );
   const ingredients = useSelector(
     (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
       return state.burgerConstructor.burgerConstructor;
@@ -41,7 +45,6 @@ function BurgerConstructor() {
       return state.burgerConstructor.amount;
     }
   );
-  const [error, setError] = useState('');
 
   const [{ isOver }, drop] = useDrop({
     accept: DndType.NewIngredient,
@@ -80,33 +83,13 @@ function BurgerConstructor() {
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
 
   const showOrderDetails = () => {
-    createOrder();
+    const orderDetails = [...ingredients.map(v => v._id), buns._id, buns._id];
+    dispatch(fetchMakingOrderThunk(orderDetails) as unknown as UnknownAction);
+    setOrderDetails(true);
   };
 
   const close = () => {
     setOrderDetails(false);
-  };
-
-  const createOrder = async () => {
-    try {
-      const orderDetails = [...ingredients.map(v => v._id), buns._id, buns._id];
-      await makeOrder(orderDetails)
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-          return Promise.reject(`Ошибка ${res.status}`);
-        })
-        .then(orderData => {
-          dispatch({
-            type: MAKING_ORDER,
-            payload: orderData
-          });
-          setOrderDetails(true);
-        });
-    } catch (e) {
-      setError((e as { message?: string })?.message ?? '');
-    }
   };
 
   useEffect(() => {

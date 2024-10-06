@@ -5,7 +5,9 @@ import {
   INGREDIENT_ADDING,
   INGREDIENT_MOVING,
   INGREDIENT_REMOVING,
-  MAKING_ORDER
+  MAKING_ORDER,
+  ORDER_MAKING_REJECTED,
+  ORDER_MAKING_REQUEST
 } from '../actions/burger-constructor';
 import { ActionType } from '../../shared/models/action.type';
 
@@ -14,7 +16,8 @@ const initialState = {
   buns: {},
   ingredient: {},
   amount: 0,
-  order: {}
+  order: {},
+  error: null
 };
 
 export const burgerConstructorReducer = (
@@ -56,6 +59,20 @@ export const burgerConstructorReducer = (
       return {
         ...state,
         order: action.payload
+      };
+    }
+    case ORDER_MAKING_REJECTED: {
+      return {
+        ...state,
+        order: [],
+        error: action.payload
+      };
+    }
+    case ORDER_MAKING_REQUEST: {
+      return {
+        ...state,
+        order: [],
+        error: null
       };
     }
     case INGREDIENT_REMOVING: {
