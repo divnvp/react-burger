@@ -22,7 +22,7 @@ import {
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import { makeOrder } from '../../shared/api/data.service';
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid4 } from 'uuid';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ function BurgerConstructor() {
       } else {
         dispatch({
           type: INGREDIENT_ADDING,
-          payload: { ...ingredient, uuid: uuid() }
+          payload: { ...ingredient, uniqueId: uuid4() }
         });
       }
     },
@@ -173,7 +173,7 @@ function BurgerConstructor() {
           >
             {ingredients.map((ingredient, index) => (
               <BurgerConstructorElement
-                key={ingredient.uuid}
+                key={ingredient.uniqueId}
                 title={`${ingredient.name}`}
                 price={ingredient.price}
                 thumbnail={ingredient.image_mobile}
