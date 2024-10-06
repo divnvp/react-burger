@@ -1,8 +1,13 @@
-import { INGREDIENTS_GETTING } from '../actions/burger-ingredients';
+import {
+  INGREDIENTS_GETTING,
+  INGREDIENTS_GETTING_REJECTED,
+  INGREDIENTS_GETTING_REQUEST
+} from '../actions/burger-ingredients';
 import { ActionType } from '../../shared/models/action.type';
 
 const initialState = {
-  ingredients: []
+  ingredients: [],
+  error: null
 };
 
 export const burgerIngredientsReducer = (
@@ -14,6 +19,18 @@ export const burgerIngredientsReducer = (
       return {
         ...state,
         ingredients: action.payload.data
+      };
+    }
+    case INGREDIENTS_GETTING_REJECTED: {
+      return {
+        ...state,
+        error: action.payload.error
+      };
+    }
+    case INGREDIENTS_GETTING_REQUEST: {
+      return {
+        ...state,
+        error: null
       };
     }
     default:
