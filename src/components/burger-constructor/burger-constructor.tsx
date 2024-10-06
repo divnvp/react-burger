@@ -14,6 +14,7 @@ import {
   AMOUNT_RECALCULATING,
   BUN_ADDING,
   BURGER_CONSTRUCTOR_GETTING,
+  CLEAR_ORDER,
   fetchMakingOrderThunk,
   INGREDIENT_ADDING,
   INGREDIENT_MOVING,
@@ -90,6 +91,9 @@ function BurgerConstructor() {
 
   const close = () => {
     setOrderDetails(false);
+    dispatch({
+      type: CLEAR_ORDER
+    });
   };
 
   useEffect(() => {

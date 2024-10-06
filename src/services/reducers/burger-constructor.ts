@@ -2,6 +2,7 @@ import {
   AMOUNT_RECALCULATING,
   BUN_ADDING,
   BURGER_CONSTRUCTOR_GETTING,
+  CLEAR_ORDER,
   INGREDIENT_ADDING,
   INGREDIENT_MOVING,
   INGREDIENT_REMOVING,
@@ -79,6 +80,12 @@ export const burgerConstructorReducer = (
       return {
         ...state,
         burgerConstructor: action.payload
+      };
+    }
+    case CLEAR_ORDER: {
+      return {
+        ...state,
+        burgerConstructor: []
       };
     }
     default: {
