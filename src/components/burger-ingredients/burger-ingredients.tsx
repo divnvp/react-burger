@@ -1,5 +1,5 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
@@ -9,7 +9,6 @@ import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
 import { TabEnum } from '../../shared/consts/tab.enum';
-import { BUN_ADDING } from '../../services/actions/burger-constructor';
 
 function BurgerIngredients() {
   const ingredients = useSelector((state: unknown) => {
@@ -59,16 +58,6 @@ function BurgerIngredients() {
       behavior: 'smooth'
     });
   };
-
-  useEffect(() => {
-    const defaultBun = ingredients.find(v => v.type === IngredientType.Bun);
-    if (defaultBun) {
-      dispatch({
-        type: BUN_ADDING,
-        payload: defaultBun
-      });
-    }
-  }, [ingredients]);
 
   return (
     <div className={`pt-10`}>
@@ -120,7 +109,7 @@ function BurgerIngredients() {
                   >
                     <BurgerIngredientsCard
                       element={element}
-                      count={buns._id === element._id ? 2 : undefined}
+                      count={buns._id === element?._id ? 2 : undefined}
                     />
                   </div>
                 ) : (
@@ -137,7 +126,7 @@ function BurgerIngredients() {
             <p className='text text_type_main-medium pb-6'>Соусы</p>
             <div className={ingredientsStyles.wrap}>
               {ingredients?.map(element =>
-                element.type === IngredientType.Sauce ? (
+                element?._id && element.type === IngredientType.Sauce ? (
                   <div
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
@@ -145,8 +134,8 @@ function BurgerIngredients() {
                     <BurgerIngredientsCard
                       element={element}
                       count={
-                        cart?.length
-                          ? cart.filter(c => c._id === element._id).length
+                        cart?.length && element?._id
+                          ? cart?.filter(c => c?._id === element?._id).length
                           : undefined
                       }
                     />
@@ -167,7 +156,14 @@ function BurgerIngredients() {
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
                   >
-                    <BurgerIngredientsCard element={element} />
+                    <BurgerIngredientsCard
+                      element={element}
+                      count={
+                        cart?.length && element?._id
+                          ? cart?.filter(c => c?._id === element?._id).length
+                          : undefined
+                      }
+                    />
                   </div>
                 ) : (
                   ''

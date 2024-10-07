@@ -24,27 +24,29 @@ function BurgerConstructorElement(props: Props) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: DndType.Ingredient,
     item: { index: props.index },
-    collect: monitor => ({
-      isDragging: monitor.isDragging()
-    })
+    collect: monitor => {
+      return {
+        isDragging: monitor.isDragging()
+      };
+    }
   }));
 
   const [{ isOver }, drop] = useDrop({
     accept: DndType.Ingredient,
     hover: (item: Props, monitor) => {
-      calculateNewElementPosition(item);
+      calculateNewElementPosition(item, monitor);
     },
     collect: monitor => ({
       isOver: monitor.isOver()
     })
   });
 
-  const calculateNewElementPosition = (item: Props) => {
+  const calculateNewElementPosition = (item: Props, monitor: any) => {
     if (!ref.current) {
       return;
     }
 
-    if (item.index) {
+    if (item.index !== undefined) {
       const dragIndex = item.index;
       const dropIndex = props.index;
 

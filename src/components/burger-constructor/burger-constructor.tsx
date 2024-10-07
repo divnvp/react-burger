@@ -75,7 +75,7 @@ function BurgerConstructor() {
 
       dispatch({
         type: INGREDIENT_MOVING,
-        payload: updatedIngredients
+        payload: updatedIngredients.filter(v => v !== undefined)
       });
     },
     [ingredients, dispatch]
@@ -97,18 +97,19 @@ function BurgerConstructor() {
   };
 
   useEffect(() => {
+    console.log(ingredients, buns);
     if (Object.keys(buns).length) {
       const totalAmount = ingredients.reduce(
-        (sum, ingredient) => sum + ingredient.price,
-        buns.price * 2
+        (sum, ingredient) => sum + ingredient?.price,
+        buns?.price * 2
       );
       dispatch({
         type: AMOUNT_RECALCULATING,
         payload: totalAmount
       });
-    } else {
+    } else if (ingredients.length) {
       const totalAmount = ingredients.reduce(
-        (sum, ingredient) => sum + ingredient.price,
+        (sum, ingredient) => sum + ingredient?.price,
         0
       );
       dispatch({
@@ -118,12 +119,10 @@ function BurgerConstructor() {
     }
   }, [ingredients, buns]);
 
-  const onRemove = (index: number) => {
-    ingredients.splice(index, 1);
-
+  const onRemove = (uniqueId: string) => {
     dispatch({
       type: INGREDIENT_REMOVING,
-      payload: ingredients
+      payload: ingredients.filter(v => v && v.uniqueId !== uniqueId)
     });
 
     dispatch({
@@ -158,18 +157,21 @@ function BurgerConstructor() {
           <div
             className={`${burgerConstructorStyle.scrollbar} ${burgerConstructorStyle.elementsGrid}`}
           >
-            {ingredients.map((ingredient, index) => (
-              <BurgerConstructorElement
-                key={ingredient.uniqueId}
-                title={`${ingredient.name}`}
-                price={ingredient.price}
-                thumbnail={ingredient.image_mobile}
-                isLocked={false}
-                index={index}
-                moveIngredient={moveIngredient}
-                onRemove={() => onRemove(index)}
-              />
-            ))}
+            {ingredients.map(
+              (ingredient, index) =>
+                ingredient?._id && (
+                  <BurgerConstructorElement
+                    key={ingredient.uniqueId}
+                    title={`${ingredient.name}`}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image_mobile}
+                    isLocked={false}
+                    index={index}
+                    moveIngredient={moveIngredient}
+                    onRemove={() => onRemove(ingredient.uniqueId!)}
+                  />
+                )
+            )}
           </div>
         ) : (
           ''
@@ -187,6 +189,19 @@ function BurgerConstructor() {
           ''
         )}
       </section>
+
+      {!ingredients.length && !Object.keys(buns).length && (
+        <section className={`mb-10 ${burgerConstructorStyle.noElementsGrid}`}>
+          <div
+            className={`pt-25 pb-25 ${burgerConstructorStyle.noElementsGridTitle}`}
+          >
+            <p className='text text_type_main-default text_color_inactive'>
+              Пожалуйста, перенесите сюда булку и ингредиенты для создания
+              заказа
+            </p>
+          </div>
+        </section>
+      )}
 
       <section className={burgerConstructorStyle.buttonGrid}>
         <p className='text text_type_digits-medium'>{amount}</p>
