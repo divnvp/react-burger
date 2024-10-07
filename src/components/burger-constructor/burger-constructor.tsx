@@ -97,7 +97,6 @@ function BurgerConstructor() {
   };
 
   useEffect(() => {
-    console.log(ingredients, buns);
     if (Object.keys(buns).length) {
       const totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient?.price,
