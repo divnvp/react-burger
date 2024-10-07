@@ -109,7 +109,13 @@ function BurgerIngredients() {
                   >
                     <BurgerIngredientsCard
                       element={element}
-                      count={buns._id === element?._id ? 2 : undefined}
+                      count={
+                        buns &&
+                        Object.keys(buns).length &&
+                        buns?._id === element?._id
+                          ? 2
+                          : undefined
+                      }
                     />
                   </div>
                 ) : (

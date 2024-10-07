@@ -37,7 +37,7 @@ function BurgerConstructor() {
     }
   );
   const buns = useSelector(
-    (state: { burgerConstructor: { buns: Ingredient } }) => {
+    (state: { burgerConstructor: { buns: Ingredient | null } }) => {
       return state.burgerConstructor.buns;
     }
   );
@@ -84,7 +84,13 @@ function BurgerConstructor() {
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
 
   const showOrderDetails = () => {
-    const orderDetails = [...ingredients.map(v => v._id), buns._id, buns._id];
+    let orderDetails = [];
+    if (buns) {
+      orderDetails = [...ingredients.map(v => v._id), buns?._id, buns?._id];
+    } else {
+      orderDetails = [...ingredients.map(v => v._id)];
+    }
+
     dispatch(fetchMakingOrderThunk(orderDetails) as unknown as UnknownAction);
     setOrderDetails(true);
   };
@@ -97,7 +103,7 @@ function BurgerConstructor() {
   };
 
   useEffect(() => {
-    if (Object.keys(buns).length) {
+    if (buns && Object.keys(buns).length) {
       const totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient?.price,
         buns?.price * 2
@@ -140,7 +146,7 @@ function BurgerConstructor() {
       )}
 
       <section className={`mb-10 ${burgerConstructorStyle.grid}`}>
-        {Object.keys(buns).length ? (
+        {buns && Object.keys(buns).length ? (
           <BurgerConstructorElement
             type='top'
             title={`${buns.name} (верх)`}
@@ -176,7 +182,7 @@ function BurgerConstructor() {
           ''
         )}
 
-        {Object.keys(buns).length ? (
+        {buns && Object.keys(buns).length ? (
           <BurgerConstructorElement
             type='bottom'
             title={`${buns.name} (низ)`}
@@ -189,7 +195,7 @@ function BurgerConstructor() {
         )}
       </section>
 
-      {!ingredients.length && !Object.keys(buns).length && (
+      {!ingredients.length && !buns?._id && (
         <section className={`mb-10 ${burgerConstructorStyle.noElementsGrid}`}>
           <div
             className={`pt-25 pb-25 ${burgerConstructorStyle.noElementsGridTitle}`}

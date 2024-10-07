@@ -85,7 +85,8 @@ export const burgerConstructorReducer = (
     case CLEAR_ORDER: {
       return {
         ...state,
-        burgerConstructor: []
+        burgerConstructor: [],
+        buns: null
       };
     }
     default: {
