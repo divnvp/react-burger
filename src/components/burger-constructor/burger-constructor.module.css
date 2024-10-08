@@ -26,3 +26,21 @@
   align-items: center;
   justify-content: end;
 }
+
+.dndGrid {
+  display: flex;
+  align-items: center;
+}
+
+.noElementsGrid {
+  border: 1px dashed white;
+  border-radius: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noElementsGridTitle {
+  width: 80%;
+}

@@ -4,30 +4,44 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import cardStyles from './burger-ingredients.module.css';
 import React from 'react';
+import { useDrag } from 'react-dnd';
+import { DndType } from '../../shared/consts/dnd-type.enum';
+import { Ingredient } from '../../shared/models/ingredient.type';
 
 type Props = {
-  title: string;
-  price: number;
-  srcImg: string;
+  element: Ingredient;
   count?: number;
 };
 
 function BurgerIngredientsCard(props: Props) {
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: DndType.NewIngredient,
+      item: props.element,
+      collect: monitor => ({
+        isDragging: monitor.isDragging()
+      })
+    }),
+    []
+  );
+
   return (
-    <div className={cardStyles.card}>
+    <div className={cardStyles.card} ref={drag}>
       {props.count ? (
         <div className={`${cardStyles.counter}`}>
-          <Counter count={1} size='default' />
+          <Counter count={props.count} size='default' />
         </div>
       ) : (
         ''
       )}
-      <img src={props.srcImg} alt={props.title} />
+      <img src={props.element.image_mobile} alt={props.element.name} />
       <div className={`pt-1 pb-1 ${cardStyles.price}`}>
-        <p className='text text_type_digits-default pr-2'>{props.price}</p>
+        <p className='text text_type_digits-default pr-2'>
+          {props.element.price}
+        </p>
         <CurrencyIcon type='primary' />
       </div>
-      <p>{props.title}</p>
+      <p>{props.element.name}</p>
     </div>
   );
 }
