@@ -1,18 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { ErrorType } from '../../shared/models/error.type';
-import React, { useEffect } from 'react';
-import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
-import { UnknownAction } from 'redux';
+import React from 'react';
 
 export function NotFoundPage() {
-  const dispatch = useDispatch();
-  const error = useSelector(
-    (state: { error?: ErrorType }) => state?.error?.message
+  return (
+    <>
+      <h1>404: Not found</h1>
+    </>
   );
-
-  useEffect(() => {
-    dispatch(fetchIngredientsThunk() as unknown as UnknownAction);
-  }, [dispatch]);
-
-  return <>{error ? <h1>{error}</h1> : null}</>;
 }
