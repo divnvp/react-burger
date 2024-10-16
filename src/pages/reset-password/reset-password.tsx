@@ -12,16 +12,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchResetPasswordThunk } from '../../services/actions/reset-password';
 import { UnknownAction } from 'redux';
 import { Routes as RoutesName } from '../../shared/consts/routes';
+import { Response } from '../../shared/models/response.type';
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const resettingPassword = useSelector((state: { resetPassword: any }) => {
-    return state.resetPassword;
-  });
-  const email = useSelector((state: { forgotPassword: { email: string } }) => {
-    return state.forgotPassword.email;
-  });
+  const resettingPassword = useSelector(
+    (state: { resetPassword: { response: Response } }) => {
+      return state.resetPassword.response;
+    }
+  );
   const [newPassword, setNewPassword] = React.useState('');
   const [code, setCode] = React.useState('');
 
@@ -29,8 +29,7 @@ export function ResetPasswordPage() {
     dispatch(
       fetchResetPasswordThunk({
         password: newPassword,
-        // TODO: add token
-        token: ''
+        token: code
       }) as unknown as UnknownAction
     );
   };

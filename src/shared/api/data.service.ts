@@ -32,7 +32,7 @@ const resetPassword = (credits: ResetPassword) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ credits })
+    body: JSON.stringify(credits)
   });
 };
 

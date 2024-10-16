@@ -2,9 +2,9 @@ import { ActionType } from '../../shared/models/action.type';
 import { resetPassword } from '../../shared/api/data.service';
 import { ResetPassword } from '../../shared/models/reset-password.type';
 
-export const RESET_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
-export const RESET_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
-export const RESETTING_PASSWORD = 'SENDING_EMAIL';
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
+export const RESET_PASSWORD_REJECTED = 'RESET_PASSWORD_REJECTED';
+export const RESETTING_PASSWORD = 'RESETTING_PASSWORD';
 
 export const fetchResetPasswordThunk =
   (credits: ResetPassword) =>
