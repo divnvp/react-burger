@@ -6,17 +6,27 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
 import registerStyles from '../register/register.module.css';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchForgotPasswordThunk } from '../../services/actions/forgot-password';
 import { UnknownAction } from 'redux';
+import { Response } from '../../shared/models/response.type';
 
 export function ForgotPasswordPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const response = useSelector((state: unknown) => {
+    return (state as { forgotPassword: { response: Response } }).forgotPassword
+      .response;
+  });
   const [email, setEmail] = React.useState('');
 
   const recoverPassword = () => {
     dispatch(fetchForgotPasswordThunk('') as unknown as UnknownAction);
+
+    if (response.success) {
+      navigate('/reset-password');
+    }
   };
 
   return (

@@ -7,7 +7,8 @@ import {
 
 const initialState = {
   password: '',
-  error: null
+  error: null,
+  response: {}
 };
 
 export const forgotPasswordReducer = (
@@ -17,7 +18,8 @@ export const forgotPasswordReducer = (
   switch (action.type) {
     case SENDING_EMAIL: {
       return {
-        ...state
+        ...state,
+        response: action.payload
       };
     }
     case FORGOT_PASSWORD_REQUEST: {
