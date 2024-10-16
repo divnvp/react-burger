@@ -8,7 +8,7 @@ const registerUser = (credits: RegisterUser) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ credits })
+    body: JSON.stringify(credits)
   });
 };
 

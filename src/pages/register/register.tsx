@@ -1,18 +1,25 @@
 import registerStyles from './register.module.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   EmailInput,
   Input,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Layout } from '../../components/layout/layout';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRegisterThunk } from '../../services/actions/registration';
+import { UnknownAction } from 'redux';
+import { Routes as RouteName } from '../../shared/consts/routes';
+import { Response } from '../../shared/models/response.type';
 
 export function RegisterPage() {
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onChangeLogin = (e: {
     target: { value: React.SetStateAction<string> };
   }) => {
@@ -23,6 +30,27 @@ export function RegisterPage() {
   }) => {
     setPassword(e.target.value);
   };
+  const registration = useSelector(
+    (state: { registration: { response: Response } }) => {
+      return state.registration.response;
+    }
+  );
+
+  const registerUser = () => {
+    dispatch(
+      fetchRegisterThunk({
+        email: login,
+        password,
+        name
+      }) as unknown as UnknownAction
+    );
+  };
+
+  useEffect(() => {
+    if (registration.success) {
+      navigate(RouteName.Main);
+    }
+  }, [registration]);
 
   return (
     <Layout>
@@ -58,7 +86,12 @@ export function RegisterPage() {
             name={'password'}
           />
         </div>
-        <Button htmlType='button' type='primary' size='medium'>
+        <Button
+          htmlType='button'
+          type='primary'
+          size='medium'
+          onClick={registerUser}
+        >
           Зарегистрироваться
         </Button>
 
@@ -66,7 +99,7 @@ export function RegisterPage() {
           <p className='text text_type_main-default text_color_inactive'>
             Уже зарегистрированы?
           </p>
-          <Link to='/login' className='text text_type_main-default'>
+          <Link to={RouteName.Login} className='text text_type_main-default'>
             <p>Войти</p>
           </Link>
         </div>

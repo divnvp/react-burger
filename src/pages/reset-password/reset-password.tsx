@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchResetPasswordThunk } from '../../services/actions/reset-password';
 import { UnknownAction } from 'redux';
 import { Routes as RoutesName } from '../../shared/consts/routes';
-import { Response } from '../../shared/models/response.type';
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
@@ -20,11 +19,6 @@ export function ResetPasswordPage() {
   const resettingPassword = useSelector((state: { resetPassword: any }) => {
     return state.resetPassword;
   });
-  const registration = useSelector(
-    (state: { registration: { response: Response } }) => {
-      return state.registration.response;
-    }
-  );
   const email = useSelector((state: { forgotPassword: { email: string } }) => {
     return state.forgotPassword.email;
   });
