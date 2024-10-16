@@ -1,5 +1,4 @@
 import mainStyles from './main.module.css';
-import AppHeader from '../../components/app-header/app-header';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
@@ -9,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ErrorType } from '../../shared/models/error.type';
 import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
 import { UnknownAction } from 'redux';
+import { Layout } from '../../components/layout/layout';
 
 export function MainPage() {
   const dispatch = useDispatch();
@@ -21,22 +21,23 @@ export function MainPage() {
   }, [dispatch]);
 
   return (
-    <div className={`text text_type_main-default ${mainStyles.app}`}>
-      <AppHeader />
-      <main className={mainStyles.parent}>
-        {error ? (
-          <h1>{error}</h1>
-        ) : (
-          <DndProvider backend={HTML5Backend}>
-            <div>
-              <BurgerIngredients />
-            </div>
-            <div>
-              <BurgerConstructor />
-            </div>
-          </DndProvider>
-        )}
-      </main>
-    </div>
+    <Layout>
+      <div className={`text text_type_main-default ${mainStyles.app}`}>
+        <main className={mainStyles.parent}>
+          {error ? (
+            <h1>{error}</h1>
+          ) : (
+            <DndProvider backend={HTML5Backend}>
+              <div>
+                <BurgerIngredients />
+              </div>
+              <div>
+                <BurgerConstructor />
+              </div>
+            </DndProvider>
+          )}
+        </main>
+      </div>
+    </Layout>
   );
 }
