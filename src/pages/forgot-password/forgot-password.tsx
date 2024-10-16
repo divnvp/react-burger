@@ -4,7 +4,7 @@ import {
   Button,
   Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import registerStyles from '../register/register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,11 +24,13 @@ export function ForgotPasswordPage() {
 
   const recoverPassword = () => {
     dispatch(fetchForgotPasswordThunk(email) as unknown as UnknownAction);
+  };
 
+  useEffect(() => {
     if (response.success) {
       navigate(Routes.ResetPassword);
     }
-  };
+  }, [response]);
 
   return (
     <Layout>

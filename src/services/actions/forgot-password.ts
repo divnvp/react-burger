@@ -7,7 +7,7 @@ export const SENDING_EMAIL = 'SENDING_EMAIL';
 
 export const fetchForgotPasswordThunk =
   (email: string) => async (dispatch: (action: ActionType) => void) => {
-    dispatch({ type: FORGOT_PASSWORD_REQUEST });
+    dispatch({ type: FORGOT_PASSWORD_REQUEST, payload: email });
 
     try {
       const response = await rememberPassword(email);

@@ -7,7 +7,8 @@ import {
 
 const initialState = {
   response: {},
-  error: null
+  error: null,
+  email: ''
 };
 
 export const resetPasswordReducer = (
@@ -30,7 +31,7 @@ export const resetPasswordReducer = (
     case RESET_PASSWORD_REJECTED: {
       return {
         ...state,
-        error: action.payload.error
+        error: action.payload?.error
       };
     }
     default: {

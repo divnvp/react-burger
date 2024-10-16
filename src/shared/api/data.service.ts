@@ -17,7 +17,7 @@ const makeOrder = (ingredients: string[]) => {
 };
 
 const rememberPassword = (email: string) => {
-  return request(`/forgot-password`, {
+  return request(`/password-reset`, {
     method: Request.POST,
     headers: {
       'Content-Type': 'application/json'

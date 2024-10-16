@@ -1,13 +1,13 @@
 import { Layout } from '../../components/layout/layout';
 import resetPasswordStyles from './reset-password.module.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Input,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import registerStyles from '../register/register.module.css';
-import { Link, Routes, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchResetPasswordThunk } from '../../services/actions/reset-password';
 import { UnknownAction } from 'redux';
@@ -17,11 +17,17 @@ import { Response } from '../../shared/models/response.type';
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const resettingPassword = useSelector(
-    (state: { resetPassword: { response: Response } }) => {
-      return state.resetPassword.response;
+  const resettingPassword = useSelector((state: { resetPassword: any }) => {
+    return state.resetPassword;
+  });
+  const registration = useSelector(
+    (state: { registration: { response: Response } }) => {
+      return state.registration.response;
     }
   );
+  const email = useSelector((state: { forgotPassword: { email: string } }) => {
+    return state.forgotPassword.email;
+  });
   const [newPassword, setNewPassword] = React.useState('');
   const [code, setCode] = React.useState('');
 
@@ -33,11 +39,13 @@ export function ResetPasswordPage() {
         token: ''
       }) as unknown as UnknownAction
     );
+  };
 
+  useEffect(() => {
     if (resettingPassword.success) {
       navigate(RoutesName.Login);
     }
-  };
+  }, [resettingPassword]);
 
   return (
     <Layout>
