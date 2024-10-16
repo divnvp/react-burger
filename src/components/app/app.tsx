@@ -10,19 +10,29 @@ import {
   RegisterPage,
   ResetPasswordPage
 } from '../../pages';
+import { Routes as RoutesName } from '../../shared/consts/routes';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/register' element={<RegisterPage />} />
-        <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-        <Route path='/reset-password' element={<ResetPasswordPage />} />
-        <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/ingredients/:id' element={<IngredientsPage />} />
-        <Route path='/*' element={<NotFoundPage />} />
+        <Route path={RoutesName.Main} element={<MainPage />} />
+        <Route path={RoutesName.Login} element={<LoginPage />} />
+        <Route path={RoutesName.Register} element={<RegisterPage />} />
+        <Route
+          path={RoutesName.ForgotPassword}
+          element={<ForgotPasswordPage />}
+        />
+        <Route
+          path={RoutesName.ResetPassword}
+          element={<ResetPasswordPage />}
+        />
+        <Route path={RoutesName.Profile} element={<ProfilePage />} />
+        <Route
+          path={`${RoutesName.Ingredients}/:id`}
+          element={<IngredientsPage />}
+        />
+        <Route path={RoutesName.NotFound} element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

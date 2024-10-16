@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchForgotPasswordThunk } from '../../services/actions/forgot-password';
 import { UnknownAction } from 'redux';
 import { Response } from '../../shared/models/response.type';
+import { Routes } from '../../shared/consts/routes';
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export function ForgotPasswordPage() {
     dispatch(fetchForgotPasswordThunk('') as unknown as UnknownAction);
 
     if (response.success) {
-      navigate('/reset-password');
+      navigate(Routes.ResetPassword);
     }
   };
 
