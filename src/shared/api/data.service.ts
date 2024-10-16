@@ -15,4 +15,14 @@ const makeOrder = (ingredients: string[]) => {
   });
 };
 
-export { getData, makeOrder };
+const resetPassword = (email: string) => {
+  return request(`/forgot-password`, {
+    method: Request.POST,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email })
+  });
+};
+
+export { getData, makeOrder, resetPassword };

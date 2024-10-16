@@ -7,9 +7,17 @@ import {
 import React from 'react';
 import registerStyles from '../register/register.module.css';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchForgotPasswordThunk } from '../../services/actions/forgot-password';
+import { UnknownAction } from 'redux';
 
 export function ForgotPasswordPage() {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState('');
+
+  const recoverPassword = () => {
+    dispatch(fetchForgotPasswordThunk('') as unknown as UnknownAction);
+  };
 
   return (
     <Layout>
@@ -31,7 +39,12 @@ export function ForgotPasswordPage() {
             onPointerLeaveCapture={undefined}
           />
         </div>
-        <Button htmlType='button' type='primary' size='medium'>
+        <Button
+          htmlType='button'
+          type='primary'
+          size='medium'
+          onClick={recoverPassword}
+        >
           Восстановить
         </Button>
 

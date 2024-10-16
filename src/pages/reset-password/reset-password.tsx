@@ -45,7 +45,7 @@ export function ResetPasswordPage() {
           />
         </div>
         <Button htmlType='button' type='primary' size='medium'>
-          Восстановить
+          Сохранить
         </Button>
 
         <div className={`${registerStyles.textRow} pb-4 pt-20`}>
