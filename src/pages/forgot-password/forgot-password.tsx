@@ -23,7 +23,7 @@ export function ForgotPasswordPage() {
   const [email, setEmail] = React.useState('');
 
   const recoverPassword = () => {
-    dispatch(fetchForgotPasswordThunk('') as unknown as UnknownAction);
+    dispatch(fetchForgotPasswordThunk(email) as unknown as UnknownAction);
 
     if (response.success) {
       navigate(Routes.ResetPassword);

@@ -1,33 +1,33 @@
 import { ActionType } from '../../shared/models/action.type';
 import {
-  FORGOT_PASSWORD_REJECTED,
-  FORGOT_PASSWORD_REQUEST,
-  SENDING_EMAIL
-} from '../actions/forgot-password';
+  RESET_PASSWORD_REJECTED,
+  RESET_PASSWORD_REQUEST,
+  RESETTING_PASSWORD
+} from '../actions/reset-password';
 
 const initialState = {
-  error: null,
-  response: {}
+  response: {},
+  error: null
 };
 
-export const forgotPasswordReducer = (
+export const resetPasswordReducer = (
   state = initialState,
   action: ActionType
 ) => {
   switch (action.type) {
-    case SENDING_EMAIL: {
+    case RESETTING_PASSWORD: {
       return {
         ...state,
         response: action.payload
       };
     }
-    case FORGOT_PASSWORD_REQUEST: {
+    case RESET_PASSWORD_REQUEST: {
       return {
         ...state,
         error: null
       };
     }
-    case FORGOT_PASSWORD_REJECTED: {
+    case RESET_PASSWORD_REJECTED: {
       return {
         ...state,
         error: action.payload.error

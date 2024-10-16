@@ -7,11 +7,37 @@ import {
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import registerStyles from '../register/register.module.css';
-import { Link } from 'react-router-dom';
+import { Link, Routes, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchResetPasswordThunk } from '../../services/actions/reset-password';
+import { UnknownAction } from 'redux';
+import { Routes as RoutesName } from '../../shared/consts/routes';
+import { Response } from '../../shared/models/response.type';
 
 export function ResetPasswordPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const resettingPassword = useSelector(
+    (state: { resetPassword: { response: Response } }) => {
+      return state.resetPassword.response;
+    }
+  );
   const [newPassword, setNewPassword] = React.useState('');
   const [code, setCode] = React.useState('');
+
+  const resetPassword = () => {
+    dispatch(
+      fetchResetPasswordThunk({
+        password: newPassword,
+        // TODO: add token
+        token: ''
+      }) as unknown as UnknownAction
+    );
+
+    if (resettingPassword.success) {
+      navigate(RoutesName.Login);
+    }
+  };
 
   return (
     <Layout>
@@ -44,7 +70,12 @@ export function ResetPasswordPage() {
             onPointerLeaveCapture={undefined}
           />
         </div>
-        <Button htmlType='button' type='primary' size='medium'>
+        <Button
+          htmlType='button'
+          type='primary'
+          size='medium'
+          onClick={resetPassword}
+        >
           Сохранить
         </Button>
 
@@ -52,7 +83,7 @@ export function ResetPasswordPage() {
           <p className='text text_type_main-default text_color_inactive'>
             Вспомнили пароль?
           </p>
-          <Link to='/login' className='text text_type_main-default'>
+          <Link to={RoutesName.Login} className='text text_type_main-default'>
             <p>Войти</p>
           </Link>
         </div>

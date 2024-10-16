@@ -1,5 +1,6 @@
 import { Request } from '../consts/request.enum';
 import { request } from '../utils/request';
+import { ResetPassword } from '../models/reset-password.type';
 
 const getData = () => {
   return request(`/ingredients`);
@@ -15,7 +16,7 @@ const makeOrder = (ingredients: string[]) => {
   });
 };
 
-const resetPassword = (email: string) => {
+const rememberPassword = (email: string) => {
   return request(`/forgot-password`, {
     method: Request.POST,
     headers: {
@@ -25,4 +26,14 @@ const resetPassword = (email: string) => {
   });
 };
 
-export { getData, makeOrder, resetPassword };
+const resetPassword = (credits: ResetPassword) => {
+  return request(`/password-reset/reset`, {
+    method: Request.POST,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ credits })
+  });
+};
+
+export { getData, makeOrder, rememberPassword, resetPassword };
