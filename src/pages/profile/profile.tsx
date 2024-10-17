@@ -3,13 +3,27 @@ import {
   Input,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from '../../components/layout/layout';
+import { useSelector } from 'react-redux';
+import { RegisterUser } from '../../shared/models/register-user.type';
 
 export function ProfilePage() {
+  const user = useSelector((state: unknown) => {
+    return (state as { user: { user: RegisterUser } }).user.user;
+  });
   const [name, setName] = React.useState('');
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  useEffect(() => {
+    console.log(user);
+    if (user && Object.keys(user).length) {
+      setName(user.name);
+      setLogin(user.email);
+      setPassword(user.password);
+    }
+  }, [user]);
 
   return (
     <Layout>
@@ -62,7 +76,7 @@ export function ProfilePage() {
               />
             </div>
             <PasswordInput
-              placeholder='Введите новый пароль'
+              placeholder='Пароль'
               onChange={e => setPassword(e.target.value)}
               value={password}
               name={'password'}

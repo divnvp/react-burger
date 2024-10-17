@@ -5,6 +5,7 @@ import { ingredientDetailsReducer } from './ingredient-details';
 import { forgotPasswordReducer } from './forgot-password';
 import { resetPasswordReducer } from './reset-password';
 import { registrationReducer } from './registration';
+import { userReducer } from './user';
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   burgerConstructor: burgerConstructorReducer,
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
-  registration: registrationReducer
+  registration: registrationReducer,
+  user: userReducer
 });
