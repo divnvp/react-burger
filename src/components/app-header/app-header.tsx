@@ -6,6 +6,8 @@ import {
   Logo,
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link } from 'react-router-dom';
+import { Routes as RouteName } from '../../shared/consts/routes';
 
 function AppHeader() {
   return (
@@ -20,9 +22,11 @@ function AppHeader() {
           </HeaderItem>
         </div>
         <Logo />
-        <HeaderItem title='Личный кабинет' isActive={false}>
-          <ProfileIcon type='secondary' />
-        </HeaderItem>
+        <Link to={RouteName.Profile}>
+          <HeaderItem title='Личный кабинет' isActive={false}>
+            <ProfileIcon type='secondary' />
+          </HeaderItem>
+        </Link>
       </nav>
     </header>
   );
