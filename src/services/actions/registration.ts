@@ -2,6 +2,7 @@ import { RegisterUser } from '../../shared/models/register-user.type';
 import { ActionType } from '../../shared/models/action.type';
 import { registerUser } from '../../shared/api/auth.service';
 import { USER_GETTING } from './user';
+import { setCookie } from '../../shared/utils/set-cookie';
 
 export const REGISTRATION = 'REGISTRATION';
 export const REGISTRATION_REQUEST = 'REGISTRATION_REQUEST';
@@ -13,9 +14,11 @@ export const fetchRegisterThunk =
 
     try {
       await registerUser(credits).then(response => {
+        setCookie('accessToken', response.accessToken!);
+        localStorage.setItem('refreshToken', response.refreshToken);
+
         dispatch({ type: REGISTRATION, payload: response });
         dispatch({ type: USER_GETTING, payload: response.user });
-        localStorage.setItem('refreshToken', response.refreshToken);
       });
     } catch (e) {
       dispatch({ type: REGISTRATION_REJECTED });

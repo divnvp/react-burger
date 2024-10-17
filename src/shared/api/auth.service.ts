@@ -6,9 +6,14 @@ import { LoginUser } from '../models/login-user.type';
 const loginUser = (credits: LoginUser) => {
   return request(`/auth/login`, {
     method: Request.POST,
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
     },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
     body: JSON.stringify(credits)
   });
 };
