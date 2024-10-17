@@ -43,4 +43,4 @@ const registerUser = (credits: RegisterUser) => {
   });
 };
 
-export { registerUser };
+export { registerUser, loginUser, logout, refreshToken };

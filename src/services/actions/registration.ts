@@ -12,9 +12,11 @@ export const fetchRegisterThunk =
     dispatch({ type: REGISTRATION_REQUEST });
 
     try {
-      const response = await registerUser(credits);
-      dispatch({ type: REGISTRATION, payload: response });
-      dispatch({ type: USER_GETTING, payload: response });
+      await registerUser(credits).then(response => {
+        dispatch({ type: REGISTRATION, payload: response });
+        dispatch({ type: USER_GETTING, payload: response.user });
+        localStorage.setItem('refreshToken', response.refreshToken);
+      });
     } catch (e) {
       dispatch({ type: REGISTRATION_REJECTED });
     }
