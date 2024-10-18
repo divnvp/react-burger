@@ -1,6 +1,7 @@
 import { request } from '../utils/request';
 import { Request } from '../consts/request.enum';
 import { getCookie } from '../utils/get-cookie';
+import { RegisterUser } from '../models/register-user.type';
 
 const getUser = () => {
   return request(`/auth/user`, {
@@ -17,7 +18,7 @@ const getUser = () => {
   });
 };
 
-const updateUser = (credits: any) => {
+const updateUser = (credits: RegisterUser) => {
   return request(`/auth/user`, {
     method: Request.PATCH,
     mode: 'cors',

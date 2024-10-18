@@ -24,3 +24,9 @@
 .logoutButton button {
   padding: 0 !important;
 }
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

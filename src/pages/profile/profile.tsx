@@ -8,7 +8,10 @@ import React, { useEffect } from 'react';
 import { Layout } from '../../components/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
-import { fetchUserThunk } from '../../services/actions/user';
+import {
+  fetchUserThunk,
+  fetchUserUpdatingThunk
+} from '../../services/actions/user';
 import { UnknownAction } from 'redux';
 import { fetchLogoutThunk } from '../../services/actions/login';
 import { Response } from '../../shared/models/response.type';
@@ -50,6 +53,16 @@ export function ProfilePage() {
       navigate(RouteName.Login, { replace: true });
     }
   }, [logout]);
+
+  const onSaveProfile = () => {
+    dispatch(
+      fetchUserUpdatingThunk({
+        email: login,
+        password,
+        name
+      }) as unknown as UnknownAction
+    );
+  };
 
   return (
     <Layout>
@@ -120,6 +133,17 @@ export function ProfilePage() {
               size={'default'}
               extraClass='ml-1'
             />
+          </div>
+
+          <div className={`${profileStyles.saveButton} pt-10`}>
+            <Button
+              htmlType='button'
+              type='primary'
+              size='medium'
+              onClick={onSaveProfile}
+            >
+              Сохранить
+            </Button>
           </div>
         </div>
       </div>
