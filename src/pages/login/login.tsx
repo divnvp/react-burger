@@ -45,6 +45,7 @@ export function LoginPage() {
       setError(loginState?.error);
     }
 
+    console.log(loginState);
     if (loginState?.success) {
       navigate(RouteName.Main, { replace: true });
     }

@@ -25,6 +25,7 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGIN: {
       return {
         ...state,
+        logout: null,
         user: { ...action.payload.user },
         success: true,
         accessToken: action.payload.accessToken,

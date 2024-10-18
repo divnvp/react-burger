@@ -3,6 +3,7 @@ import { ActionType } from '../../shared/models/action.type';
 import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
+import { UnknownAction } from 'redux';
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -62,7 +63,10 @@ export const fetchRefreshTokenThunk =
           localStorage.setItem('refreshToken', response.refreshToken!);
         }
       );
-    } catch (e) {
+    } catch (e: any) {
+      if (e.status === 401 || e.status === 403) {
+        dispatch(fetchLogoutThunk() as unknown as UnknownAction);
+      }
       dispatch({ type: REFRESH_TOKEN_REJECTED, payload: e });
     }
   };

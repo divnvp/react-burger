@@ -21,9 +21,20 @@ export const fetchUserThunk =
       await getUser().then((response: Response) => {
         dispatch({ type: USER_GETTING, payload: response.user });
       });
-    } catch (e) {
-      dispatch(fetchRefreshTokenThunk() as unknown as UnknownAction);
-      dispatch({ type: USER_REJECTED, payload: e });
+    } catch (e: any) {
+      if (e.status === 401 || e.status === 403) {
+        dispatch(fetchRefreshTokenThunk() as unknown as UnknownAction);
+
+        try {
+          await getUser().then((response: Response) => {
+            dispatch({ type: USER_GETTING, payload: response.user });
+          });
+        } catch (error) {
+          dispatch({ type: USER_REJECTED, payload: error });
+        }
+      } else {
+        dispatch({ type: USER_REJECTED, payload: e });
+      }
     }
   };
 
