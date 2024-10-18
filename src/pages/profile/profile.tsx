@@ -59,19 +59,21 @@ export function ProfilePage() {
           <p className='text text_type_main-large text_color_inactive pb-6'>
             История заказов
           </p>
-          <Button
-            htmlType='button'
-            type='secondary'
-            size='medium'
-            onClick={onLogout}
-          >
-            <p className='text text_type_main-large text_color_inactive pb-20'>
-              Выход
+          <div className={profileStyles.logoutButton}>
+            <Button
+              htmlType='button'
+              type='secondary'
+              size='medium'
+              onClick={onLogout}
+            >
+              <div className='text text_type_main-large text_color_inactive pb-20'>
+                Выход
+              </div>
+            </Button>
+            <p className={`text text_type_main-default text_color_inactive`}>
+              В этом разделе вы можете изменить свои персональные данные
             </p>
-          </Button>
-          <p className={`text text_type_main-default text_color_inactive`}>
-            В этом разделе вы можете изменить свои персональные данные
-          </p>
+          </div>
         </div>
 
         <div className='pl-15'>
