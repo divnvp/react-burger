@@ -19,7 +19,7 @@ export function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: unknown) => {
-    return (state as { user: { user: RegisterUser } }).user.user;
+    return (state as { user: RegisterUser }).user;
   });
   const logout = useSelector((state: unknown) => {
     return (state as { login: { logout: Response } }).login.logout;
@@ -28,14 +28,14 @@ export function ProfilePage() {
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  // useEffect(() => {
-  //   if (user && Object.keys(user).length) {
-  //     if (user?.name) {
-  //       setName(user.name);
-  //     }
-  //     setLogin(user.email);
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user && Object.keys(user).length) {
+      if (user?.name) {
+        setName(user.name);
+      }
+      setLogin(user.email);
+    }
+  }, [user]);
 
   useEffect(() => {
     dispatch(fetchUserThunk() as unknown as UnknownAction);
@@ -47,7 +47,7 @@ export function ProfilePage() {
 
   useEffect(() => {
     if (logout?.success) {
-      navigate(RouteName.Login);
+      navigate(RouteName.Login, { replace: true });
     }
   }, [logout]);
 
