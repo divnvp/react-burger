@@ -1,5 +1,5 @@
 export type RegisterUser = {
-  name: string;
+  name?: string;
   password: string;
   email: string;
 };

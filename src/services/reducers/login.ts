@@ -4,7 +4,12 @@ import { LOGIN, LOGIN_REJECTED, LOGIN_REQUEST } from '../actions/login';
 const initialState = {
   error: null,
   accessToken: '',
-  refreshToken: ''
+  refreshToken: '',
+  success: false,
+  user: {
+    email: '',
+    name: ''
+  }
 };
 
 export const loginReducer = (state = initialState, action: ActionType) => {
@@ -12,6 +17,8 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGIN: {
       return {
         ...state,
+        user: { ...action.payload.user },
+        success: true,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken
       };

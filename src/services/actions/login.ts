@@ -22,6 +22,6 @@ export const fetchLoginThunk =
         dispatch({ type: USER_GETTING, payload: response });
       });
     } catch (e) {
-      dispatch({ type: LOGIN_REJECTED });
+      dispatch({ type: LOGIN_REJECTED, payload: e });
     }
   };

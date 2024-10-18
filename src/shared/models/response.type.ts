@@ -6,4 +6,5 @@ export type Response = {
   accessToken?: string;
   refreshToken?: string;
   user?: LoginUser;
+  error?: string;
 };

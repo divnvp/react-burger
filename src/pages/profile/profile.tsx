@@ -19,7 +19,9 @@ export function ProfilePage() {
   useEffect(() => {
     console.log(user);
     if (user && Object.keys(user).length) {
-      setName(user.name);
+      if (user?.name) {
+        setName(user.name);
+      }
       setLogin(user.email);
       setPassword(user.password);
     }

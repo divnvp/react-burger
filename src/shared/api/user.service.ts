@@ -33,4 +33,4 @@ const updateUser = (credits: any) => {
   });
 };
 
-export { getUser };
+export { getUser, updateUser };
