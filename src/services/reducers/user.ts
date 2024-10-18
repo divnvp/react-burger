@@ -12,9 +12,7 @@ export const userReducer = (state = initialState, action: ActionType) => {
     case USER_GETTING: {
       return {
         ...state,
-        name: action.payload?.name,
-        email: action.payload?.email,
-        password: action.payload?.password
+        ...action.payload
       };
     }
     default: {

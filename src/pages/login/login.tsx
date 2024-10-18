@@ -12,7 +12,6 @@ import { fetchLoginThunk } from '../../services/actions/login';
 import { UnknownAction } from 'redux';
 import { Response } from '../../shared/models/response.type';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { log } from 'node:util';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -47,9 +46,8 @@ export function LoginPage() {
     }
 
     if (loginState?.success) {
-      navigate(RouteName.Main);
+      navigate(RouteName.Main, { replace: true });
     }
-    console.log(loginState);
   }, [loginState]);
 
   return (

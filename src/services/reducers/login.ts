@@ -1,5 +1,12 @@
 import { ActionType } from '../../shared/models/action.type';
-import { LOGIN, LOGIN_REJECTED, LOGIN_REQUEST } from '../actions/login';
+import {
+  LOGIN,
+  LOGIN_REJECTED,
+  LOGIN_REQUEST,
+  LOGOUT,
+  LOGOUT_REJECTED,
+  LOGOUT_REQUEST
+} from '../actions/login';
 
 const initialState = {
   error: null,
@@ -9,7 +16,8 @@ const initialState = {
   user: {
     email: '',
     name: ''
-  }
+  },
+  logout: null
 };
 
 export const loginReducer = (state = initialState, action: ActionType) => {
@@ -30,6 +38,25 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       };
     }
     case LOGIN_REJECTED: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
+
+    case LOGOUT: {
+      return {
+        ...state,
+        logout: action.payload
+      };
+    }
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        error: null
+      };
+    }
+    case LOGOUT_REJECTED: {
       return {
         ...state,
         error: action.payload

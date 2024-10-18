@@ -10,7 +10,7 @@ const getUser = () => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('token')
+      Authorization: getCookie('accessToken')!
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
@@ -25,7 +25,7 @@ const updateUser = (credits: any) => {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + getCookie('token')
+      Authorization: getCookie('accessToken')!
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',

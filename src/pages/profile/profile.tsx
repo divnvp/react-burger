@@ -1,31 +1,55 @@
 import profileStyles from './profile.module.css';
 import {
+  Button,
   Input,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect } from 'react';
 import { Layout } from '../../components/layout/layout';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
+import { fetchUserThunk } from '../../services/actions/user';
+import { UnknownAction } from 'redux';
+import { fetchLogoutThunk } from '../../services/actions/login';
+import { Response } from '../../shared/models/response.type';
+import { useNavigate } from 'react-router-dom';
+import { Routes as RouteName } from '../../shared/consts/routes';
 
 export function ProfilePage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state: unknown) => {
     return (state as { user: { user: RegisterUser } }).user.user;
+  });
+  const logout = useSelector((state: unknown) => {
+    return (state as { login: { logout: Response } }).login.logout;
   });
   const [name, setName] = React.useState('');
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  // useEffect(() => {
+  //   if (user && Object.keys(user).length) {
+  //     if (user?.name) {
+  //       setName(user.name);
+  //     }
+  //     setLogin(user.email);
+  //   }
+  // }, [user]);
+
   useEffect(() => {
-    console.log(user);
-    if (user && Object.keys(user).length) {
-      if (user?.name) {
-        setName(user.name);
-      }
-      setLogin(user.email);
-      setPassword(user.password);
+    dispatch(fetchUserThunk() as unknown as UnknownAction);
+  }, []);
+
+  const onLogout = () => {
+    dispatch(fetchLogoutThunk() as unknown as UnknownAction);
+  };
+
+  useEffect(() => {
+    if (logout?.success) {
+      navigate(RouteName.Login);
     }
-  }, [user]);
+  }, [logout]);
 
   return (
     <Layout>
@@ -35,9 +59,16 @@ export function ProfilePage() {
           <p className='text text_type_main-large text_color_inactive pb-6'>
             История заказов
           </p>
-          <p className='text text_type_main-large text_color_inactive pb-20'>
-            Выход
-          </p>
+          <Button
+            htmlType='button'
+            type='secondary'
+            size='medium'
+            onClick={onLogout}
+          >
+            <p className='text text_type_main-large text_color_inactive pb-20'>
+              Выход
+            </p>
+          </Button>
           <p className={`text text_type_main-default text_color_inactive`}>
             В этом разделе вы можете изменить свои персональные данные
           </p>
