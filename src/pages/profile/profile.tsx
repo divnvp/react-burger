@@ -14,11 +14,18 @@ import {
 } from '../../services/actions/user';
 import { UnknownAction } from 'redux';
 import { fetchLogoutThunk } from '../../services/actions/login';
+import { Response } from '../../shared/models/response.type';
+import { useNavigate } from 'react-router-dom';
+import { Routes as RouteName } from '../../shared/consts/routes';
 
 export function ProfilePage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: unknown) => {
     return (state as { user: RegisterUser }).user;
+  });
+  const logout = useSelector((state: unknown) => {
+    return (state as { login: { logout: Response } }).login.logout;
   });
   const [name, setName] = React.useState('');
   const [login, setLogin] = React.useState('');
@@ -40,6 +47,12 @@ export function ProfilePage() {
   const onLogout = () => {
     dispatch(fetchLogoutThunk() as unknown as UnknownAction);
   };
+
+  useEffect(() => {
+    if (logout?.success) {
+      navigate(RouteName.Login, { replace: true });
+    }
+  }, [logout]);
 
   const onSaveProfile = () => {
     dispatch(
