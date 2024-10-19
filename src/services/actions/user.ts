@@ -1,7 +1,7 @@
 import { ActionType } from '../../shared/models/action.type';
 import { getUser, updateUser } from '../../shared/api/user.service';
 import { Response } from '../../shared/models/response.type';
-import { fetchRefreshTokenThunk } from './login';
+import { CHECKING_AUTH, fetchRefreshTokenThunk } from './login';
 import { UnknownAction } from 'redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
 
@@ -20,10 +20,16 @@ export const fetchUserThunk =
     try {
       await getUser().then((response: Response) => {
         dispatch({ type: USER_GETTING, payload: response.user });
+        dispatch({ type: CHECKING_AUTH, payload: true });
       });
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
-        dispatch(fetchRefreshTokenThunk() as unknown as UnknownAction);
+        dispatch({ type: CHECKING_AUTH, payload: false });
+        dispatch(
+          fetchRefreshTokenThunk(() =>
+            dispatch(fetchUserThunk() as unknown as UnknownAction)
+          ) as unknown as UnknownAction
+        );
       } else {
         dispatch({ type: USER_REJECTED, payload: e });
       }

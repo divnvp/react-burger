@@ -11,12 +11,16 @@ import {
   ResetPasswordPage
 } from '../../pages';
 import { Routes as RoutesName } from '../../shared/consts/routes';
+import { ProtectedRouteElement } from '../protected-route-element/protected-route-element';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path={RoutesName.Main} element={<MainPage />} />
+        <Route
+          path={RoutesName.Main}
+          element={<ProtectedRouteElement element={<MainPage />} />}
+        />
         <Route path={RoutesName.Login} element={<LoginPage />} />
         <Route path={RoutesName.Register} element={<RegisterPage />} />
         <Route
@@ -27,10 +31,13 @@ function App() {
           path={RoutesName.ResetPassword}
           element={<ResetPasswordPage />}
         />
-        <Route path={RoutesName.Profile} element={<ProfilePage />} />
+        <Route
+          path={RoutesName.Profile}
+          element={<ProtectedRouteElement element={<ProfilePage />} />}
+        />
         <Route
           path={`${RoutesName.Ingredients}/:id`}
-          element={<IngredientsPage />}
+          element={<ProtectedRouteElement element={<IngredientsPage />} />}
         />
         <Route path={RoutesName.NotFound} element={<NotFoundPage />} />
       </Routes>

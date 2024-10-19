@@ -12,6 +12,7 @@ import { fetchLoginThunk } from '../../services/actions/login';
 import { UnknownAction } from 'redux';
 import { Response } from '../../shared/models/response.type';
 import { Routes as RouteName } from '../../shared/consts/routes';
+import { Navigate } from 'react-router';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -19,6 +20,11 @@ export function LoginPage() {
   const [error, setError] = React.useState('');
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const auth = useSelector((state: unknown) => {
+    return (state as { login: { checkingAuth: boolean } }).login.checkingAuth;
+  });
+  const loginState = useSelector((state: { login: Response }) => state?.login);
+
   const onChangeLogin = (e: {
     target: { value: React.SetStateAction<string> };
   }) => {
@@ -29,8 +35,6 @@ export function LoginPage() {
   }) => {
     setPassword(e.target.value);
   };
-  const loginState = useSelector((state: { login: Response }) => state?.login);
-
   const onAuth = () => {
     dispatch(
       fetchLoginThunk({
@@ -45,7 +49,6 @@ export function LoginPage() {
       setError(loginState?.error);
     }
 
-    console.log(loginState);
     if (loginState?.success) {
       navigate(RouteName.Main, { replace: true });
     }
@@ -53,50 +56,59 @@ export function LoginPage() {
 
   return (
     <Layout>
-      <div className={loginStyles.grid}>
-        <p className='text text_type_main-medium pb-6'>Вход</p>
-        <div className='pb-6'>
-          <EmailInput
-            onChange={onChangeLogin}
-            value={login}
-            name={'email'}
-            isIcon={false}
-          />
-        </div>
-        <div className='pb-6'>
-          <PasswordInput
-            onChange={onChangePassword}
-            value={password}
-            name={'password'}
-          />
-        </div>
-        <Button htmlType='button' type='primary' size='medium' onClick={onAuth}>
-          Войти
-        </Button>
-        {error ? (
-          <p className='text text_type_main-default text_color_inactive'>
-            {error}
-          </p>
-        ) : null}
+      {auth ? (
+        <Navigate to={RouteName.Main} />
+      ) : (
+        <div className={loginStyles.grid}>
+          <p className='text text_type_main-medium pb-6'>Вход</p>
+          <div className='pb-6'>
+            <EmailInput
+              onChange={onChangeLogin}
+              value={login}
+              name={'email'}
+              isIcon={false}
+            />
+          </div>
+          <div className='pb-6'>
+            <PasswordInput
+              onChange={onChangePassword}
+              value={password}
+              name={'password'}
+            />
+          </div>
+          <Button
+            htmlType='button'
+            type='primary'
+            size='medium'
+            onClick={onAuth}
+          >
+            Войти
+          </Button>
+          {error ? (
+            <p className='text text_type_main-default text_color_inactive'>
+              {error}
+            </p>
+          ) : null}
 
-        <div className={`${loginStyles.textRow} pb-4 pt-20`}>
-          <p className='text text_type_main-default text_color_inactive'>
-            Вы — новый пользователь?
-          </p>
-          <Link to='/register' className='text text_type_main-default'>
-            <p>Зарегистрироваться</p>
-          </Link>
-        </div>
+          <div className={`${loginStyles.textRow} pb-4 pt-20`}>
+            <p className='text text_type_main-default text_color_inactive'>
+              Вы — новый пользователь?
+            </p>
+            <Link to='/register' className='text text_type_main-default'>
+              <p>Зарегистрироваться</p>
+            </Link>
+          </div>
 
-        <div className={loginStyles.textRow}>
-          <p className='text text_type_main-default text_color_inactive'>
-            Забыли пароль?
-          </p>
-          <Link to='/forgot-password' className='text text_type_main-default'>
-            <p>Восстановить пароль</p>
-          </Link>
+          <div className={loginStyles.textRow}>
+            <p className='text text_type_main-default text_color_inactive'>
+              Забыли пароль?
+            </p>
+            <Link to='/forgot-password' className='text text_type_main-default'>
+              <p>Восстановить пароль</p>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 }

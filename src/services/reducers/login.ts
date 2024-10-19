@@ -1,5 +1,6 @@
 import { ActionType } from '../../shared/models/action.type';
 import {
+  CHECKING_AUTH,
   LOGIN,
   LOGIN_REJECTED,
   LOGIN_REQUEST,
@@ -17,7 +18,8 @@ const initialState = {
     email: '',
     name: ''
   },
-  logout: null
+  logout: null,
+  checkingAuth: false
 };
 
 export const loginReducer = (state = initialState, action: ActionType) => {
@@ -61,6 +63,12 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       return {
         ...state,
         error: action.payload
+      };
+    }
+    case CHECKING_AUTH: {
+      return {
+        ...state,
+        checkingAuth: action.payload
       };
     }
     default: {

@@ -4,7 +4,6 @@ import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
 import { UnknownAction } from 'redux';
-import { fetchUserThunk } from './user';
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -18,6 +17,8 @@ export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
 export const REFRESH_TOKEN_REJECTED = 'REFRESH_TOKEN_REJECTED';
 
+export const CHECKING_AUTH = 'CHECKING_AUTH';
+
 export const fetchLoginThunk =
   (credits: RegisterUser) => async (dispatch: (action: ActionType) => void) => {
     dispatch({ type: LOGIN_REQUEST });
@@ -28,9 +29,11 @@ export const fetchLoginThunk =
         localStorage.setItem('refreshToken', response.refreshToken!);
 
         dispatch({ type: LOGIN, payload: response });
+        dispatch({ type: CHECKING_AUTH, payload: true });
       });
     } catch (e) {
       dispatch({ type: LOGIN_REJECTED, payload: e });
+      dispatch({ type: CHECKING_AUTH, payload: false });
     }
   };
 
@@ -45,6 +48,7 @@ export const fetchLogoutThunk =
           localStorage.removeItem('refreshToken');
 
           dispatch({ type: LOGOUT, payload: response });
+          dispatch({ type: CHECKING_AUTH, payload: false });
         }
       );
     } catch (e) {
@@ -53,7 +57,8 @@ export const fetchLogoutThunk =
   };
 
 export const fetchRefreshTokenThunk =
-  () => async (dispatch: (action: ActionType) => void) => {
+  (fetchCallback: () => void) =>
+  async (dispatch: (action: ActionType) => void) => {
     dispatch({ type: REFRESH_TOKEN_REQUEST });
 
     try {
@@ -63,12 +68,13 @@ export const fetchRefreshTokenThunk =
           setCookie('accessToken', response.accessToken!);
           localStorage.setItem('refreshToken', response.refreshToken!);
 
-          dispatch(fetchUserThunk() as unknown as UnknownAction);
+          fetchCallback();
         }
       );
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
         dispatch(fetchLogoutThunk() as unknown as UnknownAction);
+        dispatch({ type: CHECKING_AUTH, payload: false });
       }
       dispatch({ type: REFRESH_TOKEN_REJECTED, payload: e });
     }
