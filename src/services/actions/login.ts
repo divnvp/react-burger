@@ -4,7 +4,7 @@ import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
 import { UnknownAction } from 'redux';
-import { fetchUserThunk } from './user';
+import { fetchUserThunk, USER_GETTING } from './user';
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -30,11 +30,12 @@ export const fetchLoginThunk =
         localStorage.setItem('refreshToken', response.refreshToken!);
 
         dispatch({ type: LOGIN, payload: response });
+        dispatch({ type: USER_GETTING, payload: response.user });
         dispatch({ type: CHECKING_AUTH, payload: true });
       });
     } catch (e) {
       dispatch({ type: LOGIN_REJECTED, payload: e });
-      dispatch({ type: CHECKING_AUTH, payload: false });
+      dispatch({ type: CHECKING_AUTH, payload: true });
     }
   };
 
@@ -49,7 +50,8 @@ export const fetchLogoutThunk =
           localStorage.removeItem('refreshToken');
 
           dispatch({ type: LOGOUT, payload: response });
-          dispatch({ type: CHECKING_AUTH, payload: false });
+          dispatch({ type: CHECKING_AUTH, payload: true });
+          dispatch({ type: USER_GETTING, payload: null });
         }
       );
     } catch (e) {
@@ -75,7 +77,7 @@ export const fetchRefreshTokenThunk =
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
         dispatch(fetchLogoutThunk() as unknown as UnknownAction);
-        dispatch({ type: CHECKING_AUTH, payload: false });
+        dispatch({ type: CHECKING_AUTH, payload: true });
       }
       dispatch({ type: REFRESH_TOKEN_REJECTED, payload: e });
     }
@@ -87,7 +89,7 @@ export const checkUserAuthThunk = () => {
       dispatch(fetchUserThunk() as unknown as UnknownAction);
       dispatch({ type: CHECKING_AUTH, payload: true });
     } else {
-      dispatch({ type: CHECKING_AUTH, payload: false });
+      dispatch({ type: CHECKING_AUTH, payload: true });
     }
   };
 };

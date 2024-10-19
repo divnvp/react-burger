@@ -12,7 +12,7 @@ import {
 } from '../../pages';
 import { Routes as RoutesName } from '../../shared/consts/routes';
 import {
-  ProtectedRouteElement,
+  ProtectedAuthElement,
   ProtectedUnAuthElement
 } from '../protected-route-element/protected-route-element';
 import { useDispatch } from 'react-redux';
@@ -31,7 +31,7 @@ function App() {
         <Route
           path={RoutesName.Main}
           element={
-            <ProtectedRouteElement onlyUnAuth={true} element={<MainPage />} />
+            <ProtectedAuthElement onlyUnAuth={false} element={<MainPage />} />
           }
         />
         <Route
@@ -53,8 +53,8 @@ function App() {
         <Route
           path={RoutesName.Profile}
           element={
-            <ProtectedRouteElement
-              onlyUnAuth={true}
+            <ProtectedAuthElement
+              onlyUnAuth={false}
               element={<ProfilePage />}
             />
           }
@@ -62,8 +62,8 @@ function App() {
         <Route
           path={`${RoutesName.Ingredients}/:id`}
           element={
-            <ProtectedRouteElement
-              onlyUnAuth={true}
+            <ProtectedAuthElement
+              onlyUnAuth={false}
               element={<IngredientsPage />}
             />
           }

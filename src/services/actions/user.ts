@@ -24,7 +24,7 @@ export const fetchUserThunk =
       });
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
-        dispatch({ type: CHECKING_AUTH, payload: false });
+        dispatch({ type: CHECKING_AUTH, payload: true });
         dispatch(
           fetchRefreshTokenThunk(() =>
             dispatch(fetchUserThunk() as unknown as UnknownAction)
