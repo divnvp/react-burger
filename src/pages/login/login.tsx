@@ -25,16 +25,6 @@ export function LoginPage() {
   });
   const loginState = useSelector((state: { login: Response }) => state?.login);
 
-  const onChangeLogin = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setLogin(e.target.value);
-  };
-  const onChangePassword = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setPassword(e.target.value);
-  };
   const onAuth = () => {
     dispatch(
       fetchLoginThunk({
@@ -56,6 +46,8 @@ export function LoginPage() {
 
   return (
     <Layout>
+      <p>auth: {auth}</p>
+
       {auth ? (
         <Navigate to={RouteName.Main} />
       ) : (
@@ -63,7 +55,7 @@ export function LoginPage() {
           <p className='text text_type_main-medium pb-6'>Вход</p>
           <div className='pb-6'>
             <EmailInput
-              onChange={onChangeLogin}
+              onChange={e => setLogin(e.target.value)}
               value={login}
               name={'email'}
               isIcon={false}
@@ -71,7 +63,7 @@ export function LoginPage() {
           </div>
           <div className='pb-6'>
             <PasswordInput
-              onChange={onChangePassword}
+              onChange={e => setPassword(e.target.value)}
               value={password}
               name={'password'}
             />

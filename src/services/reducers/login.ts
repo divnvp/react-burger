@@ -31,7 +31,8 @@ export const loginReducer = (state = initialState, action: ActionType) => {
         user: { ...action.payload.user },
         success: true,
         accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken
+        refreshToken: action.payload.refreshToken,
+        checkingAuth: true
       };
     }
     case LOGIN_REQUEST: {
@@ -50,7 +51,8 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGOUT: {
       return {
         ...state,
-        logout: action.payload
+        logout: action.payload,
+        checkingAuth: false
       };
     }
     case LOGOUT_REQUEST: {
@@ -66,6 +68,7 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       };
     }
     case CHECKING_AUTH: {
+      console.log(action.payload);
       return {
         ...state,
         checkingAuth: action.payload
