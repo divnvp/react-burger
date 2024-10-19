@@ -4,6 +4,7 @@ import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
 import { UnknownAction } from 'redux';
+import { fetchUserThunk } from './user';
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -61,6 +62,8 @@ export const fetchRefreshTokenThunk =
           dispatch({ type: REFRESH_TOKEN, payload: response });
           setCookie('accessToken', response.accessToken!);
           localStorage.setItem('refreshToken', response.refreshToken!);
+
+          dispatch(fetchUserThunk() as unknown as UnknownAction);
         }
       );
     } catch (e: any) {

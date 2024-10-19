@@ -14,9 +14,12 @@ function AppHeader() {
     <header className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}>
       <nav className={appHeaderStyle.grid}>
         <div className={appHeaderStyle.itemGroup}>
-          <HeaderItem title='Конструктор' isActive={true}>
-            <BurgerIcon type='primary' />
-          </HeaderItem>
+          <Link to={RouteName.Main} className='text text_type_main-small'>
+            <HeaderItem title='Конструктор' isActive={true}>
+              <BurgerIcon type='primary' />
+            </HeaderItem>
+          </Link>
+
           <HeaderItem title='Лента заказов' isActive={false}>
             <ListIcon type='secondary' />
           </HeaderItem>
