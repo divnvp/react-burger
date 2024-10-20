@@ -68,7 +68,6 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       };
     }
     case CHECKING_AUTH: {
-      console.log(action.payload);
       return {
         ...state,
         checkingAuth: action.payload

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import {
   ForgotPasswordPage,
   IngredientsPage,
@@ -8,7 +8,8 @@ import {
   NotFoundPage,
   ProfilePage,
   RegisterPage,
-  ResetPasswordPage
+  ResetPasswordPage,
+  IngredientDetailPage
 } from '../../pages';
 import { Routes as RoutesName } from '../../shared/consts/routes';
 import {
@@ -18,16 +19,54 @@ import {
 import { useDispatch } from 'react-redux';
 import { checkUserAuthThunk } from '../../services/actions/login';
 import { UnknownAction } from 'redux';
+import { useLocation } from 'react-router';
+import Modal from '../modal/modal';
+import { Routes as RouteName } from '../../shared/consts/routes';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const state = location.state as { backgroundLocation?: Location };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(checkUserAuthThunk() as unknown as UnknownAction);
   }, []);
 
   return (
-    <Router>
-      <Routes>
+    <>
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route
+            path={RoutesName.IngredientDetail}
+            element={
+              <ProtectedAuthElement
+                onlyUnAuth={false}
+                element={
+                  <Modal
+                    isOpen={true}
+                    title='Детали ингредиента'
+                    onClick={() => navigate(RouteName.Main)}
+                  >
+                    <IngredientDetails />
+                  </Modal>
+                }
+              />
+            }
+          />
+        </Routes>
+      )}
+
+      <Routes location={state?.backgroundLocation || location}>
+        <Route
+          path={RoutesName.IngredientDetail}
+          element={
+            <ProtectedAuthElement
+              onlyUnAuth={false}
+              element={<IngredientDetailPage />}
+            />
+          }
+        />
         <Route
           path={RoutesName.Main}
           element={
@@ -70,7 +109,7 @@ function App() {
         />
         <Route path={RoutesName.NotFound} element={<NotFoundPage />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 

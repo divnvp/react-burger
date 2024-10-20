@@ -6,5 +6,6 @@ export enum Routes {
   Register = '/register',
   Profile = '/profile',
   Ingredients = '/ingredients',
+  IngredientDetail = '/ingredients/:id',
   NotFound = '*'
 }
