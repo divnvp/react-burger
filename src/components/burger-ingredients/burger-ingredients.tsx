@@ -1,11 +1,9 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
 import { TabEnum } from '../../shared/consts/tab.enum';
@@ -18,10 +16,6 @@ function BurgerIngredients() {
   const ingredients = useSelector((state: unknown) => {
     return (state as { burgerIngredients: { ingredients: Ingredient[] } })
       .burgerIngredients.ingredients;
-  });
-  const ingredient = useSelector((state: unknown) => {
-    return (state as { ingredient: { ingredient: Ingredient } }).ingredient
-      .ingredient;
   });
   const cart = useSelector(
     (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
@@ -93,7 +87,7 @@ function BurgerIngredients() {
           >
             <p className='text text_type_main-medium'>Булки</p>
             <div className={ingredientsStyles.wrap}>
-              {ingredients?.map((element, index) =>
+              {ingredients?.map(element =>
                 element.type === IngredientType.Bun ? (
                   <Link
                     key={element._id}
