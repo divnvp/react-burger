@@ -14,8 +14,8 @@ function AppHeader() {
     <header className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}>
       <nav className={appHeaderStyle.grid}>
         <div className={appHeaderStyle.itemGroup}>
-          <Link to={RouteName.Main} className='text text_type_main-small'>
-            <HeaderItem title='Конструктор' isActive={true}>
+          <Link to={RouteName.Main} className={`${appHeaderStyle.link}`}>
+            <HeaderItem title='Конструктор' isActive={false}>
               <BurgerIcon type='primary' />
             </HeaderItem>
           </Link>
@@ -25,7 +25,7 @@ function AppHeader() {
           </HeaderItem>
         </div>
         <Logo />
-        <Link to={RouteName.Profile}>
+        <Link to={RouteName.Profile} className={`${appHeaderStyle.link}`}>
           <HeaderItem title='Личный кабинет' isActive={false}>
             <ProfileIcon type='secondary' />
           </HeaderItem>

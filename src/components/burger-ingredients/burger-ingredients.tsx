@@ -94,6 +94,7 @@ function BurgerIngredients() {
                     onClick={() => onIngredientClick(element)}
                     to={`${RouteName.Ingredients}/${element._id}`}
                     state={{ backgroundLocation: location }}
+                    className={ingredientsStyles.link}
                   >
                     <BurgerIngredientsCard
                       element={element}
@@ -126,6 +127,7 @@ function BurgerIngredients() {
                     onClick={() => onIngredientClick(element)}
                     to={`${RouteName.Ingredients}/${element._id}`}
                     state={{ backgroundLocation: location }}
+                    className={ingredientsStyles.link}
                   >
                     <BurgerIngredientsCard
                       element={element}
@@ -153,6 +155,7 @@ function BurgerIngredients() {
                     onClick={() => onIngredientClick(element)}
                     to={`${RouteName.Ingredients}/${element._id}`}
                     state={{ backgroundLocation: location, element }}
+                    className={ingredientsStyles.link}
                   >
                     <BurgerIngredientsCard
                       element={element}
