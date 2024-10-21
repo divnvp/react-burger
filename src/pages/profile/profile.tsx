@@ -103,8 +103,8 @@ export function ProfilePage() {
                 size={'default'}
                 extraClass='ml-1'
                 icon='EditIcon'
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                onPointerEnterCapture={() => ({})}
+                onPointerLeaveCapture={() => ({})}
               />
             </div>
             <div className='pb-6'>
@@ -119,8 +119,8 @@ export function ProfilePage() {
                 errorText={'Ошибка'}
                 size={'default'}
                 extraClass='ml-1'
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                onPointerEnterCapture={() => ({})}
+                onPointerLeaveCapture={() => ({})}
               />
             </div>
             <PasswordInput

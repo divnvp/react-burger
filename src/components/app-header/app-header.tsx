@@ -6,30 +6,44 @@ import {
   Logo,
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
+import { useLocation } from 'react-router';
+import { useEffect, useState } from 'react';
 
 function AppHeader() {
+  const location = useLocation();
+  const [activeTabMain, setActiveTabMain] = useState(false);
+  const [activeTabProfile, setActiveTabProfile] = useState(false);
+  useEffect(() => {
+    if (location.pathname === RouteName.Main) {
+      setActiveTabMain(true);
+    }
+    if (location.pathname === RouteName.Profile) {
+      setActiveTabProfile(true);
+    }
+  }, [location]);
+
   return (
     <header className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}>
       <nav className={appHeaderStyle.grid}>
         <div className={appHeaderStyle.itemGroup}>
-          <Link to={RouteName.Main} className={`${appHeaderStyle.link}`}>
-            <HeaderItem title='Конструктор' isActive={false}>
+          <NavLink to={RouteName.Main} className={`${appHeaderStyle.link}`}>
+            <HeaderItem title='Конструктор' isActive={activeTabMain}>
               <BurgerIcon type='primary' />
             </HeaderItem>
-          </Link>
+          </NavLink>
 
           <HeaderItem title='Лента заказов' isActive={false}>
             <ListIcon type='secondary' />
           </HeaderItem>
         </div>
         <Logo />
-        <Link to={RouteName.Profile} className={`${appHeaderStyle.link}`}>
-          <HeaderItem title='Личный кабинет' isActive={false}>
+        <NavLink to={RouteName.Profile} className={`${appHeaderStyle.link}`}>
+          <HeaderItem title='Личный кабинет' isActive={activeTabProfile}>
             <ProfileIcon type='secondary' />
           </HeaderItem>
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );

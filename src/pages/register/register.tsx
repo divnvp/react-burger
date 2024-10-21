@@ -67,8 +67,8 @@ export function RegisterPage() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='ml-1'
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            onPointerEnterCapture={() => ({})}
+            onPointerLeaveCapture={() => ({})}
           />
         </div>
         <div className='pb-6'>

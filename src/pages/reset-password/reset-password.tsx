@@ -67,8 +67,8 @@ export function ResetPasswordPage() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='ml-1'
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            onPointerEnterCapture={() => ({})}
+            onPointerLeaveCapture={() => ({})}
           />
         </div>
         <Button
