@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import { RegisterUser } from '../../shared/models/register-user.type';
+import { LoaderPage } from '../../pages/loader/loader';
 
 type Props = {
   element: JSX.Element;
@@ -17,7 +18,7 @@ export const ProtectedRouteElement = (props: Props) => {
   const location = useLocation();
 
   if (!isAuthChecked) {
-    return null;
+    return <LoaderPage />;
   }
 
   if (props.onlyUnAuth && user?.email) {
