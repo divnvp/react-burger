@@ -5,6 +5,7 @@ import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
 import { UnknownAction } from 'redux';
 import { fetchUserThunk, USER_GETTING } from './user';
+import { LOADING } from './loader';
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -52,6 +53,7 @@ export const fetchLogoutThunk =
           dispatch({ type: LOGOUT, payload: response });
           dispatch({ type: CHECKING_AUTH, payload: true });
           dispatch({ type: USER_GETTING, payload: null });
+          dispatch({ type: LOADING, payload: false });
         }
       );
     } catch (e) {
@@ -90,6 +92,7 @@ export const checkUserAuthThunk = () => {
       dispatch({ type: CHECKING_AUTH, payload: true });
     } else {
       dispatch({ type: CHECKING_AUTH, payload: true });
+      dispatch({ type: LOADING, payload: false });
     }
   };
 };
