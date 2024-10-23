@@ -44,7 +44,18 @@ export const fetchUserUpdatingThunk =
       await updateUser(credits).then((response: Response) => {
         dispatch({ type: USER_UPDATING, payload: response });
       });
-    } catch (e) {
-      dispatch({ type: USER_UPDATING_REJECTED, payload: e });
+    } catch (e: any) {
+      if (e.status === 401 || e.status === 403) {
+        dispatch({ type: CHECKING_AUTH, payload: true });
+        dispatch(
+          fetchRefreshTokenThunk(() =>
+            dispatch(
+              fetchUserUpdatingThunk(credits) as unknown as UnknownAction
+            )
+          ) as unknown as UnknownAction
+        );
+      } else {
+        dispatch({ type: USER_UPDATING_REJECTED, payload: e });
+      }
     }
   };
