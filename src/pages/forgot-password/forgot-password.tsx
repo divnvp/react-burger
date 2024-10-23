@@ -13,13 +13,17 @@ import { UnknownAction } from 'redux';
 import { Response } from '../../shared/models/response.type';
 import { Routes } from '../../shared/consts/routes';
 
+type RegisterPageSelector = {
+  forgotPassword: { response: Response };
+};
+
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const response = useSelector((state: unknown) => {
-    return (state as { forgotPassword: { response: Response } }).forgotPassword
-      .response;
-  });
+  const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
+  const response = useRegisterPageSelector(
+    state => state.forgotPassword.response
+  );
   const [email, setEmail] = React.useState('');
 
   const recoverPassword = (e: { preventDefault: () => void }) => {
