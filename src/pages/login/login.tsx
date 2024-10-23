@@ -16,7 +16,8 @@ export function LoginPage() {
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const onAuth = () => {
+  const onAuth = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     dispatch(
       fetchLoginThunk({
         email: login,
@@ -27,7 +28,7 @@ export function LoginPage() {
 
   return (
     <Layout>
-      <div className={loginStyles.grid}>
+      <form className={loginStyles.grid} onSubmit={onAuth}>
         <p className='text text_type_main-medium pb-6'>Вход</p>
         <div className='pb-6'>
           <EmailInput
@@ -44,7 +45,7 @@ export function LoginPage() {
             name={'password'}
           />
         </div>
-        <Button htmlType='button' type='primary' size='medium' onClick={onAuth}>
+        <Button htmlType='submit' type='primary' size='medium'>
           Войти
         </Button>
 
@@ -65,7 +66,7 @@ export function LoginPage() {
             <p>Восстановить пароль</p>
           </Link>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 }
