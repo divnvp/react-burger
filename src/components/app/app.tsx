@@ -24,17 +24,20 @@ import Modal from '../modal/modal';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { LoaderPage } from '../../pages/loader/loader';
+import { LoadingType } from '../../shared/models/store/loading.type';
 import { RegisterUser } from '../../shared/models/register-user.type';
+
+type AppSelector = {
+  loading: LoadingType;
+  user: RegisterUser;
+};
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const loading = useSelector(
-    (state: { loading: { loading: boolean } }) => state.loading.loading
-  );
-  const user = useSelector((state: unknown) => {
-    return (state as { user: RegisterUser }).user;
-  });
+  const useAppSelector = useSelector.withTypes<AppSelector>();
+  const loading = useAppSelector(state => state.loading.loading);
+  const user = useAppSelector(state => state.user);
   const state = location.state as { backgroundLocation?: Location };
   const dispatch = useDispatch();
   useEffect(() => {
