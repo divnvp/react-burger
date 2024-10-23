@@ -12,29 +12,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchRegisterThunk } from '../../services/actions/registration';
 import { UnknownAction } from 'redux';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { Response } from '../../shared/models/response.type';
+import { Registration } from '../../shared/models/store/registration.type';
+
+type RegisterPageSelector = {
+  registration: Registration;
+};
+type Target = { value: React.SetStateAction<string> };
 
 export function RegisterPage() {
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
   const dispatch = useDispatch();
+  const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
   const navigate = useNavigate();
-  const onChangeLogin = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const onChangeLogin = (e: { target: Target }) => {
     setLogin(e.target.value);
   };
-  const onChangePassword = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const onChangePassword = (e: { target: Target }) => {
     setPassword(e.target.value);
   };
-  const registration = useSelector(
-    (state: { registration: { response: Response } }) => {
-      return state.registration.response;
-    }
-  );
+  const registration = useRegisterPageSelector(state => {
+    return state.registration.response;
+  });
 
   const registerUser = () => {
     dispatch(
