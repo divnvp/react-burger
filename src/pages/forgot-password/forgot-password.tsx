@@ -22,7 +22,8 @@ export function ForgotPasswordPage() {
   });
   const [email, setEmail] = React.useState('');
 
-  const recoverPassword = () => {
+  const recoverPassword = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     dispatch(fetchForgotPasswordThunk(email) as unknown as UnknownAction);
   };
 
@@ -34,7 +35,7 @@ export function ForgotPasswordPage() {
 
   return (
     <Layout>
-      <div className={forgotPasswordStyles.grid}>
+      <form className={forgotPasswordStyles.grid} onSubmit={recoverPassword}>
         <p className='text text_type_main-medium pb-6'>Восстановление пароля</p>
 
         <div className='pb-6'>
@@ -52,12 +53,7 @@ export function ForgotPasswordPage() {
             onPointerLeaveCapture={() => ({})}
           />
         </div>
-        <Button
-          htmlType='button'
-          type='primary'
-          size='medium'
-          onClick={recoverPassword}
-        >
+        <Button htmlType='submit' type='primary' size='medium'>
           Восстановить
         </Button>
 
@@ -69,7 +65,7 @@ export function ForgotPasswordPage() {
             <p>Войти</p>
           </Link>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 }
