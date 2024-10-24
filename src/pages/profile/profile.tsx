@@ -14,18 +14,22 @@ import {
 } from '../../services/actions/user';
 import { UnknownAction } from 'redux';
 import { fetchLogoutThunk } from '../../services/actions/login';
-import { Response } from '../../shared/models/response.type';
 import { useNavigate } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
+import { Logout } from '../../shared/models/store/logout.type';
+
+type ProfileSelector = {
+  user: RegisterUser;
+  login: Logout;
+};
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state: unknown) => {
-    return (state as { user: RegisterUser }).user;
-  });
-  const logout = useSelector((state: unknown) => {
-    return (state as { login: { logout: Response } }).login.logout;
+  const useProfilePageSelector = useSelector.withTypes<ProfileSelector>();
+  const user = useProfilePageSelector(state => state.user);
+  const logout = useProfilePageSelector(state => {
+    return state.login.logout;
   });
   const [name, setName] = React.useState('');
   const [login, setLogin] = React.useState('');
@@ -69,7 +73,8 @@ export function ProfilePage() {
     }
   }, [logout]);
 
-  const onSaveProfile = () => {
+  const onSaveProfile = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     dispatch(
       fetchUserUpdatingThunk({
         email: login,

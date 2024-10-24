@@ -1,5 +1,5 @@
 import { Response } from '../response.type';
 
-export type Registration = {
+export type ResponseState = {
   response: Response;
 };

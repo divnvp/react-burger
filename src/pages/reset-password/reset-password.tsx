@@ -12,20 +12,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchResetPasswordThunk } from '../../services/actions/reset-password';
 import { UnknownAction } from 'redux';
 import { Routes as RoutesName } from '../../shared/consts/routes';
-import { Response } from '../../shared/models/response.type';
+import { ResponseState } from '../../shared/models/store/response.type';
+
+type ResetPasswordSelector = {
+  resetPassword: ResponseState;
+};
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const resettingPassword = useSelector(
-    (state: { resetPassword: { response: Response } }) => {
-      return state.resetPassword.response;
-    }
+  const useResetPasswordSelector =
+    useSelector.withTypes<ResetPasswordSelector>();
+  const resettingPassword = useResetPasswordSelector(
+    state => state.resetPassword.response
   );
   const [newPassword, setNewPassword] = React.useState('');
   const [code, setCode] = React.useState('');
 
-  const resetPassword = () => {
+  const resetPassword = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     dispatch(
       fetchResetPasswordThunk({
         password: newPassword,
@@ -42,7 +47,7 @@ export function ResetPasswordPage() {
 
   return (
     <Layout>
-      <div className={resetPasswordStyles.grid}>
+      <form className={resetPasswordStyles.grid} onSubmit={resetPassword}>
         <p className='text text_type_main-medium pb-6'>Восстановление пароля</p>
 
         <div className='pb-6'>
@@ -71,12 +76,7 @@ export function ResetPasswordPage() {
             onPointerLeaveCapture={() => ({})}
           />
         </div>
-        <Button
-          htmlType='button'
-          type='primary'
-          size='medium'
-          onClick={resetPassword}
-        >
+        <Button htmlType='submit' type='primary' size='medium'>
           Сохранить
         </Button>
 
@@ -88,7 +88,7 @@ export function ResetPasswordPage() {
             <p>Войти</p>
           </Link>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 }

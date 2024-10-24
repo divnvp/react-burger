@@ -12,10 +12,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchRegisterThunk } from '../../services/actions/registration';
 import { UnknownAction } from 'redux';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { Registration } from '../../shared/models/store/registration.type';
+import { ResponseState } from '../../shared/models/store/response.type';
 
 type RegisterPageSelector = {
-  registration: Registration;
+  registration: ResponseState;
 };
 type Target = { value: React.SetStateAction<string> };
 
