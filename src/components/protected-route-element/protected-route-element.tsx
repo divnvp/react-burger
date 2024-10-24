@@ -9,24 +9,30 @@ type Props = {
   element: JSX.Element;
   onlyUnAuth: boolean;
 };
+type ProtectedRouteSelector = {
+  login: { checkingAuth: boolean };
+  user: RegisterUser & { isAuth?: boolean };
+};
 
 export const ProtectedRouteElement = (props: Props) => {
-  const isAuthChecked = useSelector((state: unknown) => {
-    return (state as { login: { checkingAuth: boolean } }).login.checkingAuth;
+  const useProtectedRouteSelector =
+    useSelector.withTypes<ProtectedRouteSelector>();
+  const isAuthChecked = useProtectedRouteSelector(state => {
+    return state.login.checkingAuth;
   });
-  const user = useSelector((store: { user: RegisterUser }) => store.user);
+  const user = useProtectedRouteSelector(store => store.user);
   const location = useLocation();
 
   if (!isAuthChecked) {
     return <LoaderPage />;
   }
 
-  if (props.onlyUnAuth && user?.email) {
+  if (props.onlyUnAuth && user?.isAuth) {
     const { from } = location.state || { from: { pathname: RouteName.Main } };
     return <Navigate to={from} />;
   }
 
-  if (!props.onlyUnAuth && !user?.email) {
+  if (!props.onlyUnAuth && !user?.isAuth) {
     return <Navigate to={RouteName.Login} state={{ from: location }} />;
   }
 

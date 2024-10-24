@@ -27,6 +27,8 @@ import { UnknownAction } from 'redux';
 import { ErrorType } from '../../shared/models/error.type';
 import { Order } from '../../shared/models/order.type';
 import { checkUserAuthThunk } from '../../services/actions/login';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '../../shared/consts/routes';
 
 type BurgerConstructorSelector = {
   burgerConstructor: {
@@ -90,12 +92,16 @@ function BurgerConstructor() {
     },
     [ingredients, dispatch]
   );
-
+  const navigate = useNavigate();
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
+  const [makingOrder, setMakingOrder] = useState<boolean>(false);
 
   const showOrderDetails = () => {
+    setMakingOrder(true);
     dispatch(checkUserAuthThunk() as unknown as UnknownAction);
+  };
 
+  const makeOrder = () => {
     let orderDetails = [];
     if (buns) {
       orderDetails = [...ingredients.map(v => v._id), buns?._id, buns?._id];
@@ -112,6 +118,7 @@ function BurgerConstructor() {
     dispatch({
       type: CLEAR_ORDER
     });
+    setMakingOrder(false);
   };
 
   useEffect(() => {
@@ -148,8 +155,14 @@ function BurgerConstructor() {
   };
 
   useEffect(() => {
-    console.log(isAuth);
-  }, [isAuth]);
+    if (makingOrder) {
+      if (isAuth) {
+        makeOrder();
+      } else {
+        navigate(Routes.Login, { replace: true });
+      }
+    }
+  }, [isAuth, makingOrder]);
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`} ref={drop}>

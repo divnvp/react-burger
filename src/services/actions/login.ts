@@ -33,10 +33,12 @@ export const fetchLoginThunk =
         dispatch({ type: LOGIN, payload: response });
         dispatch({ type: USER_GETTING, payload: response.user });
         dispatch({ type: CHECKING_AUTH, payload: true });
+        dispatch({ type: IS_USER_AUTH, payload: true });
       });
     } catch (e) {
       dispatch({ type: LOGIN_REJECTED, payload: e });
       dispatch({ type: CHECKING_AUTH, payload: true });
+      dispatch({ type: IS_USER_AUTH, payload: false });
     }
   };
 
@@ -54,6 +56,7 @@ export const fetchLogoutThunk =
           dispatch({ type: CHECKING_AUTH, payload: true });
           dispatch({ type: USER_GETTING, payload: null });
           dispatch({ type: LOADING, payload: false });
+          dispatch({ type: IS_USER_AUTH, payload: false });
         }
       );
     } catch (e) {
@@ -88,11 +91,9 @@ export const fetchRefreshTokenThunk =
 export const checkUserAuthThunk = () => {
   return (dispatch: (action: ActionType) => void) => {
     if (localStorage.getItem('refreshToken')) {
-      console.log('refreshToken is exist');
       dispatch(fetchUserThunk() as unknown as UnknownAction);
       dispatch({ type: CHECKING_AUTH, payload: true });
     } else {
-      console.log('no refreshToken');
       dispatch({ type: CHECKING_AUTH, payload: true });
       dispatch({ type: LOADING, payload: false });
       dispatch({ type: IS_USER_AUTH, payload: false });
