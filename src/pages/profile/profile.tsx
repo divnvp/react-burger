@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Layout } from '../../components/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
@@ -31,10 +31,10 @@ export function ProfilePage() {
   const logout = useProfilePageSelector(state => {
     return state.login.logout;
   });
-  const [name, setName] = React.useState('');
-  const [login, setLogin] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [showButtons, setShowButtons] = React.useState(false);
+  const [name, setName] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [showButtons, setShowButtons] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const loginRef = useRef<HTMLInputElement>(null);
 

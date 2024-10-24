@@ -1,6 +1,6 @@
 import { Layout } from '../../components/layout/layout';
 import resetPasswordStyles from './reset-password.module.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -26,8 +26,8 @@ export function ResetPasswordPage() {
   const resettingPassword = useResetPasswordSelector(
     state => state.resetPassword.response
   );
-  const [newPassword, setNewPassword] = React.useState('');
-  const [code, setCode] = React.useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [code, setCode] = useState('');
 
   const resetPassword = (e: { preventDefault: () => void }) => {
     e.preventDefault();

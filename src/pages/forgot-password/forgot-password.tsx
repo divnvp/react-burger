@@ -4,7 +4,7 @@ import {
   Button,
   Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import registerStyles from '../register/register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,7 +24,7 @@ export function ForgotPasswordPage() {
   const response = useRegisterPageSelector(
     state => state.forgotPassword.response
   );
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = useState('');
 
   const recoverPassword = (e: { preventDefault: () => void }) => {
     e.preventDefault();

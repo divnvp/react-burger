@@ -1,5 +1,5 @@
 import registerStyles from './register.module.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   EmailInput,
@@ -20,9 +20,9 @@ type RegisterPageSelector = {
 type Target = { value: React.SetStateAction<string> };
 
 export function RegisterPage() {
-  const [login, setLogin] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [name, setName] = React.useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const dispatch = useDispatch();
   const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
   const navigate = useNavigate();
@@ -36,7 +36,8 @@ export function RegisterPage() {
     return state.registration.response;
   });
 
-  const registerUser = () => {
+  const registerUser = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     dispatch(
       fetchRegisterThunk({
         email: login,
@@ -54,7 +55,7 @@ export function RegisterPage() {
 
   return (
     <Layout>
-      <div className={registerStyles.grid}>
+      <form className={registerStyles.grid} onSubmit={registerUser}>
         <p className='text text_type_main-medium pb-6'>Регистрация</p>
         <div className='pb-6'>
           <Input
@@ -86,12 +87,7 @@ export function RegisterPage() {
             name={'password'}
           />
         </div>
-        <Button
-          htmlType='button'
-          type='primary'
-          size='medium'
-          onClick={registerUser}
-        >
+        <Button htmlType='submit' type='primary' size='medium'>
           Зарегистрироваться
         </Button>
 
@@ -103,7 +99,7 @@ export function RegisterPage() {
             <p>Войти</p>
           </Link>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 }

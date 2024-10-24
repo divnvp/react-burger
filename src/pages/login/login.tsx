@@ -3,7 +3,7 @@ import {
   EmailInput,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
 import { Layout } from '../../components/layout/layout';
@@ -13,8 +13,8 @@ import { UnknownAction } from 'redux';
 
 export function LoginPage() {
   const dispatch = useDispatch();
-  const [login, setLogin] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
 
   const onAuth = (e: { preventDefault: () => void }) => {
     e.preventDefault();
