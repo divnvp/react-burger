@@ -13,6 +13,8 @@ export const USER_UPDATING = 'USER_UPDATING';
 export const USER_UPDATING_REQUEST = 'USER_UPDATING_REQUEST';
 export const USER_UPDATING_REJECTED = 'USER_UPDATING_REJECTED';
 
+export const IS_USER_AUTH = 'IS_USER_AUTH';
+
 export const fetchUserThunk =
   () => async (dispatch: (action: ActionType) => void) => {
     dispatch({ type: USER_REQUEST });
@@ -21,9 +23,11 @@ export const fetchUserThunk =
       await getUser().then((response: Response) => {
         dispatch({ type: USER_GETTING, payload: response.user });
         dispatch({ type: CHECKING_AUTH, payload: true });
+        dispatch({ type: IS_USER_AUTH, payload: true });
       });
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
+        dispatch({ type: IS_USER_AUTH, payload: false });
         dispatch({ type: CHECKING_AUTH, payload: true });
         dispatch(
           fetchRefreshTokenThunk(() =>

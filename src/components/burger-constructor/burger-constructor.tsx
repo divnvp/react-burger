@@ -26,6 +26,7 @@ import { v4 as uuid4 } from 'uuid';
 import { UnknownAction } from 'redux';
 import { ErrorType } from '../../shared/models/error.type';
 import { Order } from '../../shared/models/order.type';
+import { checkUserAuthThunk } from '../../services/actions/login';
 
 type BurgerConstructorSelector = {
   burgerConstructor: {
@@ -35,7 +36,7 @@ type BurgerConstructorSelector = {
     order: Order;
   };
   error?: ErrorType;
-  login: {
+  user: {
     isAuth: boolean;
   };
 };
@@ -54,6 +55,7 @@ function BurgerConstructor() {
   const amount = useBurgerConstructorSelector(
     state => state.burgerConstructor.amount
   );
+  const isAuth = useBurgerConstructorSelector(state => state.user.isAuth);
 
   const [{ isOver }, drop] = useDrop({
     accept: DndType.NewIngredient,
@@ -92,6 +94,8 @@ function BurgerConstructor() {
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
 
   const showOrderDetails = () => {
+    dispatch(checkUserAuthThunk() as unknown as UnknownAction);
+
     let orderDetails = [];
     if (buns) {
       orderDetails = [...ingredients.map(v => v._id), buns?._id, buns?._id];
@@ -142,6 +146,10 @@ function BurgerConstructor() {
       type: BURGER_CONSTRUCTOR_GETTING
     });
   };
+
+  useEffect(() => {
+    console.log(isAuth);
+  }, [isAuth]);
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`} ref={drop}>

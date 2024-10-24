@@ -4,7 +4,7 @@ import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
 import { UnknownAction } from 'redux';
-import { fetchUserThunk, USER_GETTING } from './user';
+import { fetchUserThunk, IS_USER_AUTH, USER_GETTING } from './user';
 import { LOADING } from './loader';
 
 export const LOGIN = 'LOGIN';
@@ -88,11 +88,14 @@ export const fetchRefreshTokenThunk =
 export const checkUserAuthThunk = () => {
   return (dispatch: (action: ActionType) => void) => {
     if (localStorage.getItem('refreshToken')) {
+      console.log('refreshToken is exist');
       dispatch(fetchUserThunk() as unknown as UnknownAction);
       dispatch({ type: CHECKING_AUTH, payload: true });
     } else {
+      console.log('no refreshToken');
       dispatch({ type: CHECKING_AUTH, payload: true });
       dispatch({ type: LOADING, payload: false });
+      dispatch({ type: IS_USER_AUTH, payload: false });
     }
   };
 };

@@ -1,10 +1,11 @@
 import { ActionType } from '../../shared/models/action.type';
-import { USER_GETTING } from '../actions/user';
+import { IS_USER_AUTH, USER_GETTING } from '../actions/user';
 
 const initialState = {
   name: '',
   email: '',
-  password: ''
+  password: '',
+  isAuth: false
 };
 
 export const userReducer = (state = initialState, action: ActionType) => {
@@ -15,6 +16,12 @@ export const userReducer = (state = initialState, action: ActionType) => {
         name: action.payload?.name,
         email: action.payload?.email,
         password: action.payload?.password
+      };
+    }
+    case IS_USER_AUTH: {
+      return {
+        ...state,
+        isAuth: action.payload
       };
     }
     default: {
