@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Layout } from '../../components/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
@@ -30,6 +30,9 @@ export function ProfilePage() {
   const [name, setName] = React.useState('');
   const [login, setLogin] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [showButtons, setShowButtons] = React.useState(false);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const loginRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user && Object.keys(user).length) {
@@ -43,6 +46,18 @@ export function ProfilePage() {
   useEffect(() => {
     dispatch(fetchUserThunk() as unknown as UnknownAction);
   }, []);
+
+  useEffect(() => {
+    if (
+      user.name !== nameRef.current?.value ||
+      user.email !== loginRef.current?.value ||
+      password.length
+    ) {
+      setShowButtons(true);
+    } else {
+      setShowButtons(false);
+    }
+  }, [user, nameRef.current?.value, loginRef.current?.value, password]);
 
   const onLogout = () => {
     dispatch(fetchLogoutThunk() as unknown as UnknownAction);
@@ -62,6 +77,12 @@ export function ProfilePage() {
         name
       }) as unknown as UnknownAction
     );
+  };
+
+  const onCancelEdit = () => {
+    setName(user?.name as string);
+    setLogin(user.email);
+    setShowButtons(false);
   };
 
   return (
@@ -89,10 +110,11 @@ export function ProfilePage() {
           </div>
         </div>
 
-        <div className='pl-15'>
+        <form className='pl-15' onSubmit={onSaveProfile}>
           <div className={profileStyles.col}>
             <div className='pb-6'>
               <Input
+                ref={nameRef}
                 type='text'
                 placeholder='Имя'
                 onChange={e => setName(e.target.value)}
@@ -109,6 +131,7 @@ export function ProfilePage() {
             </div>
             <div className='pb-6'>
               <Input
+                ref={loginRef}
                 type='text'
                 placeholder='Логин'
                 onChange={e => setLogin(e.target.value)}
@@ -135,17 +158,22 @@ export function ProfilePage() {
             />
           </div>
 
-          <div className={`${profileStyles.saveButton} pt-10`}>
-            <Button
-              htmlType='button'
-              type='primary'
-              size='medium'
-              onClick={onSaveProfile}
-            >
-              Сохранить
-            </Button>
-          </div>
-        </div>
+          {showButtons ? (
+            <div className={`${profileStyles.saveButton} pt-10`}>
+              <Button
+                htmlType='button'
+                type='secondary'
+                size='medium'
+                onClick={onCancelEdit}
+              >
+                Отмена
+              </Button>
+              <Button htmlType='submit' type='primary' size='medium'>
+                Сохранить
+              </Button>
+            </div>
+          ) : null}
+        </form>
       </div>
     </Layout>
   );
