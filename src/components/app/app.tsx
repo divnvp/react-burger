@@ -82,12 +82,7 @@ function App() {
             />
           }
         />
-        <Route
-          path={RoutesName.Main}
-          element={
-            <ProtectedAuthElement onlyUnAuth={false} element={<MainPage />} />
-          }
-        />
+        <Route path={RoutesName.Main} element={<MainPage />} />
         <Route
           path={RoutesName.Login}
           element={<ProtectedUnAuthElement element={<LoginPage />} />}
