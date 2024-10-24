@@ -25,26 +25,34 @@ import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import { v4 as uuid4 } from 'uuid';
 import { UnknownAction } from 'redux';
 import { ErrorType } from '../../shared/models/error.type';
+import { Order } from '../../shared/models/order.type';
+
+type BurgerConstructorSelector = {
+  burgerConstructor: {
+    burgerConstructor: Ingredient[];
+    buns: Ingredient | null;
+    amount: number;
+    order: Order;
+  };
+  error?: ErrorType;
+  login: {
+    isAuth: boolean;
+  };
+};
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const error = useSelector(
-    (state: { error?: ErrorType }) => state?.error?.message
+  const useBurgerConstructorSelector =
+    useSelector.withTypes<BurgerConstructorSelector>();
+  const error = useBurgerConstructorSelector(state => state?.error?.message);
+  const ingredients = useBurgerConstructorSelector(
+    state => state.burgerConstructor.burgerConstructor
   );
-  const ingredients = useSelector(
-    (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
-      return state.burgerConstructor.burgerConstructor;
-    }
+  const buns = useBurgerConstructorSelector(
+    state => state.burgerConstructor.buns
   );
-  const buns = useSelector(
-    (state: { burgerConstructor: { buns: Ingredient | null } }) => {
-      return state.burgerConstructor.buns;
-    }
-  );
-  const amount = useSelector(
-    (state: { burgerConstructor: { amount: number } }) => {
-      return state.burgerConstructor.amount;
-    }
+  const amount = useBurgerConstructorSelector(
+    state => state.burgerConstructor.amount
   );
 
   const [{ isOver }, drop] = useDrop({
