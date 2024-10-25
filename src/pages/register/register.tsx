@@ -1,5 +1,5 @@
 import registerStyles from './register.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   EmailInput,
@@ -13,25 +13,22 @@ import { fetchRegisterThunk } from '../../services/actions/registration';
 import { UnknownAction } from 'redux';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import { ResponseState } from '../../shared/models/store/response.type';
+import { useForm } from '../../shared/hooks/use-form';
+import { RegisterUser } from '../../shared/models/register-user.type';
 
 type RegisterPageSelector = {
   registration: ResponseState;
 };
-type Target = { value: React.SetStateAction<string> };
 
 export function RegisterPage() {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [values, handleChange] = useForm<Required<RegisterUser>>({
+    email: '',
+    password: '',
+    name: ''
+  });
   const dispatch = useDispatch();
   const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
   const navigate = useNavigate();
-  const onChangeLogin = (e: { target: Target }) => {
-    setLogin(e.target.value);
-  };
-  const onChangePassword = (e: { target: Target }) => {
-    setPassword(e.target.value);
-  };
   const registration = useRegisterPageSelector(state => {
     return state.registration.response;
   });
@@ -40,9 +37,7 @@ export function RegisterPage() {
     e.preventDefault();
     dispatch(
       fetchRegisterThunk({
-        email: login,
-        password,
-        name
+        ...values
       }) as unknown as UnknownAction
     );
   };
@@ -61,8 +56,8 @@ export function RegisterPage() {
           <Input
             type='text'
             placeholder='Имя'
-            onChange={e => setName(e.target.value)}
-            value={name}
+            onChange={handleChange}
+            value={values.name}
             name={'name'}
             error={false}
             errorText={'Ошибка'}
@@ -75,8 +70,8 @@ export function RegisterPage() {
         </div>
         <div className='pb-6'>
           <EmailInput
-            onChange={onChangeLogin}
-            value={login}
+            onChange={handleChange}
+            value={values.email}
             name={'email'}
             isIcon={false}
             autoComplete='email'
@@ -84,9 +79,10 @@ export function RegisterPage() {
         </div>
         <div className='pb-6'>
           <PasswordInput
-            onChange={onChangePassword}
-            value={password}
-            name={'new-password'}
+            onChange={handleChange}
+            value={values.password}
+            name={'password'}
+            autoComplete='new-password'
           />
         </div>
         <Button htmlType='submit' type='primary' size='medium'>
