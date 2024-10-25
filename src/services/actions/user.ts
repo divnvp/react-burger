@@ -46,6 +46,7 @@ export const fetchUserUpdatingThunk =
 
     try {
       await updateUser(credits).then((response: Response) => {
+        dispatch({ type: USER_GETTING, payload: response.user });
         dispatch({ type: USER_UPDATING, payload: response });
       });
     } catch (e: any) {
