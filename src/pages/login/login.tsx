@@ -3,25 +3,28 @@ import {
   EmailInput,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
 import { Layout } from '../../components/layout/layout';
 import { useDispatch } from 'react-redux';
 import { fetchLoginThunk } from '../../services/actions/login';
 import { UnknownAction } from 'redux';
+import { useForm } from '../../shared/hooks/use-form';
+import { LoginUser } from '../../shared/models/login-user.type';
 
 export function LoginPage() {
   const dispatch = useDispatch();
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [values, handleChange] = useForm<LoginUser>({
+    email: '',
+    password: ''
+  });
 
   const onAuth = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(
       fetchLoginThunk({
-        email: login,
-        password
+        ...values
       }) as unknown as UnknownAction
     );
   };
@@ -32,8 +35,8 @@ export function LoginPage() {
         <p className='text text_type_main-medium pb-6'>Вход</p>
         <div className='pb-6'>
           <EmailInput
-            onChange={e => setLogin(e.target.value)}
-            value={login}
+            onChange={handleChange}
+            value={values.email}
             name={'email'}
             isIcon={false}
             autoComplete='email'
@@ -41,8 +44,8 @@ export function LoginPage() {
         </div>
         <div className='pb-6'>
           <PasswordInput
-            onChange={e => setPassword(e.target.value)}
-            value={password}
+            onChange={handleChange}
+            value={values.password}
             name={'password'}
             autoComplete='current-password'
           />
