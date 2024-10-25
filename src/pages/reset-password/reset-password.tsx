@@ -1,6 +1,6 @@
 import { Layout } from '../../components/layout/layout';
 import resetPasswordStyles from './reset-password.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Input,
@@ -13,6 +13,8 @@ import { fetchResetPasswordThunk } from '../../services/actions/reset-password';
 import { UnknownAction } from 'redux';
 import { Routes as RoutesName } from '../../shared/consts/routes';
 import { ResponseState } from '../../shared/models/store/response.type';
+import { useForm } from '../../shared/hooks/use-form';
+import { ResetPassword } from '../../shared/models/reset-password.type';
 
 type ResetPasswordSelector = {
   resetPassword: ResponseState;
@@ -26,15 +28,16 @@ export function ResetPasswordPage() {
   const resettingPassword = useResetPasswordSelector(
     state => state.resetPassword.response
   );
-  const [newPassword, setNewPassword] = useState('');
-  const [code, setCode] = useState('');
+  const [values, handleChange] = useForm<Required<ResetPassword>>({
+    password: '',
+    token: ''
+  });
 
   const resetPassword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(
       fetchResetPasswordThunk({
-        password: newPassword,
-        token: code
+        ...values
       }) as unknown as UnknownAction
     );
   };
@@ -53,9 +56,9 @@ export function ResetPasswordPage() {
         <div className='pb-6'>
           <PasswordInput
             placeholder='Введите новый пароль'
-            onChange={e => setNewPassword(e.target.value)}
-            value={newPassword}
-            name={'name'}
+            onChange={handleChange}
+            value={values.password}
+            name={'password'}
             errorText={'Ошибка'}
             size={'default'}
             extraClass='ml-1'
@@ -66,9 +69,9 @@ export function ResetPasswordPage() {
           <Input
             type='text'
             placeholder='Введите код из письма'
-            onChange={e => setCode(e.target.value)}
-            value={code}
-            name={'name'}
+            onChange={handleChange}
+            value={values.token}
+            name={'token'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
