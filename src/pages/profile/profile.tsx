@@ -130,6 +130,7 @@ export function ProfilePage() {
                 size={'default'}
                 extraClass='ml-1'
                 icon='EditIcon'
+                autoComplete='name'
                 onPointerEnterCapture={() => ({})}
                 onPointerLeaveCapture={() => ({})}
               />
@@ -147,6 +148,7 @@ export function ProfilePage() {
                 errorText={'Ошибка'}
                 size={'default'}
                 extraClass='ml-1'
+                autoComplete='email'
                 onPointerEnterCapture={() => ({})}
                 onPointerLeaveCapture={() => ({})}
               />
@@ -160,6 +162,7 @@ export function ProfilePage() {
               errorText={'Ошибка'}
               size={'default'}
               extraClass='ml-1'
+              autoComplete='current-password'
             />
           </div>
 

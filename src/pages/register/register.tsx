@@ -68,6 +68,7 @@ export function RegisterPage() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='ml-1'
+            autoComplete='name'
             onPointerEnterCapture={() => ({})}
             onPointerLeaveCapture={() => ({})}
           />
@@ -78,13 +79,14 @@ export function RegisterPage() {
             value={login}
             name={'email'}
             isIcon={false}
+            autoComplete='email'
           />
         </div>
         <div className='pb-6'>
           <PasswordInput
             onChange={onChangePassword}
             value={password}
-            name={'password'}
+            name={'new-password'}
           />
         </div>
         <Button htmlType='submit' type='primary' size='medium'>

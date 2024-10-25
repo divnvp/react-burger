@@ -36,6 +36,7 @@ export function LoginPage() {
             value={login}
             name={'email'}
             isIcon={false}
+            autoComplete='email'
           />
         </div>
         <div className='pb-6'>
@@ -43,6 +44,7 @@ export function LoginPage() {
             onChange={e => setPassword(e.target.value)}
             value={password}
             name={'password'}
+            autoComplete='current-password'
           />
         </div>
         <Button htmlType='submit' type='primary' size='medium'>

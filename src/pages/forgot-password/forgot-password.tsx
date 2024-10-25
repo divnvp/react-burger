@@ -53,6 +53,7 @@ export function ForgotPasswordPage() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='ml-1'
+            autoComplete='email'
             onPointerEnterCapture={() => ({})}
             onPointerLeaveCapture={() => ({})}
           />

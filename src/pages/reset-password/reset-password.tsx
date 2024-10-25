@@ -59,6 +59,7 @@ export function ResetPasswordPage() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='ml-1'
+            autoComplete='new-password'
           />
         </div>
         <div className='pb-6'>
@@ -72,6 +73,7 @@ export function ResetPasswordPage() {
             errorText={'Ошибка'}
             size={'default'}
             extraClass='ml-1'
+            autoComplete='one-time-code'
             onPointerEnterCapture={() => ({})}
             onPointerLeaveCapture={() => ({})}
           />
