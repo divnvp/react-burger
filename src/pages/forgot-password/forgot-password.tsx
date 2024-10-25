@@ -4,7 +4,7 @@ import {
   Button,
   Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import registerStyles from '../register/register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import { fetchForgotPasswordThunk } from '../../services/actions/forgot-password
 import { UnknownAction } from 'redux';
 import { Response } from '../../shared/models/response.type';
 import { Routes } from '../../shared/consts/routes';
+import { useForm } from '../../shared/hooks/use-form';
 
 type RegisterPageSelector = {
   forgotPassword: { response: Response };
@@ -24,11 +25,15 @@ export function ForgotPasswordPage() {
   const response = useRegisterPageSelector(
     state => state.forgotPassword.response
   );
-  const [email, setEmail] = useState('');
+  const [values, handleChange] = useForm<Required<{ email: string }>>({
+    email: ''
+  });
 
   const recoverPassword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    dispatch(fetchForgotPasswordThunk(email) as unknown as UnknownAction);
+    dispatch(
+      fetchForgotPasswordThunk(values.email) as unknown as UnknownAction
+    );
   };
 
   useEffect(() => {
@@ -46,9 +51,9 @@ export function ForgotPasswordPage() {
           <Input
             type='text'
             placeholder='Укажите e-mail'
-            onChange={e => setEmail(e.target.value)}
-            value={email}
-            name={'name'}
+            onChange={handleChange}
+            value={values.email}
+            name={'email'}
             error={false}
             errorText={'Ошибка'}
             size={'default'}
