@@ -49,7 +49,7 @@ export function RegisterPage() {
 
   useEffect(() => {
     if (registration.success) {
-      navigate(RouteName.Main);
+      navigate(RouteName.Login);
     }
   }, [registration]);
 
