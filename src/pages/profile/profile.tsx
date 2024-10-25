@@ -17,6 +17,7 @@ import { fetchLogoutThunk } from '../../services/actions/login';
 import { useNavigate } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import { Logout } from '../../shared/models/store/logout.type';
+import { useForm } from '../../shared/hooks/use-form';
 
 type ProfileSelector = {
   user: RegisterUser;
@@ -31,9 +32,13 @@ export function ProfilePage() {
   const logout = useProfilePageSelector(state => {
     return state.login.logout;
   });
-  const [name, setName] = useState('');
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [values, handleChange, setCertainValue] = useForm<
+    Required<RegisterUser>
+  >({
+    email: '',
+    password: '',
+    name: ''
+  });
   const [showButtons, setShowButtons] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const loginRef = useRef<HTMLInputElement>(null);
@@ -41,9 +46,9 @@ export function ProfilePage() {
   useEffect(() => {
     if (user && Object.keys(user).length) {
       if (user?.name) {
-        setName(user.name);
+        setCertainValue('name', user.name);
       }
-      setLogin(user.email);
+      setCertainValue('email', user.email);
     }
   }, [user]);
 
@@ -55,13 +60,13 @@ export function ProfilePage() {
     if (
       user.name !== nameRef.current?.value ||
       user.email !== loginRef.current?.value ||
-      password.length
+      values.password.length
     ) {
       setShowButtons(true);
     } else {
       setShowButtons(false);
     }
-  }, [user, nameRef.current?.value, loginRef.current?.value, password]);
+  }, [user, nameRef.current?.value, loginRef.current?.value, values.password]);
 
   const onLogout = () => {
     dispatch(fetchLogoutThunk() as unknown as UnknownAction);
@@ -77,16 +82,14 @@ export function ProfilePage() {
     e.preventDefault();
     dispatch(
       fetchUserUpdatingThunk({
-        email: login,
-        password,
-        name
+        ...values
       }) as unknown as UnknownAction
     );
   };
 
   const onCancelEdit = () => {
-    setName(user?.name as string);
-    setLogin(user.email);
+    setCertainValue('name', user.name);
+    setCertainValue('email', user.email);
     setShowButtons(false);
   };
 
@@ -122,8 +125,8 @@ export function ProfilePage() {
                 ref={nameRef}
                 type='text'
                 placeholder='Имя'
-                onChange={e => setName(e.target.value)}
-                value={name}
+                onChange={handleChange}
+                value={values.name}
                 name={'name'}
                 error={false}
                 errorText={'Ошибка'}
@@ -140,8 +143,8 @@ export function ProfilePage() {
                 ref={loginRef}
                 type='text'
                 placeholder='Логин'
-                onChange={e => setLogin(e.target.value)}
-                value={login}
+                onChange={handleChange}
+                value={values.email}
                 name={'login'}
                 error={false}
                 icon='EditIcon'
@@ -155,8 +158,8 @@ export function ProfilePage() {
             </div>
             <PasswordInput
               placeholder='Пароль'
-              onChange={e => setPassword(e.target.value)}
-              value={password}
+              onChange={handleChange}
+              value={values.password}
               name={'password'}
               icon='EditIcon'
               errorText={'Ошибка'}

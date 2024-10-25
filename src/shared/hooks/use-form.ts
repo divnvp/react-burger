@@ -1,6 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 
 export function useForm<T extends { [key: string]: string }>(baseForm: T) {
+  type UseFormType = [
+    T,
+    (e: ChangeEvent<HTMLInputElement>) => void,
+    (controlName: string, value: unknown) => void
+  ];
   const [form, setForm] = useState<T>(baseForm);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -8,8 +13,9 @@ export function useForm<T extends { [key: string]: string }>(baseForm: T) {
     setForm(pastForm => ({ ...pastForm, [element.name]: element.value }));
   }
 
-  return [form, handleChange] as unknown as [
-    T,
-    (e: ChangeEvent<HTMLInputElement>) => void
-  ];
+  function setCertainValue(controlName: string, value: unknown) {
+    setForm(pastForm => ({ ...pastForm, [controlName]: value }));
+  }
+
+  return [form, handleChange, setCertainValue] as unknown as UseFormType;
 }
