@@ -1,5 +1,5 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
@@ -10,6 +10,7 @@ import { TabEnum } from '../../shared/consts/tab.enum';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
+import { useInView } from 'react-intersection-observer';
 
 function BurgerIngredients() {
   const location = useLocation();
@@ -28,7 +29,7 @@ function BurgerIngredients() {
     }
   );
   const dispatch = useDispatch();
-  const [current, setCurrent] = useState('one');
+  const [current, setCurrent] = useState(TabEnum.One);
 
   const onIngredientClick = (element: Ingredient) => {
     dispatch({
@@ -37,18 +38,29 @@ function BurgerIngredients() {
     });
   };
 
-  const bunRef = useRef<HTMLDivElement>(null);
-  const sauceRef = useRef<HTMLDivElement>(null);
-  const mainRef = useRef<HTMLDivElement>(null);
+  const [bunRef, inViewBun, entryBun] = useInView({
+    threshold: 0.3
+  });
+  const [sauceRef, inViewSauce, entrySauce] = useInView({
+    threshold: 0.3
+  });
+  const [mainRef, inViewMain, entryMain] = useInView({
+    threshold: 0.3
+  });
 
-  const scrollBy = (
-    ref: React.RefObject<HTMLDivElement>,
-    activeTab: TabEnum
-  ) => {
-    setCurrent(activeTab);
-    ref.current?.scrollIntoView({
-      behavior: 'smooth'
-    });
+  useEffect(() => {
+    if (inViewBun) {
+      setCurrent(TabEnum.One);
+    } else if (inViewSauce) {
+      setCurrent(TabEnum.Two);
+    } else if (inViewMain) {
+      setCurrent(TabEnum.Three);
+    }
+  }, [inViewBun, inViewSauce, inViewMain]);
+
+  const handleTabClick = (tab: TabEnum, entry?: IntersectionObserverEntry) => {
+    setCurrent(tab);
+    entry?.target.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -59,21 +71,21 @@ function BurgerIngredients() {
         <Tab
           value={TabEnum.One}
           active={current === TabEnum.One}
-          onClick={() => scrollBy(bunRef, TabEnum.One)}
+          onClick={() => handleTabClick(TabEnum.One, entryBun)}
         >
           Булки
         </Tab>
         <Tab
           value={TabEnum.Two}
           active={current === TabEnum.Two}
-          onClick={() => scrollBy(sauceRef, TabEnum.Two)}
+          onClick={() => handleTabClick(TabEnum.Two, entrySauce)}
         >
           Соусы
         </Tab>
         <Tab
           value={TabEnum.Three}
           active={current === TabEnum.Three}
-          onClick={() => scrollBy(mainRef, TabEnum.Three)}
+          onClick={() => handleTabClick(TabEnum.Three, entryMain)}
         >
           Начинки
         </Tab>
