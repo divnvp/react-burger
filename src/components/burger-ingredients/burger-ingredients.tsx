@@ -103,7 +103,6 @@ function BurgerIngredients() {
                 element.type === IngredientType.Bun ? (
                   <Link
                     key={element._id}
-                    onClick={() => onIngredientClick(element)}
                     to={`${RouteName.Ingredients}/${element._id}`}
                     state={{ backgroundLocation: location }}
                     className={ingredientsStyles.link}
@@ -136,7 +135,6 @@ function BurgerIngredients() {
                 element?._id && element.type === IngredientType.Sauce ? (
                   <Link
                     key={element._id}
-                    onClick={() => onIngredientClick(element)}
                     to={`${RouteName.Ingredients}/${element._id}`}
                     state={{ backgroundLocation: location }}
                     className={ingredientsStyles.link}
@@ -164,7 +162,6 @@ function BurgerIngredients() {
                 element.type === IngredientType.Main ? (
                   <Link
                     key={element._id}
-                    onClick={() => onIngredientClick(element)}
                     to={`${RouteName.Ingredients}/${element._id}`}
                     state={{ backgroundLocation: location, element }}
                     className={ingredientsStyles.link}
