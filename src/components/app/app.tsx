@@ -57,18 +57,13 @@ function App() {
           <Route
             path={RoutesName.IngredientDetail}
             element={
-              <ProtectedAuthElement
-                onlyUnAuth={false}
-                element={
-                  <Modal
-                    isOpen={true}
-                    title='Детали ингредиента'
-                    onClick={() => navigate(RouteName.Main)}
-                  >
-                    <IngredientDetails />
-                  </Modal>
-                }
-              />
+              <Modal
+                isOpen={true}
+                title='Детали ингредиента'
+                onClick={() => navigate(RouteName.Main)}
+              >
+                <IngredientDetails />
+              </Modal>
             }
           />
         </Routes>
@@ -77,12 +72,7 @@ function App() {
       <Routes location={state?.backgroundLocation || location}>
         <Route
           path={RoutesName.IngredientDetail}
-          element={
-            <ProtectedAuthElement
-              onlyUnAuth={false}
-              element={<IngredientDetailPage />}
-            />
-          }
+          element={<IngredientDetailPage />}
         />
         <Route path={RoutesName.Main} element={<MainPage />} />
         <Route
