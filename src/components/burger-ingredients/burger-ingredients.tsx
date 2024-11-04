@@ -1,23 +1,21 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
 import { TabEnum } from '../../shared/consts/tab.enum';
+import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
+import { Routes as RouteName } from '../../shared/consts/routes';
 
 function BurgerIngredients() {
+  const location = useLocation();
   const ingredients = useSelector((state: unknown) => {
     return (state as { burgerIngredients: { ingredients: Ingredient[] } })
       .burgerIngredients.ingredients;
-  });
-  const ingredient = useSelector((state: unknown) => {
-    return (state as { ingredient: { ingredient: Ingredient } }).ingredient
-      .ingredient;
   });
   const cart = useSelector(
     (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
@@ -31,19 +29,13 @@ function BurgerIngredients() {
   );
   const dispatch = useDispatch();
   const [current, setCurrent] = useState('one');
-  const [isModalOpen, setModalOpen] = useState(false);
 
   const onIngredientClick = (element: Ingredient) => {
     dispatch({
       type: INGREDIENT_DETAILS_GETTING,
       payload: element
     });
-    setModalOpen(true);
   };
-
-  const close = useCallback(() => {
-    setModalOpen(false);
-  }, []);
 
   const bunRef = useRef<HTMLDivElement>(null);
   const sauceRef = useRef<HTMLDivElement>(null);
@@ -61,12 +53,6 @@ function BurgerIngredients() {
 
   return (
     <div className={`pt-10`}>
-      {ingredient && (
-        <Modal isOpen={isModalOpen} title='Детали ингредиента' onClick={close}>
-          <IngredientDetails />
-        </Modal>
-      )}
-
       <p className='text text_type_main-large pb-5'>Соберите бургер</p>
 
       <div style={{ display: 'flex' }} className='mb-10'>
@@ -101,11 +87,14 @@ function BurgerIngredients() {
           >
             <p className='text text_type_main-medium'>Булки</p>
             <div className={ingredientsStyles.wrap}>
-              {ingredients?.map((element, index) =>
+              {ingredients?.map(element =>
                 element.type === IngredientType.Bun ? (
-                  <div
+                  <Link
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
+                    to={`${RouteName.Ingredients}/${element._id}`}
+                    state={{ backgroundLocation: location }}
+                    className={ingredientsStyles.link}
                   >
                     <BurgerIngredientsCard
                       element={element}
@@ -117,7 +106,7 @@ function BurgerIngredients() {
                           : undefined
                       }
                     />
-                  </div>
+                  </Link>
                 ) : (
                   ''
                 )
@@ -133,9 +122,12 @@ function BurgerIngredients() {
             <div className={ingredientsStyles.wrap}>
               {ingredients?.map(element =>
                 element?._id && element.type === IngredientType.Sauce ? (
-                  <div
+                  <Link
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
+                    to={`${RouteName.Ingredients}/${element._id}`}
+                    state={{ backgroundLocation: location }}
+                    className={ingredientsStyles.link}
                   >
                     <BurgerIngredientsCard
                       element={element}
@@ -145,7 +137,7 @@ function BurgerIngredients() {
                           : undefined
                       }
                     />
-                  </div>
+                  </Link>
                 ) : (
                   ''
                 )
@@ -158,9 +150,12 @@ function BurgerIngredients() {
             <div className={ingredientsStyles.wrap}>
               {ingredients?.map(element =>
                 element.type === IngredientType.Main ? (
-                  <div
+                  <Link
                     key={element._id}
                     onClick={() => onIngredientClick(element)}
+                    to={`${RouteName.Ingredients}/${element._id}`}
+                    state={{ backgroundLocation: location, element }}
+                    className={ingredientsStyles.link}
                   >
                     <BurgerIngredientsCard
                       element={element}
@@ -170,7 +165,7 @@ function BurgerIngredients() {
                           : undefined
                       }
                     />
-                  </div>
+                  </Link>
                 ) : (
                   ''
                 )

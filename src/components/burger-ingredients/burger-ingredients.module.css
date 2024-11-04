@@ -26,3 +26,8 @@
 .wrap > * {
   flex: 1 1 160px;
 }
+
+.link {
+  text-decoration: none;
+  color: white;
+}

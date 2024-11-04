@@ -25,27 +25,39 @@ import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import { v4 as uuid4 } from 'uuid';
 import { UnknownAction } from 'redux';
 import { ErrorType } from '../../shared/models/error.type';
+import { Order } from '../../shared/models/order.type';
+import { checkUserAuthThunk } from '../../services/actions/login';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '../../shared/consts/routes';
+
+type BurgerConstructorSelector = {
+  burgerConstructor: {
+    burgerConstructor: Ingredient[];
+    buns: Ingredient | null;
+    amount: number;
+    order: Order;
+  };
+  error?: ErrorType;
+  user: {
+    isAuth: boolean;
+  };
+};
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const error = useSelector(
-    (state: { error?: ErrorType }) => state?.error?.message
+  const useBurgerConstructorSelector =
+    useSelector.withTypes<BurgerConstructorSelector>();
+  const error = useBurgerConstructorSelector(state => state?.error?.message);
+  const ingredients = useBurgerConstructorSelector(
+    state => state.burgerConstructor.burgerConstructor
   );
-  const ingredients = useSelector(
-    (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
-      return state.burgerConstructor.burgerConstructor;
-    }
+  const buns = useBurgerConstructorSelector(
+    state => state.burgerConstructor.buns
   );
-  const buns = useSelector(
-    (state: { burgerConstructor: { buns: Ingredient | null } }) => {
-      return state.burgerConstructor.buns;
-    }
+  const amount = useBurgerConstructorSelector(
+    state => state.burgerConstructor.amount
   );
-  const amount = useSelector(
-    (state: { burgerConstructor: { amount: number } }) => {
-      return state.burgerConstructor.amount;
-    }
-  );
+  const isAuth = useBurgerConstructorSelector(state => state.user.isAuth);
 
   const [{ isOver }, drop] = useDrop({
     accept: DndType.NewIngredient,
@@ -80,10 +92,16 @@ function BurgerConstructor() {
     },
     [ingredients, dispatch]
   );
-
+  const navigate = useNavigate();
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
+  const [makingOrder, setMakingOrder] = useState<boolean>(false);
 
   const showOrderDetails = () => {
+    setMakingOrder(true);
+    dispatch(checkUserAuthThunk() as unknown as UnknownAction);
+  };
+
+  const makeOrder = () => {
     let orderDetails = [];
     if (buns) {
       orderDetails = [...ingredients.map(v => v._id), buns?._id, buns?._id];
@@ -100,6 +118,7 @@ function BurgerConstructor() {
     dispatch({
       type: CLEAR_ORDER
     });
+    setMakingOrder(false);
   };
 
   useEffect(() => {
@@ -134,6 +153,17 @@ function BurgerConstructor() {
       type: BURGER_CONSTRUCTOR_GETTING
     });
   };
+
+  useEffect(() => {
+    if (makingOrder) {
+      if (isAuth) {
+        makeOrder();
+      } else {
+        close();
+        navigate(Routes.Login, { replace: true });
+      }
+    }
+  }, [isAuth, makingOrder]);
 
   return (
     <div className={`mt-25 ${burgerConstructorStyle.gridColumn}`} ref={drop}>
