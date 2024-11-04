@@ -8,7 +8,18 @@ const initialState = {
   isAuth: false
 };
 
-export const userReducer = (state = initialState, action: ActionType) => {
+type UserReducer = {
+  payload: {
+    name?: string;
+    email?: string;
+    password?: string;
+  };
+};
+
+export const userReducer = (
+  state = initialState,
+  action: ActionType & UserReducer
+) => {
   switch (action.type) {
     case USER_GETTING: {
       return {

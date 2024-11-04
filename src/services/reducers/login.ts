@@ -8,6 +8,7 @@ import {
   LOGOUT_REJECTED,
   LOGOUT_REQUEST
 } from '../actions/login';
+import { RegisterUser } from '../../shared/models/register-user.type';
 
 const initialState = {
   error: null,
@@ -22,7 +23,18 @@ const initialState = {
   checkingAuth: false
 };
 
-export const loginReducer = (state = initialState, action: ActionType) => {
+type LoginReducer = {
+  payload: {
+    user: RegisterUser;
+    accessToken: string;
+    refreshToken: string;
+  };
+};
+
+export const loginReducer = (
+  state = initialState,
+  action: ActionType & LoginReducer
+) => {
   switch (action.type) {
     case LOGIN: {
       return {

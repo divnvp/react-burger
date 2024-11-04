@@ -11,9 +11,15 @@ const initialState = {
   email: ''
 };
 
+type ForgotPasswordReducer = {
+  payload: {
+    error: unknown;
+  };
+};
+
 export const forgotPasswordReducer = (
   state = initialState,
-  action: ActionType
+  action: ActionType & ForgotPasswordReducer
 ) => {
   switch (action.type) {
     case SENDING_EMAIL: {

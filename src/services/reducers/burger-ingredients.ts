@@ -10,9 +10,13 @@ const initialState = {
   error: null
 };
 
+type IngredientReducer = {
+  payload: { data: unknown; error: unknown };
+};
+
 export const burgerIngredientsReducer = (
   state = initialState,
-  action: ActionType
+  action: ActionType & IngredientReducer
 ) => {
   switch (action.type) {
     case INGREDIENTS_GETTING: {

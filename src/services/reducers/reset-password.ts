@@ -11,9 +11,15 @@ const initialState = {
   email: ''
 };
 
+type ResetPasswordReducer = {
+  payload: {
+    error: unknown;
+  };
+};
+
 export const resetPasswordReducer = (
   state = initialState,
-  action: ActionType
+  action: ActionType & ResetPasswordReducer
 ) => {
   switch (action.type) {
     case RESETTING_PASSWORD: {

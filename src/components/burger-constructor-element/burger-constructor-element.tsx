@@ -3,7 +3,7 @@ import {
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import constructorElementStyles from './burger-constructor-element.module.css';
-import { useDrag, useDrop } from 'react-dnd';
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import { DndType } from '../../shared/consts/dnd-type.enum';
 import { useRef } from 'react';
 
@@ -41,7 +41,10 @@ function BurgerConstructorElement(props: Props) {
     })
   });
 
-  const calculateNewElementPosition = (item: Props, monitor: any) => {
+  const calculateNewElementPosition = (
+    item: Props,
+    monitor: DropTargetMonitor<Props, unknown>
+  ) => {
     if (!ref.current) {
       return;
     }
