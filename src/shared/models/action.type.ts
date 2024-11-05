@@ -1,4 +1,25 @@
+import { RegisterUser } from './register-user.type';
+import { Ingredient } from './ingredient.type';
+import { Order } from './order.type';
+import { Response } from './response.type';
+
 export type ActionType = {
   type: string;
-  payload?: unknown;
+  payload?: {
+    error?: unknown;
+    name?: string;
+    email?: string;
+    password?: string;
+    data?: unknown;
+    user?: RegisterUser;
+    accessToken?: string;
+    refreshToken?: string;
+    checkingAuth?: boolean;
+    ingredient?: Ingredient;
+    burgerConstructor?: Ingredient[];
+    order?: Order;
+    isAuth?: boolean;
+    loading?: boolean;
+    logout?: Response;
+  };
 };

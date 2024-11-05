@@ -10,15 +10,9 @@ const initialState = {
   error: null
 };
 
-type RegistrationReducer = {
-  payload: {
-    error: unknown;
-  };
-};
-
 export const registrationReducer = (
   state = initialState,
-  action: ActionType & RegistrationReducer
+  action: ActionType
 ) => {
   switch (action.type) {
     case REGISTRATION: {

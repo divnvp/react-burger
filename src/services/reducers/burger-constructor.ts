@@ -59,14 +59,14 @@ export const burgerConstructorReducer = (
     case MAKING_ORDER: {
       return {
         ...state,
-        order: action.payload
+        order: action.payload?.order
       };
     }
     case ORDER_MAKING_REJECTED: {
       return {
         ...state,
         order: [],
-        error: action.payload
+        error: action.payload?.error
       };
     }
     case ORDER_MAKING_REQUEST: {
@@ -79,7 +79,7 @@ export const burgerConstructorReducer = (
     case INGREDIENT_REMOVING: {
       return {
         ...state,
-        burgerConstructor: action.payload
+        burgerConstructor: action.payload?.burgerConstructor
       };
     }
     case CLEAR_ORDER: {

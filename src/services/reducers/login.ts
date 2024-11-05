@@ -8,7 +8,6 @@ import {
   LOGOUT_REJECTED,
   LOGOUT_REQUEST
 } from '../actions/login';
-import { RegisterUser } from '../../shared/models/register-user.type';
 
 const initialState = {
   error: null,
@@ -23,27 +22,16 @@ const initialState = {
   checkingAuth: false
 };
 
-type LoginReducer = {
-  payload: {
-    user: RegisterUser;
-    accessToken: string;
-    refreshToken: string;
-  };
-};
-
-export const loginReducer = (
-  state = initialState,
-  action: ActionType & LoginReducer
-) => {
+export const loginReducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
     case LOGIN: {
       return {
         ...state,
         logout: null,
-        user: { ...action.payload.user },
+        user: { ...action.payload?.user },
         success: true,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        accessToken: action.payload?.accessToken,
+        refreshToken: action.payload?.refreshToken,
         checkingAuth: true
       };
     }
@@ -56,14 +44,14 @@ export const loginReducer = (
     case LOGIN_REJECTED: {
       return {
         ...state,
-        error: action.payload
+        error: action.payload?.error
       };
     }
 
     case LOGOUT: {
       return {
         ...state,
-        logout: action.payload,
+        logout: action.payload?.logout,
         checkingAuth: false
       };
     }
@@ -76,13 +64,13 @@ export const loginReducer = (
     case LOGOUT_REJECTED: {
       return {
         ...state,
-        error: action.payload
+        error: action.payload?.error
       };
     }
     case CHECKING_AUTH: {
       return {
         ...state,
-        checkingAuth: action.payload
+        checkingAuth: action.payload?.checkingAuth
       };
     }
     default: {

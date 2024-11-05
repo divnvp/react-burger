@@ -10,25 +10,21 @@ const initialState = {
   error: null
 };
 
-type IngredientReducer = {
-  payload: { data: unknown; error: unknown };
-};
-
 export const burgerIngredientsReducer = (
   state = initialState,
-  action: ActionType & IngredientReducer
+  action: ActionType
 ) => {
   switch (action.type) {
     case INGREDIENTS_GETTING: {
       return {
         ...state,
-        ingredients: action.payload.data
+        ingredients: action.payload?.data
       };
     }
     case INGREDIENTS_GETTING_REJECTED: {
       return {
         ...state,
-        error: action.payload.error
+        error: action.payload?.error
       };
     }
     case INGREDIENTS_GETTING_REQUEST: {

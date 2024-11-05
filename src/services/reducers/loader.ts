@@ -10,7 +10,7 @@ export const loaderReducer = (state = initialState, action: ActionType) => {
     case LOADING: {
       return {
         ...state,
-        loading: action.payload
+        loading: action.payload?.loading
       };
     }
     default: {
