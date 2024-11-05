@@ -4,39 +4,37 @@ import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients
 import ingredientsStyles from './burger-ingredients.module.css';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
-import { useDispatch, useSelector } from 'react-redux';
-import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
+import { useSelector } from 'react-redux';
 import { TabEnum } from '../../shared/consts/tab.enum';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import { useInView } from 'react-intersection-observer';
 
+type BurgerIngredientSelector = {
+  burgerIngredients: {
+    ingredients: Ingredient[];
+  };
+  burgerConstructor: {
+    burgerConstructor: Ingredient[];
+    buns: Ingredient;
+  };
+};
+
 function BurgerIngredients() {
   const location = useLocation();
-  const ingredients = useSelector((state: unknown) => {
-    return (state as { burgerIngredients: { ingredients: Ingredient[] } })
-      .burgerIngredients.ingredients;
-  });
-  const cart = useSelector(
-    (state: { burgerConstructor: { burgerConstructor: Ingredient[] } }) => {
-      return state.burgerConstructor.burgerConstructor;
-    }
+  const useBurgerIngredientSelector =
+    useSelector.withTypes<BurgerIngredientSelector>();
+  const ingredients = useBurgerIngredientSelector(
+    state => state.burgerIngredients.ingredients
   );
-  const buns = useSelector(
-    (state: { burgerConstructor: { buns: Ingredient } }) => {
-      return state.burgerConstructor.buns;
-    }
+  const cart = useBurgerIngredientSelector(
+    state => state.burgerConstructor.burgerConstructor
   );
-  const dispatch = useDispatch();
+  const buns = useBurgerIngredientSelector(
+    state => state.burgerConstructor.buns
+  );
   const [current, setCurrent] = useState(TabEnum.One);
-
-  const onIngredientClick = (element: Ingredient) => {
-    dispatch({
-      type: INGREDIENT_DETAILS_GETTING,
-      payload: element
-    });
-  };
 
   const [bunRef, inViewBun, entryBun] = useInView({
     threshold: 0.3

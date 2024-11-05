@@ -8,10 +8,13 @@ import { useSelector } from 'react-redux';
 import { ErrorType } from '../../shared/models/error.type';
 import { Layout } from '../../components/layout/layout';
 
+type MailPageSelector = {
+  error?: ErrorType;
+};
+
 export function MainPage() {
-  const error = useSelector(
-    (state: { error?: ErrorType }) => state?.error?.message
-  );
+  const useMailPageSelector = useSelector.withTypes<MailPageSelector>();
+  const error = useMailPageSelector(state => state?.error?.message);
 
   return (
     <Layout>

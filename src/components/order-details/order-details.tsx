@@ -3,12 +3,13 @@ import doneImage from '../../images/done.svg';
 import { useSelector } from 'react-redux';
 import { Order } from '../../shared/models/order.type';
 
+type OrderDetailsSelector = {
+  burgerConstructor: { order: Order };
+};
+
 function OrderDetails() {
-  const order = useSelector(
-    (state: { burgerConstructor: { order: Order } }) => {
-      return state.burgerConstructor.order;
-    }
-  );
+  const useOrderDetailsSelector = useSelector.withTypes<OrderDetailsSelector>();
+  const order = useOrderDetailsSelector(state => state.burgerConstructor.order);
 
   return (
     <>

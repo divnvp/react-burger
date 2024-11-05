@@ -6,13 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
 
+type IngredientDeailSelector = {
+  burgerIngredients: { ingredients: Ingredient[] };
+};
+
 export function IngredientDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const ingredients = useSelector((state: unknown) => {
-    return (state as { burgerIngredients: { ingredients: Ingredient[] } })
-      .burgerIngredients.ingredients;
-  });
+  const useIngredientDeailSelector =
+    useSelector.withTypes<IngredientDeailSelector>();
+  const ingredients = useIngredientDeailSelector(
+    state => state.burgerIngredients.ingredients
+  );
 
   useEffect(() => {
     if (ingredients.length) {
