@@ -2,19 +2,27 @@ import orderDetailsStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
 import { useSelector } from 'react-redux';
 import { Order } from '../../shared/models/order.type';
+import { Loader } from '../loader/loader';
 
 type OrderDetailsSelector = {
-  burgerConstructor: { order: Order };
+  burgerConstructor: { order: Order; loading: boolean };
 };
 
 function OrderDetails() {
   const useOrderDetailsSelector = useSelector.withTypes<OrderDetailsSelector>();
   const order = useOrderDetailsSelector(state => state.burgerConstructor.order);
+  const loading = useOrderDetailsSelector(
+    state => state.burgerConstructor.loading
+  );
 
   return (
-    <>
-      {Object.keys(order).length && (
-        <div className={`${orderDetailsStyles.grid} pt-8`}>
+    <div className={`${orderDetailsStyles.grid} pt-8`}>
+      {loading ? (
+        <div className={`${orderDetailsStyles.loaderGrid} pb-30`}>
+          <Loader />
+        </div>
+      ) : (
+        <>
           <p
             className={`text text_type_digits-large ${orderDetailsStyles.glow} pb-8`}
           >
@@ -28,9 +36,9 @@ function OrderDetails() {
           <p className='text text_type_main-default text_color_inactive'>
             Дождитесь готовности на орбитальной станции
           </p>
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 

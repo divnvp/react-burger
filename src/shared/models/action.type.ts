@@ -21,5 +21,6 @@ export type ActionType = {
     isAuth?: boolean;
     loading?: boolean;
     logout?: Response;
+    amount?: number;
   };
 };

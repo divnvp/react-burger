@@ -124,27 +124,29 @@ function BurgerConstructor() {
   };
 
   useEffect(() => {
+    recalculateAmount();
+  }, [ingredients, buns]);
+
+  const recalculateAmount = () => {
+    let totalAmount = 0;
     if (buns && Object.keys(buns).length) {
       setIsCartEmpty(false);
-      const totalAmount = ingredients.reduce(
+      totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient?.price,
         buns?.price * 2
       );
-      dispatch({
-        type: AMOUNT_RECALCULATING,
-        payload: totalAmount
-      });
     } else if (ingredients.length) {
-      const totalAmount = ingredients.reduce(
+      totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient?.price,
         0
       );
-      dispatch({
-        type: AMOUNT_RECALCULATING,
-        payload: totalAmount
-      });
     }
-  }, [ingredients, buns]);
+
+    dispatch({
+      type: AMOUNT_RECALCULATING,
+      payload: { amount: totalAmount }
+    });
+  };
 
   const onRemove = (uniqueId: string) => {
     dispatch({
