@@ -4,7 +4,7 @@ import {
   Input,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { Layout } from '../../components/layout/layout';
 import { useDispatch, useSelector } from 'react-redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
@@ -29,9 +29,7 @@ export function ProfilePage() {
   const dispatch = useDispatch();
   const useProfilePageSelector = useSelector.withTypes<ProfileSelector>();
   const user = useProfilePageSelector(state => state.user);
-  const logout = useProfilePageSelector(state => {
-    return state.login.logout;
-  });
+  const logout = useProfilePageSelector(state => state.login.logout);
   const [values, handleChange, setCertainValue] = useForm<
     Required<RegisterUser>
   >({
@@ -78,7 +76,7 @@ export function ProfilePage() {
     }
   }, [logout]);
 
-  const onSaveProfile = (e: { preventDefault: () => void }) => {
+  const onSaveProfile = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
       fetchUserUpdatingThunk({

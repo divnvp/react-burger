@@ -3,22 +3,21 @@ import { Layout } from '../../components/layout/layout';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
-import { UnknownAction } from 'redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
+
+type IngredientDeailSelector = {
+  burgerIngredients: { ingredients: Ingredient[] };
+};
 
 export function IngredientDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const ingredients = useSelector((state: unknown) => {
-    return (state as { burgerIngredients: { ingredients: Ingredient[] } })
-      .burgerIngredients.ingredients;
-  });
-
-  useEffect(() => {
-    dispatch(fetchIngredientsThunk() as unknown as UnknownAction);
-  }, []);
+  const useIngredientDeailSelector =
+    useSelector.withTypes<IngredientDeailSelector>();
+  const ingredients = useIngredientDeailSelector(
+    state => state.burgerIngredients.ingredients
+  );
 
   useEffect(() => {
     if (ingredients.length) {

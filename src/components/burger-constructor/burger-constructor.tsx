@@ -95,6 +95,7 @@ function BurgerConstructor() {
   const navigate = useNavigate();
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
   const [makingOrder, setMakingOrder] = useState<boolean>(false);
+  const [isCartEmpty, setIsCartEmpty] = useState<boolean>(true);
 
   const showOrderDetails = () => {
     setMakingOrder(true);
@@ -119,34 +120,40 @@ function BurgerConstructor() {
       type: CLEAR_ORDER
     });
     setMakingOrder(false);
+    setIsCartEmpty(true);
   };
 
   useEffect(() => {
+    recalculateAmount();
+  }, [ingredients, buns]);
+
+  const recalculateAmount = () => {
+    let totalAmount = 0;
     if (buns && Object.keys(buns).length) {
-      const totalAmount = ingredients.reduce(
+      setIsCartEmpty(false);
+      totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient?.price,
         buns?.price * 2
       );
-      dispatch({
-        type: AMOUNT_RECALCULATING,
-        payload: totalAmount
-      });
     } else if (ingredients.length) {
-      const totalAmount = ingredients.reduce(
+      totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient?.price,
         0
       );
-      dispatch({
-        type: AMOUNT_RECALCULATING,
-        payload: totalAmount
-      });
     }
-  }, [ingredients, buns]);
+
+    dispatch({
+      type: AMOUNT_RECALCULATING,
+      payload: { amount: totalAmount }
+    });
+  };
 
   const onRemove = (uniqueId: string) => {
     dispatch({
       type: INGREDIENT_REMOVING,
-      payload: ingredients.filter(v => v && v.uniqueId !== uniqueId)
+      payload: {
+        burgerConstructor: ingredients.filter(v => v && v.uniqueId !== uniqueId)
+      }
     });
 
     dispatch({
@@ -246,6 +253,7 @@ function BurgerConstructor() {
           type='primary'
           size='medium'
           onClick={showOrderDetails}
+          disabled={isCartEmpty}
         >
           Оформить заказ
         </Button>

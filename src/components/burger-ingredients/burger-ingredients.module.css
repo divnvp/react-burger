@@ -24,10 +24,11 @@
 }
 
 .wrap > * {
-  flex: 1 1 160px;
+  flex: 1;
 }
 
 .link {
   text-decoration: none;
   color: white;
+  min-width: 40%;
 }

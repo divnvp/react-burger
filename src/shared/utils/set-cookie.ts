@@ -1,13 +1,17 @@
-export function setCookie(name: string, value: string, props?: any) {
-  props = props || {};
-  let exp = props.expires;
+export function setCookie(
+  name: string,
+  value: string,
+  props?: Record<string, unknown>
+) {
+  props = props || undefined;
+  let exp = props?.expires;
   if (typeof exp == 'number' && exp) {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = d;
+    exp = props!.expires = d;
   }
   if (exp && (exp as Date).toUTCString) {
-    props.expires = (exp as Date).toUTCString();
+    props!.expires = (exp as Date).toUTCString();
   }
   value = encodeURIComponent(value);
   let updatedCookie = name + '=' + value;

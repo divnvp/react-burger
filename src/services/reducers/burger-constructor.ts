@@ -18,7 +18,8 @@ const initialState = {
   ingredient: {},
   amount: 0,
   order: {},
-  error: null
+  error: null,
+  loading: false
 };
 
 export const burgerConstructorReducer = (
@@ -53,33 +54,36 @@ export const burgerConstructorReducer = (
     case AMOUNT_RECALCULATING: {
       return {
         ...state,
-        amount: action.payload
+        amount: action.payload?.amount
       };
     }
     case MAKING_ORDER: {
       return {
         ...state,
-        order: action.payload
+        order: action.payload?.order,
+        loading: false
       };
     }
     case ORDER_MAKING_REJECTED: {
       return {
         ...state,
         order: [],
-        error: action.payload
+        error: action.payload?.error,
+        loading: false
       };
     }
     case ORDER_MAKING_REQUEST: {
       return {
         ...state,
         order: [],
-        error: null
+        error: null,
+        loading: true
       };
     }
     case INGREDIENT_REMOVING: {
       return {
         ...state,
-        burgerConstructor: action.payload
+        burgerConstructor: action.payload?.burgerConstructor
       };
     }
     case CLEAR_ORDER: {

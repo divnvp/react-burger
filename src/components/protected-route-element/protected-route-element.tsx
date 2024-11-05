@@ -17,9 +17,9 @@ type ProtectedRouteSelector = {
 export const ProtectedRouteElement = (props: Props) => {
   const useProtectedRouteSelector =
     useSelector.withTypes<ProtectedRouteSelector>();
-  const isAuthChecked = useProtectedRouteSelector(state => {
-    return state.login.checkingAuth;
-  });
+  const isAuthChecked = useProtectedRouteSelector(
+    state => state.login.checkingAuth
+  );
   const user = useProtectedRouteSelector(store => store.user);
   const location = useLocation();
 

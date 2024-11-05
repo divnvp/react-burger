@@ -1,9 +1,5 @@
-import loaderStyles from './loader.module.css';
+import { Loader } from '../../components/loader/loader';
 
 export function LoaderPage() {
-  return (
-    <div className={loaderStyles.grid}>
-      <div className={loaderStyles.loader}></div>
-    </div>
-  );
+  return <Loader />;
 }

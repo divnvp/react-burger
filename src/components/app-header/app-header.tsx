@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { useLocation } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 
 function AppHeader() {
@@ -38,7 +38,9 @@ function AppHeader() {
             <ListIcon type='secondary' />
           </HeaderItem>
         </div>
-        <Logo />
+        <NavLink to={RouteName.Main}>
+          <Logo />
+        </NavLink>
         <NavLink to={RouteName.Profile} className={`${appHeaderStyle.link}`}>
           <HeaderItem title='Личный кабинет' isActive={activeTabProfile}>
             <ProfileIcon type='secondary' />

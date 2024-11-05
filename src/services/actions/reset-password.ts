@@ -15,6 +15,6 @@ export const fetchResetPasswordThunk =
       const response = await resetPassword(credits);
       dispatch({ type: RESETTING_PASSWORD, payload: response });
     } catch (e) {
-      dispatch({ type: RESET_PASSWORD_REJECTED, payload: e });
+      dispatch({ type: RESET_PASSWORD_REJECTED, payload: { error: e } });
     }
   };

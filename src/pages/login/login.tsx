@@ -3,7 +3,7 @@ import {
   EmailInput,
   PasswordInput
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
 import { Layout } from '../../components/layout/layout';
@@ -20,7 +20,7 @@ export function LoginPage() {
     password: ''
   });
 
-  const onAuth = (e: { preventDefault: () => void }) => {
+  const onAuth = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
       fetchLoginThunk({

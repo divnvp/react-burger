@@ -22,13 +22,13 @@ export const fetchUserThunk =
     try {
       await getUser().then((response: Response) => {
         dispatch({ type: USER_GETTING, payload: response.user });
-        dispatch({ type: CHECKING_AUTH, payload: true });
-        dispatch({ type: IS_USER_AUTH, payload: true });
+        dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
+        dispatch({ type: IS_USER_AUTH, payload: { isAuth: true } });
       });
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
-        dispatch({ type: IS_USER_AUTH, payload: false });
-        dispatch({ type: CHECKING_AUTH, payload: true });
+        dispatch({ type: IS_USER_AUTH, payload: { isAuth: false } });
+        dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
         dispatch(
           fetchRefreshTokenThunk(() =>
             dispatch(fetchUserThunk() as unknown as UnknownAction)
@@ -51,7 +51,7 @@ export const fetchUserUpdatingThunk =
       });
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
-        dispatch({ type: CHECKING_AUTH, payload: true });
+        dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
         dispatch(
           fetchRefreshTokenThunk(() =>
             dispatch(
@@ -60,7 +60,7 @@ export const fetchUserUpdatingThunk =
           ) as unknown as UnknownAction
         );
       } else {
-        dispatch({ type: USER_UPDATING_REJECTED, payload: e });
+        dispatch({ type: USER_UPDATING_REJECTED, payload: { error: e } });
       }
     }
   };

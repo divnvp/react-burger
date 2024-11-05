@@ -32,13 +32,13 @@ export const fetchLoginThunk =
 
         dispatch({ type: LOGIN, payload: response });
         dispatch({ type: USER_GETTING, payload: response.user });
-        dispatch({ type: CHECKING_AUTH, payload: true });
-        dispatch({ type: IS_USER_AUTH, payload: true });
+        dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
+        dispatch({ type: IS_USER_AUTH, payload: { isAuth: true } });
       });
     } catch (e) {
-      dispatch({ type: LOGIN_REJECTED, payload: e });
-      dispatch({ type: CHECKING_AUTH, payload: true });
-      dispatch({ type: IS_USER_AUTH, payload: false });
+      dispatch({ type: LOGIN_REJECTED, payload: { error: e } });
+      dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
+      dispatch({ type: IS_USER_AUTH, payload: { isAuth: false } });
     }
   };
 
@@ -53,14 +53,17 @@ export const fetchLogoutThunk =
           localStorage.removeItem('refreshToken');
 
           dispatch({ type: LOGOUT, payload: response });
-          dispatch({ type: CHECKING_AUTH, payload: true });
-          dispatch({ type: USER_GETTING, payload: null });
-          dispatch({ type: LOADING, payload: false });
-          dispatch({ type: IS_USER_AUTH, payload: false });
+          dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
+          dispatch({
+            type: USER_GETTING,
+            payload: { email: undefined, password: undefined, name: undefined }
+          });
+          dispatch({ type: LOADING, payload: { loading: false } });
+          dispatch({ type: IS_USER_AUTH, payload: { isAuth: false } });
         }
       );
     } catch (e) {
-      dispatch({ type: LOGOUT_REJECTED, payload: e });
+      dispatch({ type: LOGOUT_REJECTED, payload: { error: e } });
     }
   };
 
@@ -82,7 +85,7 @@ export const fetchRefreshTokenThunk =
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
         dispatch(fetchLogoutThunk() as unknown as UnknownAction);
-        dispatch({ type: CHECKING_AUTH, payload: true });
+        dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
       }
       dispatch({ type: REFRESH_TOKEN_REJECTED, payload: e });
     }
@@ -92,11 +95,11 @@ export const checkUserAuthThunk = () => {
   return (dispatch: (action: ActionType) => void) => {
     if (localStorage.getItem('refreshToken')) {
       dispatch(fetchUserThunk() as unknown as UnknownAction);
-      dispatch({ type: CHECKING_AUTH, payload: true });
+      dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
     } else {
-      dispatch({ type: CHECKING_AUTH, payload: true });
-      dispatch({ type: LOADING, payload: false });
-      dispatch({ type: IS_USER_AUTH, payload: false });
+      dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
+      dispatch({ type: LOADING, payload: { loading: false } });
+      dispatch({ type: IS_USER_AUTH, payload: { isAuth: false } });
     }
   };
 };

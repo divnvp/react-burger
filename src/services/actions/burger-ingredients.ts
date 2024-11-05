@@ -17,6 +17,6 @@ export const fetchIngredientsThunk =
         payload: data
       });
     } catch (e) {
-      dispatch({ type: INGREDIENTS_GETTING_REJECTED, payload: e });
+      dispatch({ type: INGREDIENTS_GETTING_REJECTED, payload: { error: e } });
     }
   };

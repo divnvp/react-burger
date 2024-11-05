@@ -26,6 +26,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { LoaderPage } from '../../pages/loader/loader';
 import { LoadingType } from '../../shared/models/store/loading.type';
 import { RegisterUser } from '../../shared/models/register-user.type';
+import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
 
 type AppSelector = {
   loading: LoadingType;
@@ -42,7 +43,8 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(checkUserAuthThunk() as unknown as UnknownAction);
-  }, []);
+    dispatch(fetchIngredientsThunk() as unknown as UnknownAction);
+  }, [dispatch]);
 
   if (loading && !user?.email) {
     return <LoaderPage />;
@@ -55,18 +57,13 @@ function App() {
           <Route
             path={RoutesName.IngredientDetail}
             element={
-              <ProtectedAuthElement
-                onlyUnAuth={false}
-                element={
-                  <Modal
-                    isOpen={true}
-                    title='Детали ингредиента'
-                    onClick={() => navigate(RouteName.Main)}
-                  >
-                    <IngredientDetails />
-                  </Modal>
-                }
-              />
+              <Modal
+                isOpen={true}
+                title='Детали ингредиента'
+                onClick={() => navigate(RouteName.Main)}
+              >
+                <IngredientDetails />
+              </Modal>
             }
           />
         </Routes>
@@ -75,12 +72,7 @@ function App() {
       <Routes location={state?.backgroundLocation || location}>
         <Route
           path={RoutesName.IngredientDetail}
-          element={
-            <ProtectedAuthElement
-              onlyUnAuth={false}
-              element={<IngredientDetailPage />}
-            />
-          }
+          element={<IngredientDetailPage />}
         />
         <Route path={RoutesName.Main} element={<MainPage />} />
         <Route

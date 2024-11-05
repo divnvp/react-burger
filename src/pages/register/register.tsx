@@ -1,5 +1,5 @@
 import registerStyles from './register.module.css';
-import React, { useEffect } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 import {
   Button,
   EmailInput,
@@ -29,11 +29,11 @@ export function RegisterPage() {
   const dispatch = useDispatch();
   const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
   const navigate = useNavigate();
-  const registration = useRegisterPageSelector(state => {
-    return state.registration.response;
-  });
+  const registration = useRegisterPageSelector(
+    state => state.registration.response
+  );
 
-  const registerUser = (e: { preventDefault: () => void }) => {
+  const registerUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
       fetchRegisterThunk({
