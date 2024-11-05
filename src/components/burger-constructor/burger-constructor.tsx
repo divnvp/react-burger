@@ -95,6 +95,7 @@ function BurgerConstructor() {
   const navigate = useNavigate();
   const [oderDetails, setOrderDetails] = useState<boolean>(false);
   const [makingOrder, setMakingOrder] = useState<boolean>(false);
+  const [isCartEmpty, setIsCartEmpty] = useState<boolean>(true);
 
   const showOrderDetails = () => {
     setMakingOrder(true);
@@ -123,6 +124,7 @@ function BurgerConstructor() {
 
   useEffect(() => {
     if (buns && Object.keys(buns).length) {
+      setIsCartEmpty(false);
       const totalAmount = ingredients.reduce(
         (sum, ingredient) => sum + ingredient?.price,
         buns?.price * 2
@@ -146,7 +148,9 @@ function BurgerConstructor() {
   const onRemove = (uniqueId: string) => {
     dispatch({
       type: INGREDIENT_REMOVING,
-      payload: ingredients.filter(v => v && v.uniqueId !== uniqueId)
+      payload: {
+        burgerConstructor: ingredients.filter(v => v && v.uniqueId !== uniqueId)
+      }
     });
 
     dispatch({
@@ -246,6 +250,7 @@ function BurgerConstructor() {
           type='primary'
           size='medium'
           onClick={showOrderDetails}
+          disabled={isCartEmpty}
         >
           Оформить заказ
         </Button>
