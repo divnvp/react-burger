@@ -120,6 +120,7 @@ function BurgerConstructor() {
       type: CLEAR_ORDER
     });
     setMakingOrder(false);
+    setIsCartEmpty(true);
   };
 
   useEffect(() => {
