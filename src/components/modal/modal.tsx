@@ -14,15 +14,11 @@ type Props = {
   children?: React.ReactNode;
 };
 
-type EventKey = {
-  key: string;
-};
-
 function Modal(props: Props) {
   const [portal, setPortal] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    const closeOnEsc = (event: EventKey) => {
+    const closeOnEsc = (event: KeyboardEvent) => {
       if (event.key === Key.Esc) {
         props.onClick();
       }

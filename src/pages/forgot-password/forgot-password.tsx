@@ -4,7 +4,7 @@ import {
   Button,
   Input
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 import registerStyles from '../register/register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +29,7 @@ export function ForgotPasswordPage() {
     email: ''
   });
 
-  const recoverPassword = (e: { preventDefault: () => void }) => {
+  const recoverPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
       fetchForgotPasswordThunk(values.email) as unknown as UnknownAction

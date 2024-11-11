@@ -3,40 +3,50 @@ import MacronutrientComponent from '../macronutrient/macronutrient';
 import { Macronutrient } from '../../shared/consts/macronutrient.enum';
 import { useSelector } from 'react-redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
+import { useParams } from 'react-router';
+
+type IngredientDetailsSelector = {
+  burgerIngredients: { ingredients: Ingredient[] };
+};
 
 function IngredientDetails() {
-  const ingredient = useSelector(state => {
-    return (state as { ingredient: { ingredient: Ingredient } }).ingredient
-      .ingredient;
-  });
+  const { id } = useParams();
+  const useIngredientDetailsSelector =
+    useSelector.withTypes<IngredientDetailsSelector>();
+  const ingredients = useIngredientDetailsSelector(
+    state => state.burgerIngredients.ingredients
+  );
+  const ingredient = ingredients.find(v => v._id === id);
 
   return (
     <>
-      <div className={ingredientDetailsStyles.grid}>
-        <img alt={ingredient.name} src={ingredient.image_large} />
-        <p className='text text_type_main-medium pt-4 pb-8'>
-          {ingredient.name}
-        </p>
+      {ingredient && (
+        <div className={ingredientDetailsStyles.grid}>
+          <img alt={ingredient.name} src={ingredient.image_large} />
+          <p className='text text_type_main-medium pt-4 pb-8'>
+            {ingredient.name}
+          </p>
 
-        <div className={ingredientDetailsStyles.macronutrients}>
-          <MacronutrientComponent
-            value={ingredient.calories}
-            name={`${Macronutrient.Calories},ккал`}
-          />
-          <MacronutrientComponent
-            value={ingredient.proteins}
-            name={`${Macronutrient.Proteins},г`}
-          />
-          <MacronutrientComponent
-            value={ingredient.fat}
-            name={`${Macronutrient.Fat},г`}
-          />
-          <MacronutrientComponent
-            value={ingredient.carbohydrates}
-            name={`${Macronutrient.Carbohydrates},г`}
-          />
+          <div className={ingredientDetailsStyles.macronutrients}>
+            <MacronutrientComponent
+              value={ingredient.calories}
+              name={`${Macronutrient.Calories},ккал`}
+            />
+            <MacronutrientComponent
+              value={ingredient.proteins}
+              name={`${Macronutrient.Proteins},г`}
+            />
+            <MacronutrientComponent
+              value={ingredient.fat}
+              name={`${Macronutrient.Fat},г`}
+            />
+            <MacronutrientComponent
+              value={ingredient.carbohydrates}
+              name={`${Macronutrient.Carbohydrates},г`}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

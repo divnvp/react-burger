@@ -13,7 +13,7 @@ export const ingredientDetailsReducer = (
     case INGREDIENT_DETAILS_GETTING: {
       return {
         ...state,
-        ingredient: action.payload
+        ingredient: action.payload?.ingredient
       };
     }
     default: {

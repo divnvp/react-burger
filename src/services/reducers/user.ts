@@ -21,7 +21,7 @@ export const userReducer = (state = initialState, action: ActionType) => {
     case IS_USER_AUTH: {
       return {
         ...state,
-        isAuth: action.payload
+        isAuth: action.payload?.isAuth
       };
     }
     default: {

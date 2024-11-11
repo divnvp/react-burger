@@ -28,10 +28,10 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       return {
         ...state,
         logout: null,
-        user: { ...action.payload.user },
+        user: { ...action.payload?.user },
         success: true,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        accessToken: action.payload?.accessToken,
+        refreshToken: action.payload?.refreshToken,
         checkingAuth: true
       };
     }
@@ -44,14 +44,14 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGIN_REJECTED: {
       return {
         ...state,
-        error: action.payload
+        error: action.payload?.error
       };
     }
 
     case LOGOUT: {
       return {
         ...state,
-        logout: action.payload,
+        logout: action.payload?.logout,
         checkingAuth: false
       };
     }
@@ -64,13 +64,13 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGOUT_REJECTED: {
       return {
         ...state,
-        error: action.payload
+        error: action.payload?.error
       };
     }
     case CHECKING_AUTH: {
       return {
         ...state,
-        checkingAuth: action.payload
+        checkingAuth: action.payload?.checkingAuth
       };
     }
     default: {

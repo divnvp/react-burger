@@ -19,12 +19,13 @@ export const fetchMakingOrderThunk =
     dispatch({ type: ORDER_MAKING_REQUEST });
 
     try {
-      const data = await makeOrder(order);
-      dispatch({
-        type: MAKING_ORDER,
-        payload: data
-      });
+      await makeOrder(order).then(data =>
+        dispatch({
+          type: MAKING_ORDER,
+          payload: { order: data }
+        })
+      );
     } catch (e) {
-      dispatch({ type: ORDER_MAKING_REJECTED, payload: e });
+      dispatch({ type: ORDER_MAKING_REJECTED, payload: { error: e } });
     }
   };

@@ -1,6 +1,6 @@
 import { Layout } from '../../components/layout/layout';
 import resetPasswordStyles from './reset-password.module.css';
-import React, { useEffect } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 import {
   Button,
   Input,
@@ -33,7 +33,7 @@ export function ResetPasswordPage() {
     token: ''
   });
 
-  const resetPassword = (e: { preventDefault: () => void }) => {
+  const resetPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
       fetchResetPasswordThunk({
