@@ -8,19 +8,23 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { Navigate, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 
 function AppHeader() {
   const location = useLocation();
   const [activeTabMain, setActiveTabMain] = useState(false);
   const [activeTabProfile, setActiveTabProfile] = useState(false);
+  const [activeTabFeed, setActiveTabFeed] = useState(false);
   useEffect(() => {
     if (location.pathname === RouteName.Main) {
       setActiveTabMain(true);
     }
     if (location.pathname === RouteName.Profile) {
       setActiveTabProfile(true);
+    }
+    if (location.pathname === RouteName.Feed) {
+      setActiveTabFeed(true);
     }
   }, [location]);
 
@@ -34,9 +38,11 @@ function AppHeader() {
             </HeaderItem>
           </NavLink>
 
-          <HeaderItem title='Лента заказов' isActive={false}>
-            <ListIcon type='secondary' />
-          </HeaderItem>
+          <NavLink to={RouteName.Feed} className={`${appHeaderStyle.link}`}>
+            <HeaderItem title='Лента заказов' isActive={activeTabFeed}>
+              <ListIcon type='secondary' />
+            </HeaderItem>
+          </NavLink>
         </div>
         <NavLink to={RouteName.Main}>
           <Logo />
