@@ -30,7 +30,7 @@ export function FeedCardImages({ ingredients }: FeedCardImagesProps) {
     <div>
       {images.length <= 5
         ? images.map((image, index) => (
-            <FeedCardImage image={image} index={index} />
+            <FeedCardImage key={v4()} image={image} index={index} />
           ))
         : images.slice(0, 6).map((image, index) => (
             <Fragment key={v4()}>
