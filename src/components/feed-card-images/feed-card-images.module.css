@@ -4,18 +4,20 @@
   object-fit: cover;
 
   background:
-    linear-gradient(#1c1c21, #1c1c21) padding-box,
+    linear-gradient(#131316, #131316) padding-box,
     linear-gradient(to right, #801ab2, #4c4cff) border-box;
   padding: 10px;
   border: 2px solid transparent;
   border-radius: 100px;
 }
 
-.moreImage {
+.image:nth-child(6) {
   opacity: 60%;
 }
 
 .moreImageText {
   position: relative;
+  top: -50px;
+  left: 265px;
+  z-index: 100000;
 }
-

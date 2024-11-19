@@ -2,6 +2,7 @@ import feedCardStyles from './feed-card-images.module.css';
 import { useSelector } from 'react-redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { v4 } from 'uuid';
+import { Fragment } from 'react';
 
 type FeedCardImagesProps = {
   ingredients: string[];
@@ -41,35 +42,27 @@ export function FeedCardImages({ ingredients }: FeedCardImagesProps) {
             />
           ))
         : images.slice(0, 6).map((image, index) => (
-            <>
-              {index <= 4 ? (
-                <img
-                  key={v4()}
-                  src={image}
-                  style={{
-                    position: 'relative',
-                    right: index * 15,
-                    zIndex: 9999 - index
-                  }}
-                  alt='Ingredient modile'
-                  className={feedCardStyles.image}
-                />
+            <Fragment key={v4()}>
+              <img
+                src={image}
+                style={{
+                  position: 'relative',
+                  right: index * 15,
+                  zIndex: 9999 - index
+                }}
+                alt='Ingredient modile'
+                className={feedCardStyles.image}
+              />
+              {index >= 5 ? (
+                <p
+                  className={`text text_type_digits-default ${feedCardStyles.moreImageText}`}
+                >
+                  +{images.filter((_, index) => index >= 5).length}
+                </p>
               ) : (
-                <>
-                  <img
-                    key={v4()}
-                    src={image}
-                    style={{
-                      position: 'relative',
-                      right: index * 15,
-                      zIndex: 9999 - index
-                    }}
-                    alt='Ingredient modile'
-                    className={`${feedCardStyles.image} ${feedCardStyles.moreImage}`}
-                  />
-                </>
+                ''
               )}
-            </>
+            </Fragment>
           ))}
     </div>
   );
