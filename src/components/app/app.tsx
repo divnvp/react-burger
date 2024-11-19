@@ -9,7 +9,8 @@ import {
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
-  IngredientDetailPage
+  IngredientDetailPage,
+  FeedPage
 } from '../../pages';
 import { Routes as RoutesName } from '../../shared/consts/routes';
 import {
@@ -91,6 +92,7 @@ function App() {
           path={RoutesName.ResetPassword}
           element={<ProtectedUnAuthElement element={<ResetPasswordPage />} />}
         />
+        <Route path={RoutesName.Feed} element={<FeedPage />} />
         <Route
           path={RoutesName.Profile}
           element={
