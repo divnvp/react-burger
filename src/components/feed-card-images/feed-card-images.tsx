@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { v4 } from 'uuid';
 import { Fragment } from 'react';
+import { FeedCardImage } from '../feed-card-image/feed-card-image';
 
 type FeedCardImagesProps = {
   ingredients: string[];
@@ -29,30 +30,11 @@ export function FeedCardImages({ ingredients }: FeedCardImagesProps) {
     <div>
       {images.length <= 5
         ? images.map((image, index) => (
-            <img
-              key={v4()}
-              src={image}
-              style={{
-                position: 'relative',
-                right: index * 15,
-                zIndex: 9999 - index
-              }}
-              alt='Ingredient modile'
-              className={feedCardStyles.image}
-            />
+            <FeedCardImage image={image} index={index} />
           ))
         : images.slice(0, 6).map((image, index) => (
             <Fragment key={v4()}>
-              <img
-                src={image}
-                style={{
-                  position: 'relative',
-                  right: index * 15,
-                  zIndex: 9999 - index
-                }}
-                alt='Ingredient modile'
-                className={feedCardStyles.image}
-              />
+              <FeedCardImage image={image} index={index} />
               {index >= 5 ? (
                 <p
                   className={`text text_type_digits-default ${feedCardStyles.moreImageText}`}
