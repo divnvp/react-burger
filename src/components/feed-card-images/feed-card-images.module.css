@@ -1,0 +1,21 @@
+.image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+
+  background:
+    linear-gradient(#1c1c21, #1c1c21) padding-box,
+    linear-gradient(to right, #801ab2, #4c4cff) border-box;
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 100px;
+}
+
+.moreImage {
+  opacity: 60%;
+}
+
+.moreImageText {
+  position: relative;
+}
+
