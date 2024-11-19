@@ -99,64 +99,57 @@ export function FeedPage() {
   };
   return (
     <Layout>
-      <div className={feedModuleStyles.centerGrid}>
-        <div
-          className={`${feedModuleStyles.row} pt-10`}
-          style={{ gap: '60px' }}
-        >
-          <div>
-            <p className='text text_type_main-large pb-6'>Лента заказов</p>
-            <div className={feedModuleStyles.feedGrid}>
-              {mocks.orders.map(v => (
-                <FeedCard
-                  key={v._id}
-                  ingredients={v.ingredients}
-                  number={v.number}
-                  createdAt={v.createdAt}
-                  name={v.name}
-                />
-              ))}
+      <div className={`${feedModuleStyles.row} pt-10`} style={{ gap: '60px' }}>
+        <div className={feedModuleStyles.col}>
+          <p className='text text_type_main-large pb-6'>Лента заказов</p>
+          <div className={feedModuleStyles.feedGrid}>
+            {mocks.orders.map(v => (
+              <FeedCard
+                key={v._id}
+                ingredients={v.ingredients}
+                number={v.number}
+                createdAt={v.createdAt}
+                name={v.name}
+              />
+            ))}
+          </div>
+        </div>
+        <div className={feedModuleStyles.col}>
+          <div
+            className={`${feedModuleStyles.row} pb-15`}
+            style={{ gap: '36px' }}
+          >
+            <div className={feedModuleStyles.col}>
+              <p className='text text_type_main-medium pb-6'>Готовы:</p>
+              {mocks.orders
+                .filter(o => o.status === Status.Done)
+                .map(o => (
+                  <p
+                    key={o._id}
+                    className={`text text_type_digits-default ${feedModuleStyles.orderNumberText}`}
+                  >
+                    {o.number}
+                  </p>
+                ))}
+            </div>
+            <div className={feedModuleStyles.col}>
+              <p className='text text_type_main-medium pb-6'>В работе:</p>
+              {mocks.orders
+                .filter(
+                  o =>
+                    o.status === Status.Pending || o.status === Status.Created
+                )
+                .map(o => (
+                  <p key={o._id} className={`text text_type_digits-default`}>
+                    {o.number}
+                  </p>
+                ))}
             </div>
           </div>
-          <div>
-            <div
-              className={`${feedModuleStyles.row} pb-15`}
-              style={{ gap: '36px' }}
-            >
-              <div>
-                <p className='text text_type_main-medium pb-6'>Готовы:</p>
-                {mocks.orders
-                  .filter(o => o.status === Status.Done)
-                  .map(o => (
-                    <p
-                      key={o._id}
-                      className={`text text_type_digits-default ${feedModuleStyles.orderNumberText}`}
-                    >
-                      {o.number}
-                    </p>
-                  ))}
-              </div>
-              <div>
-                <p className='text text_type_main-medium pb-6'>В работе:</p>
-                {mocks.orders
-                  .filter(
-                    o =>
-                      o.status === Status.Pending || o.status === Status.Created
-                  )
-                  .map(o => (
-                    <p key={o._id} className={`text text_type_digits-default`}>
-                      {o.number}
-                    </p>
-                  ))}
-              </div>
-            </div>
-            <p className='text text_type_main-medium'>
-              Выполнено за все время:
-            </p>
-            <p className='text text_type_digits-large pb-15'>{mocks.total}</p>
-            <p className='text text_type_main-medium'>Выполнено за сегодня:</p>
-            <p className='text text_type_digits-large'> {mocks.totalToday}</p>
-          </div>
+          <p className='text text_type_main-medium'>Выполнено за все время:</p>
+          <p className='text text_type_digits-large pb-15'>{mocks.total}</p>
+          <p className='text text_type_main-medium'>Выполнено за сегодня:</p>
+          <p className='text text_type_digits-large'> {mocks.totalToday}</p>
         </div>
       </div>
     </Layout>

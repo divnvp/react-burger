@@ -1,11 +1,9 @@
-.centerGrid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .row {
   display: flex;
+}
+
+.col {
+  width: 50%;
 }
 
 .feedGrid {
