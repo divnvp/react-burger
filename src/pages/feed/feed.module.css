@@ -1,18 +1,21 @@
 .row {
-    display: flex;
-    gap: 60px;
+  display: flex;
 }
 
 .col {
-    width: 50%;
+  width: 50%;
 }
 
 .feedGrid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-    overflow: auto;
-    height: auto;
-    max-height: calc(100vh - 20vh);
+  overflow: auto;
+  height: auto;
+  max-height: calc(100vh - 20vh);
+}
+
+.orderNumberText {
+  color: #00cccc;
 }

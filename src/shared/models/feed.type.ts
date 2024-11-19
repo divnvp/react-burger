@@ -1,3 +1,5 @@
+import { Status } from '../consts/status.enum';
+
 export type Feed = {
   success: boolean;
   orders: FeedDetail[];
@@ -7,8 +9,8 @@ export type Feed = {
 
 export type FeedDetail = {
   _id: string;
-  status: string;
-  number: number;
+  status: Status;
+  number: string;
   name: string;
   ingredients: string[];
   createdAt: Date | string;
