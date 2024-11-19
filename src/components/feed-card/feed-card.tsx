@@ -19,8 +19,9 @@ export function FeedCard({
   ingredients,
   createdAt,
   number,
-  name
-}: Partial<FeedDetail>) {
+  name,
+  click
+}: Partial<FeedDetail> & { click: () => void }) {
   const useFeedCardSelector = useSelector.withTypes<FeedCardSelector>();
   const ingredientsList = useFeedCardSelector(
     state => state.burgerIngredients.ingredients
@@ -30,7 +31,7 @@ export function FeedCard({
     .reduce((a, b) => a + b!.price, 0);
 
   return (
-    <div className={feedCardStyles.card}>
+    <div className={feedCardStyles.card} onClick={click}>
       <div className={feedCardStyles.row}>
         <p className='text text_type_digits-default'>#{number}</p>
         <p className='text text_type_main-small text_color_inactive'>

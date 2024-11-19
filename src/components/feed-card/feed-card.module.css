@@ -3,6 +3,8 @@
 
   border-radius: 40px;
   padding: 24px;
+
+  cursor: pointer;
 }
 
 .row {

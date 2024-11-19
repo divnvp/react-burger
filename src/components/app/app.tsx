@@ -28,6 +28,7 @@ import { LoaderPage } from '../../pages/loader/loader';
 import { LoadingType } from '../../shared/models/store/loading.type';
 import { RegisterUser } from '../../shared/models/register-user.type';
 import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
+import { FeedDetailPage } from '../../pages/feed-detail/feed-detail';
 
 type AppSelector = {
   loading: LoadingType;
@@ -111,6 +112,7 @@ function App() {
             />
           }
         />
+        <Route path={`${RoutesName.Feed}/:id`} element={<FeedDetailPage />} />
         <Route path={RoutesName.NotFound} element={<NotFoundPage />} />
       </Routes>
     </>

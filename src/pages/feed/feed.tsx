@@ -4,8 +4,11 @@ import { FeedCard } from '../../components/feed-card/feed-card';
 import { Feed } from '../../shared/models/feed.type';
 import { v4 } from 'uuid';
 import { Status } from '../../shared/consts/status.enum';
+import { Routes as RouteName } from '../../shared/consts/routes';
+import { useNavigate } from 'react-router-dom';
 
 export function FeedPage() {
+  const navigate = useNavigate();
   const mocks: Feed = {
     success: true,
     orders: [
@@ -97,6 +100,11 @@ export function FeedPage() {
     total: 28752,
     totalToday: 138
   };
+
+  const onClick = (id: string) => {
+    navigate(`${RouteName.Feed}/${id}`);
+  };
+
   return (
     <Layout>
       <div className={`${feedModuleStyles.row} pt-10`} style={{ gap: '60px' }}>
@@ -110,6 +118,7 @@ export function FeedPage() {
                 number={v.number}
                 createdAt={v.createdAt}
                 name={v.name}
+                click={() => onClick(v._id)}
               />
             ))}
           </div>
