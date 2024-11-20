@@ -29,12 +29,12 @@ import { LoadingType } from '../../shared/models/store/loading.type';
 import { RegisterUser } from '../../shared/models/register-user.type';
 import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
 import { FeedDetailPage } from '../../pages/feed-detail/feed-detail';
-import { FEEDS } from '../../services/actions/feeds';
 import { v4 } from 'uuid';
 import { Status } from '../../shared/consts/status.enum';
 import { ProfileForm } from '../profile-form/profile-form';
 import { FeedList } from '../feed-list/feed-list';
 import { FeedDetail } from '../feed-detail/feed-detail';
+import { FEEDS } from '../../services/constants';
 
 type AppSelector = {
   loading: LoadingType;

@@ -1,5 +1,5 @@
 import { ActionType } from '../../shared/models/action.type';
-import { FEEDS, FEEDS_REJECTED, FEEDS_REQUEST } from '../actions/feeds';
+import { FEEDS, FEEDS_REJECTED, FEEDS_REQUEST } from '../constants';
 
 const initialState = {
   feeds: [],
