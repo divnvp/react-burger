@@ -7,19 +7,47 @@ import {
   REGISTRATION_REJECTED,
   REGISTRATION_REQUEST
 } from '../constants';
+import { Response } from '../../shared/models/response.type';
+
+export interface IRegistrationRequest {
+  readonly type: typeof REGISTRATION_REQUEST;
+}
+export interface IGetRegistration {
+  readonly type: typeof REGISTRATION;
+  response: Response;
+}
+export interface IRegistrationRejected {
+  readonly type: typeof REGISTRATION_REJECTED;
+  error: unknown;
+}
+export type TRegistrationActions =
+  | IRegistrationRequest
+  | IGetRegistration
+  | IRegistrationRejected;
 
 export const fetchRegisterThunk =
   (credits: RegisterUser) => async (dispatch: (action: ActionType) => void) => {
-    dispatch({ type: REGISTRATION_REQUEST });
+    dispatch(makeRegistrationRequest());
 
     try {
       await registerUser(credits).then(response => {
         setCookie('accessToken', response.accessToken!);
         localStorage.setItem('refreshToken', response.refreshToken);
 
-        dispatch({ type: REGISTRATION, payload: response });
+        dispatch(makeRegistration(response));
       });
     } catch (e) {
-      dispatch({ type: REGISTRATION_REJECTED });
+      dispatch(catchRegistrationRejected(e));
     }
   };
+
+export const makeRegistrationRequest = (): IRegistrationRequest => ({
+  type: REGISTRATION_REQUEST
+});
+export const makeRegistration = (response: Response) => ({
+  type: REGISTRATION,
+  response
+});
+export const catchRegistrationRejected = (error: unknown) => ({
+  type: REGISTRATION_REJECTED
+});

@@ -18,7 +18,7 @@ export const registrationReducer = (
     case REGISTRATION: {
       return {
         ...state,
-        response: action.payload
+        response: action?.response
       };
     }
     case REGISTRATION_REQUEST: {
