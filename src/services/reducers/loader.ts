@@ -1,5 +1,5 @@
 import { ActionType } from '../../shared/models/action.type';
-import { LOADING } from '../actions/loader';
+import { LOADING } from '../constants';
 
 const initialState = {
   loading: true
