@@ -7,7 +7,7 @@ import {
   LOGOUT,
   LOGOUT_REJECTED,
   LOGOUT_REQUEST
-} from '../actions/login';
+} from "../constants";
 
 const initialState = {
   error: null,

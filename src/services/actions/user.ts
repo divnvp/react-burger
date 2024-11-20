@@ -1,9 +1,10 @@
 import { ActionType } from '../../shared/models/action.type';
 import { getUser, updateUser } from '../../shared/api/user.service';
 import { Response } from '../../shared/models/response.type';
-import { CHECKING_AUTH, fetchRefreshTokenThunk } from './login';
+import { fetchRefreshTokenThunk } from './login';
 import { UnknownAction } from 'redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
+import { CHECKING_AUTH } from '../constants';
 
 export const USER_GETTING = 'USER_GETTING';
 export const USER_REQUEST = 'USER_REQUEST';
