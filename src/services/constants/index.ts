@@ -6,3 +6,4 @@ export * from './ingredient-details';
 export * from './loader';
 export * from './login';
 export * from './order-details';
+export * from './registration';

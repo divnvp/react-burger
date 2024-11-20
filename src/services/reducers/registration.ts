@@ -3,7 +3,7 @@ import {
   REGISTRATION,
   REGISTRATION_REJECTED,
   REGISTRATION_REQUEST
-} from '../actions/registration';
+} from '../constants';
 
 const initialState = {
   response: {},
