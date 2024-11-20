@@ -19,20 +19,20 @@ export const forgotPasswordReducer = (
     case SENDING_EMAIL: {
       return {
         ...state,
-        response: action.payload
+        response: action?.response
       };
     }
     case FORGOT_PASSWORD_REQUEST: {
       return {
         ...state,
         error: null,
-        email: action.payload?.email
+        email: action?.email
       };
     }
     case FORGOT_PASSWORD_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     default: {

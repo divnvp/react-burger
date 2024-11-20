@@ -9,6 +9,8 @@ export type ActionType = {
   order?: Order;
   error?: unknown;
   ingredients?: Ingredient[];
+  email?: string;
+  response?: Response;
   payload?: {
     error?: unknown;
     name?: string;

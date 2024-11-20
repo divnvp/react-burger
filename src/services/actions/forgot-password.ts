@@ -5,15 +5,51 @@ import {
   FORGOT_PASSWORD_REQUEST,
   SENDING_EMAIL
 } from '../constants';
+import { Response } from '../../shared/models/response.type';
+
+export interface ISendingEmail {
+  readonly type: typeof SENDING_EMAIL;
+  response: Response;
+}
+export interface IForgotPasswordRequest {
+  readonly type: typeof FORGOT_PASSWORD_REQUEST;
+  email: string;
+}
+export interface IForgotPasswordRejected {
+  readonly type: typeof FORGOT_PASSWORD_REJECTED;
+  error: unknown;
+}
+export type TForgotPasswordActions =
+  | ISendingEmail
+  | IForgotPasswordRequest
+  | IForgotPasswordRejected;
 
 export const fetchForgotPasswordThunk =
   (email: string) => async (dispatch: (action: ActionType) => void) => {
-    dispatch({ type: FORGOT_PASSWORD_REQUEST, payload: { email } });
+    dispatch(makeRequestOfForgotPassword(email));
 
     try {
-      const response = await rememberPassword(email);
-      dispatch({ type: SENDING_EMAIL, payload: response });
+      await rememberPassword(email).then(response =>
+        dispatch(sendEmail(response))
+      );
     } catch (e) {
-      dispatch({ type: FORGOT_PASSWORD_REJECTED, payload: { error: e } });
+      dispatch(catchErrorOfForgotPassword(e));
     }
   };
+
+export const sendEmail = (response: Response): ISendingEmail => ({
+  type: SENDING_EMAIL,
+  response
+});
+export const makeRequestOfForgotPassword = (
+  email: string
+): IForgotPasswordRequest => ({
+  type: FORGOT_PASSWORD_REQUEST,
+  email
+});
+export const catchErrorOfForgotPassword = (
+  error: unknown
+): IForgotPasswordRejected => ({
+  type: FORGOT_PASSWORD_REJECTED,
+  error
+});
