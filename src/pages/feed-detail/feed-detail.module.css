@@ -15,6 +15,10 @@
 }
 
 .scrollbar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
   overflow: auto;
   height: auto;
   max-height: calc(100vh - 60vh);

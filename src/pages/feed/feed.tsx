@@ -19,7 +19,10 @@ export function FeedPage() {
 
   return (
     <Layout>
-      <div className={`${feedModuleStyles.row} pt-10`} style={{ gap: '60px' }}>
+      <div
+        className={`${feedModuleStyles.row} pt-10 pr-30 pl-30`}
+        style={{ gap: '60px' }}
+      >
         <div className={feedModuleStyles.col}>
           <p className='text text_type_main-large pb-6'>Лента заказов</p>
           <div className={feedModuleStyles.feedGrid}>
