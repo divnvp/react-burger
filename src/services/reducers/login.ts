@@ -7,7 +7,7 @@ import {
   LOGOUT,
   LOGOUT_REJECTED,
   LOGOUT_REQUEST
-} from "../constants";
+} from '../constants';
 
 const initialState = {
   error: null,
@@ -25,13 +25,14 @@ const initialState = {
 export const loginReducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
     case LOGIN: {
+      console.log(action);
       return {
         ...state,
         logout: null,
-        user: { ...action.payload?.user },
+        user: { ...action.response?.user },
         success: true,
-        accessToken: action.payload?.accessToken,
-        refreshToken: action.payload?.refreshToken,
+        accessToken: action.response?.accessToken,
+        refreshToken: action.response?.refreshToken,
         checkingAuth: true
       };
     }
@@ -42,16 +43,18 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       };
     }
     case LOGIN_REJECTED: {
+      console.log(action);
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
 
     case LOGOUT: {
+      console.log(action);
       return {
         ...state,
-        logout: action.payload?.logout,
+        logout: action?.logout,
         checkingAuth: false
       };
     }
@@ -64,13 +67,14 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGOUT_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     case CHECKING_AUTH: {
+      console.log(action);
       return {
         ...state,
-        checkingAuth: action.payload?.checkingAuth
+        checkingAuth: action?.checkingAuth
       };
     }
     default: {

@@ -23,6 +23,8 @@ export const ProtectedRouteElement = (props: Props) => {
   const user = useProtectedRouteSelector(store => store.user);
   const location = useLocation();
 
+  console.log(isAuthChecked, user);
+
   if (!isAuthChecked) {
     return <LoaderPage />;
   }
