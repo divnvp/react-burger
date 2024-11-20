@@ -1,9 +1,10 @@
 import { rememberPassword } from '../../shared/api/data.service';
 import { ActionType } from '../../shared/models/action.type';
-
-export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
-export const FORGOT_PASSWORD_REJECTED = 'FORGOT_PASSWORD_REJECTED';
-export const SENDING_EMAIL = 'SENDING_EMAIL';
+import {
+  FORGOT_PASSWORD_REJECTED,
+  FORGOT_PASSWORD_REQUEST,
+  SENDING_EMAIL
+} from '../constants';
 
 export const fetchForgotPasswordThunk =
   (email: string) => async (dispatch: (action: ActionType) => void) => {

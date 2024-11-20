@@ -3,7 +3,7 @@ import {
   FORGOT_PASSWORD_REJECTED,
   FORGOT_PASSWORD_REQUEST,
   SENDING_EMAIL
-} from '../actions/forgot-password';
+} from '../constants';
 
 const initialState = {
   error: null,
