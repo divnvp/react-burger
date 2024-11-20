@@ -1,5 +1,5 @@
 import { ActionType } from '../../shared/models/action.type';
-import { IS_USER_AUTH, USER_GETTING } from '../actions/user';
+import { IS_USER_AUTH, USER_GETTING } from '../constants';
 
 const initialState = {
   name: '',

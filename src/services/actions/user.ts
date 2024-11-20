@@ -4,17 +4,16 @@ import { Response } from '../../shared/models/response.type';
 import { fetchRefreshTokenThunk } from './login';
 import { UnknownAction } from 'redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
-import { CHECKING_AUTH } from '../constants';
-
-export const USER_GETTING = 'USER_GETTING';
-export const USER_REQUEST = 'USER_REQUEST';
-export const USER_REJECTED = 'USER_REJECTED';
-
-export const USER_UPDATING = 'USER_UPDATING';
-export const USER_UPDATING_REQUEST = 'USER_UPDATING_REQUEST';
-export const USER_UPDATING_REJECTED = 'USER_UPDATING_REJECTED';
-
-export const IS_USER_AUTH = 'IS_USER_AUTH';
+import {
+  CHECKING_AUTH,
+  IS_USER_AUTH,
+  USER_GETTING,
+  USER_REJECTED,
+  USER_REQUEST,
+  USER_UPDATING,
+  USER_UPDATING_REJECTED,
+  USER_UPDATING_REQUEST
+} from '../constants';
 
 export const fetchUserThunk =
   () => async (dispatch: (action: ActionType) => void) => {

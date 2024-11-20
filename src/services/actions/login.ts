@@ -4,17 +4,22 @@ import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
 import { UnknownAction } from 'redux';
-import { fetchUserThunk, IS_USER_AUTH, USER_GETTING } from './user';
+import { fetchUserThunk } from './user';
 import {
   CHECKING_AUTH,
+  IS_USER_AUTH,
   LOADING,
   LOGIN,
   LOGIN_REJECTED,
   LOGIN_REQUEST,
   LOGOUT,
   LOGOUT_REJECTED,
-  LOGOUT_REQUEST, REFRESH_TOKEN, REFRESH_TOKEN_REJECTED, REFRESH_TOKEN_REQUEST
-} from "../constants";
+  LOGOUT_REQUEST,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_REJECTED,
+  REFRESH_TOKEN_REQUEST,
+  USER_GETTING
+} from '../constants';
 
 export const fetchLoginThunk =
   (credits: RegisterUser) => async (dispatch: (action: ActionType) => void) => {
