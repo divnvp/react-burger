@@ -18,13 +18,13 @@ export const burgerIngredientsReducer = (
     case INGREDIENTS_GETTING: {
       return {
         ...state,
-        ingredients: action.payload?.data
+        ingredients: action?.ingredients
       };
     }
     case INGREDIENTS_GETTING_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     case INGREDIENTS_GETTING_REQUEST: {

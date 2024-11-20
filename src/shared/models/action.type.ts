@@ -8,6 +8,7 @@ export type ActionType = {
   type: string;
   order?: Order;
   error?: unknown;
+  ingredients?: Ingredient[];
   payload?: {
     error?: unknown;
     name?: string;
