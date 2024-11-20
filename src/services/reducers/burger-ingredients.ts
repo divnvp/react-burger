@@ -1,9 +1,9 @@
+import { ActionType } from '../../shared/models/action.type';
 import {
   INGREDIENTS_GETTING,
   INGREDIENTS_GETTING_REJECTED,
   INGREDIENTS_GETTING_REQUEST
-} from '../actions/burger-ingredients';
-import { ActionType } from '../../shared/models/action.type';
+} from '../constants';
 
 const initialState = {
   ingredients: [],

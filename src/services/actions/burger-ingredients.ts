@@ -1,10 +1,11 @@
 //список всех полученных ингредиентов
 import { getData } from '../../shared/api/data.service';
 import { ActionType } from '../../shared/models/action.type';
-
-export const INGREDIENTS_GETTING_REQUEST = 'INGREDIENTS_GETTING_REQUEST';
-export const INGREDIENTS_GETTING_REJECTED = 'INGREDIENTS_GETTING_REJECTED';
-export const INGREDIENTS_GETTING = 'INGREDIENTS_GETTING';
+import {
+  INGREDIENTS_GETTING,
+  INGREDIENTS_GETTING_REJECTED,
+  INGREDIENTS_GETTING_REQUEST
+} from '../constants';
 
 export const fetchIngredientsThunk =
   () => async (dispatch: (action: ActionType) => void) => {
