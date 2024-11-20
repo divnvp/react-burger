@@ -3,7 +3,7 @@ import {
   RESET_PASSWORD_REJECTED,
   RESET_PASSWORD_REQUEST,
   RESETTING_PASSWORD
-} from '../actions/reset-password';
+} from '../constants';
 
 const initialState = {
   response: {},

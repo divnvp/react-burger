@@ -7,3 +7,4 @@ export * from './loader';
 export * from './login';
 export * from './order-details';
 export * from './registration';
+export * from './reset-password';
