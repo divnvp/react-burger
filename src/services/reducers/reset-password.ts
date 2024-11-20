@@ -19,7 +19,7 @@ export const resetPasswordReducer = (
     case RESETTING_PASSWORD: {
       return {
         ...state,
-        response: action.payload
+        response: action.response
       };
     }
     case RESET_PASSWORD_REQUEST: {
@@ -31,7 +31,7 @@ export const resetPasswordReducer = (
     case RESET_PASSWORD_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     default: {

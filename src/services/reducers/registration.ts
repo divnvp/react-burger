@@ -30,7 +30,7 @@ export const registrationReducer = (
     case REGISTRATION_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     default: {
