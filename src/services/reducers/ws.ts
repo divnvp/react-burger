@@ -4,7 +4,7 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE
-} from '../actions/ws-action-types';
+} from '../constants';
 
 type TWSState = {
   wsConnected: boolean;

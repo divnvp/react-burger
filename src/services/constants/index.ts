@@ -9,3 +9,4 @@ export * from './order-details';
 export * from './registration';
 export * from './reset-password';
 export * from './user';
+export * from './ws-action-types';

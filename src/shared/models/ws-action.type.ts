@@ -5,7 +5,7 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
   WS_SEND_MESSAGE
-} from '../../services/actions/ws-action-types';
+} from '../../services/constants/ws-action-types';
 import { IMessage } from './message.interface';
 
 export interface IWSConnectionStart {
