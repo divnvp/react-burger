@@ -32,6 +32,8 @@ import { FeedDetailPage } from '../../pages/feed-detail/feed-detail';
 import { FEEDS } from '../../services/actions/feeds';
 import { v4 } from 'uuid';
 import { Status } from '../../shared/consts/status.enum';
+import { ProfileForm } from '../profile-form/profile-form';
+import { FeedList } from '../feed-list/feed-list';
 
 type AppSelector = {
   loading: LoadingType;
@@ -194,14 +196,17 @@ function App() {
         />
         <Route path={RoutesName.Feed} element={<FeedPage />} />
         <Route
-          path={RoutesName.Profile}
+          path={`${RoutesName.Profile}/*`}
           element={
             <ProtectedAuthElement
               onlyUnAuth={false}
               element={<ProfilePage />}
             />
           }
-        />
+        >
+          <Route path='' element={<ProfileForm />} />
+          <Route path={RoutesName.ProfileOrders} element={<FeedList />} />
+        </Route>
         <Route
           path={`${RoutesName.Ingredients}/:id`}
           element={

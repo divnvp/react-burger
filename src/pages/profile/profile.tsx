@@ -6,16 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserThunk } from '../../services/actions/user';
 import { UnknownAction } from 'redux';
 import { fetchLogoutThunk } from '../../services/actions/login';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { FeedCardImage } from '../../components/feed-card-image/feed-card-image';
-import { ProfileForm } from '../../components/profile-form/profile-form';
 import { Logout } from '../../shared/models/store/logout.type';
-
-enum Parts {
-  Profile = 'profile',
-  History = 'history'
-}
 
 type ProfileSelector = {
   login: Logout;
@@ -26,7 +19,6 @@ export function ProfilePage() {
   const dispatch = useDispatch();
   const useProfilePageSelector = useSelector.withTypes<ProfileSelector>();
   const logout = useProfilePageSelector(state => state.login.logout);
-  const [currentPart, setCurrentPart] = useState<Parts>(Parts.Profile);
 
   useEffect(() => {
     dispatch(fetchUserThunk() as unknown as UnknownAction);
@@ -51,7 +43,7 @@ export function ProfilePage() {
               htmlType='button'
               type='secondary'
               size='medium'
-              onClick={() => setCurrentPart(Parts.Profile)}
+              onClick={() => navigate(RouteName.Profile)}
             >
               <p className='text text_type_main-large pb-6'>Профиль</p>
             </Button>
@@ -61,9 +53,14 @@ export function ProfilePage() {
               htmlType='button'
               type='secondary'
               size='medium'
-              onClick={() => setCurrentPart(Parts.History)}
+              onClick={() => navigate(`${RouteName.ProfileOrders}`)}
             >
-              <p className='text text_type_main-large pb-6'>История заказов</p>
+              <p
+                className='text text_type_main-large pb-6'
+                style={{ textAlign: 'start' }}
+              >
+                История заказов
+              </p>
             </Button>
           </div>
           <div className={profileStyles.button}>
@@ -82,12 +79,7 @@ export function ProfilePage() {
             </p>
           </div>
         </div>
-
-        {currentPart === Parts.Profile ? (
-          <ProfileForm />
-        ) : (
-          <FeedCardImage index={1} />
-        )}
+        <Outlet />
       </div>
     </Layout>
   );
