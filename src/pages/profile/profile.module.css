@@ -17,11 +17,11 @@
   width: 20%;
 }
 
-.logoutButton {
+.button {
   text-align: left;
 }
 
-.logoutButton button {
+.button button {
   padding: 0 !important;
 }
 
