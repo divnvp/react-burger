@@ -60,7 +60,7 @@ export const burgerConstructorReducer = (
     case MAKING_ORDER: {
       return {
         ...state,
-        order: action.payload?.order,
+        order: action?.order,
         loading: false
       };
     }
@@ -68,7 +68,7 @@ export const burgerConstructorReducer = (
       return {
         ...state,
         order: [],
-        error: action.payload?.error,
+        error: action?.error,
         loading: false
       };
     }

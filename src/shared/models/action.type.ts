@@ -6,6 +6,8 @@ import { Feed } from './feed.type';
 
 export type ActionType = {
   type: string;
+  order?: Order;
+  error?: unknown;
   payload?: {
     error?: unknown;
     name?: string;
@@ -18,7 +20,6 @@ export type ActionType = {
     checkingAuth?: boolean;
     ingredient?: Ingredient;
     burgerConstructor?: Ingredient[];
-    order?: Order;
     isAuth?: boolean;
     loading?: boolean;
     logout?: Response;

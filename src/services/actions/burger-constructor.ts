@@ -6,19 +6,46 @@ import {
   ORDER_MAKING_REJECTED,
   ORDER_MAKING_REQUEST
 } from '../constants';
+import { Order } from '../../shared/models/order.type';
+
+export interface IMakingOrder {
+  readonly type: typeof MAKING_ORDER;
+  order: Order;
+}
+export interface IRequestMakingOrder {
+  readonly type: typeof ORDER_MAKING_REQUEST;
+}
+export interface IRejectMakingOrder {
+  readonly type: typeof ORDER_MAKING_REJECTED;
+  error: unknown;
+}
+
+export type TBurgerConstructorActions =
+  | IMakingOrder
+  | IRequestMakingOrder
+  | IRejectMakingOrder;
 
 export const fetchMakingOrderThunk =
   (order: string[]) => async (dispatch: (action: ActionType) => void) => {
-    dispatch({ type: ORDER_MAKING_REQUEST });
+    dispatch(makeRequest());
 
     try {
-      await makeOrder(order).then(data =>
-        dispatch({
-          type: MAKING_ORDER,
-          payload: { order: data }
-        })
-      );
+      await makeOrder(order).then(data => dispatch(getOrder(data)));
     } catch (e) {
-      dispatch({ type: ORDER_MAKING_REJECTED, payload: { error: e } });
+      dispatch(getError(e));
     }
   };
+
+export const makeRequest = () => ({
+  type: ORDER_MAKING_REQUEST
+});
+
+export const getOrder = (order: Order): IMakingOrder => ({
+  type: MAKING_ORDER,
+  order
+});
+
+export const getError = (error: unknown): IRejectMakingOrder => ({
+  type: ORDER_MAKING_REJECTED,
+  error
+});
