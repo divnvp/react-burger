@@ -4,4 +4,5 @@ export * from './feeds';
 export * from './forgot-password';
 export * from './ingredient-details';
 export * from './loader';
-export * from './login'
+export * from './login';
+export * from './order-details';
