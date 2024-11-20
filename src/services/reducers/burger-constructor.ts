@@ -1,3 +1,4 @@
+import { ActionType } from '../../shared/models/action.type';
 import {
   AMOUNT_RECALCULATING,
   BUN_ADDING,
@@ -9,8 +10,7 @@ import {
   MAKING_ORDER,
   ORDER_MAKING_REJECTED,
   ORDER_MAKING_REQUEST
-} from '../actions/burger-constructor';
-import { ActionType } from '../../shared/models/action.type';
+} from '../constants';
 
 const initialState = {
   burgerConstructor: [],

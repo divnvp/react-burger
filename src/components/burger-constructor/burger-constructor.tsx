@@ -10,16 +10,6 @@ import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { DndType } from '../../shared/consts/dnd-type.enum';
-import {
-  AMOUNT_RECALCULATING,
-  BUN_ADDING,
-  BURGER_CONSTRUCTOR_GETTING,
-  CLEAR_ORDER,
-  fetchMakingOrderThunk,
-  INGREDIENT_ADDING,
-  INGREDIENT_MOVING,
-  INGREDIENT_REMOVING
-} from '../../services/actions/burger-constructor';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import { v4 as uuid4 } from 'uuid';
@@ -29,6 +19,16 @@ import { Order } from '../../shared/models/order.type';
 import { checkUserAuthThunk } from '../../services/actions/login';
 import { useNavigate } from 'react-router-dom';
 import { Routes } from '../../shared/consts/routes';
+import {
+  AMOUNT_RECALCULATING,
+  BUN_ADDING,
+  BURGER_CONSTRUCTOR_GETTING,
+  CLEAR_ORDER,
+  INGREDIENT_ADDING,
+  INGREDIENT_MOVING,
+  INGREDIENT_REMOVING
+} from '../../services/constants';
+import { fetchMakingOrderThunk } from '../../services/actions/burger-constructor';
 
 type BurgerConstructorSelector = {
   burgerConstructor: {
