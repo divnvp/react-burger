@@ -9,6 +9,5 @@ export enum Routes {
   IngredientDetail = '/ingredients/:id',
   Feed = '/feed', // страница ленты заказов. Доступен всем пользователям.
   ProfileOrders = 'orders', // страница истории заказов пользователя. Доступен только авторизованным пользователям.
-  ProfileOrdersDetail = 'orders/:id', // страница заказа в истории заказов. Доступен только авторизованным пользователям.
   NotFound = '*'
 }

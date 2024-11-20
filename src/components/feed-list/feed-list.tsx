@@ -20,7 +20,7 @@ export function FeedList() {
           number={v.number}
           createdAt={v.createdAt}
           name={v.name}
-          click={() => navigate(`${RouteName.ProfileOrdersDetail}${v._id}`)}
+          click={() => navigate(`${v._id}`)}
         />
       ))}
     </div>

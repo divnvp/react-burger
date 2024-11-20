@@ -208,6 +208,10 @@ function App() {
           <Route path={RoutesName.ProfileOrders} element={<FeedList />} />
         </Route>
         <Route
+          path={`${RoutesName.Profile}/${RoutesName.ProfileOrders}/:id`}
+          element={<FeedDetailPage />}
+        />
+        <Route
           path={`${RoutesName.Ingredients}/:id`}
           element={
             <ProtectedAuthElement
