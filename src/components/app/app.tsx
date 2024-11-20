@@ -188,6 +188,24 @@ function App() {
           />
         </Routes>
       )}
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route
+            path={`${RoutesName.Profile}/${RoutesName.ProfileOrders}/:id`}
+            element={
+              <Modal
+                isOpen={true}
+                title=''
+                onClick={() =>
+                  navigate(`${RoutesName.Profile}/${RoutesName.ProfileOrders}`)
+                }
+              >
+                <FeedDetail />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
 
       <Routes location={state?.backgroundLocation || location}>
         <Route

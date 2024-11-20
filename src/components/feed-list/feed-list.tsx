@@ -2,11 +2,11 @@ import { FeedCard } from '../feed-card/feed-card';
 import feedListStyles from './feed-list.module.css';
 import { Feed } from '../../shared/models/feed.type';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Routes as RouteName } from '../../shared/consts/routes';
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 export function FeedList() {
-  const navigate = useNavigate();
+  const location = useLocation();
   const mocks: Feed | undefined = useSelector(
     (state: { feeds?: { feeds: { feeds: Feed } } }) => state.feeds?.feeds.feeds
   );
@@ -14,14 +14,19 @@ export function FeedList() {
   return (
     <div className={feedListStyles.feedGrid}>
       {mocks?.orders?.map(v => (
-        <FeedCard
+        <Link
           key={v._id}
-          ingredients={v.ingredients}
-          number={v.number}
-          createdAt={v.createdAt}
-          name={v.name}
-          // click={() => navigate(`${v._id}`)}
-        />
+          to={v._id}
+          state={{ backgroundLocation: location }}
+          className={feedListStyles.link}
+        >
+          <FeedCard
+            ingredients={v.ingredients}
+            number={v.number}
+            createdAt={v.createdAt}
+            name={v.name}
+          />
+        </Link>
       ))}
     </div>
   );
