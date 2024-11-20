@@ -9,6 +9,7 @@ import { userReducer } from './user';
 import { loginReducer } from './login';
 import { loaderReducer } from './loader';
 import { feedsReducer } from './feeds';
+import { wsReducer } from './ws';
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
@@ -20,5 +21,6 @@ export const rootReducer = combineReducers({
   user: userReducer,
   login: loginReducer,
   loading: loaderReducer,
-  feeds: feedsReducer
+  feeds: feedsReducer,
+  wsReducer: wsReducer
 });
