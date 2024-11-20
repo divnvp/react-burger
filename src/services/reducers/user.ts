@@ -11,11 +11,12 @@ const initialState = {
 export const userReducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
     case USER_GETTING: {
+      console.log(action);
       return {
         ...state,
-        name: action.payload?.name,
-        email: action.payload?.email,
-        password: action.payload?.password
+        name: action.user?.name,
+        email: action.user?.email,
+        password: action.user?.password
       };
     }
     case IS_USER_AUTH: {
