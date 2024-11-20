@@ -4,18 +4,15 @@ import { FeedCard } from '../../components/feed-card/feed-card';
 import { Feed } from '../../shared/models/feed.type';
 import { Status } from '../../shared/consts/status.enum';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 export function FeedPage() {
-  const navigate = useNavigate();
+  const location = useLocation();
   const mocks: Feed | undefined = useSelector(
     (state: { feeds?: { feeds: { feeds: Feed } } }) => state.feeds?.feeds.feeds
   );
-
-  const onClick = (id: string) => {
-    navigate(`${RouteName.Feed}/${id}`);
-  };
 
   return (
     <Layout>
@@ -27,14 +24,19 @@ export function FeedPage() {
           <p className='text text_type_main-large pb-6'>Лента заказов</p>
           <div className={feedModuleStyles.feedGrid}>
             {mocks?.orders?.map(v => (
-              <FeedCard
+              <Link
+                to={`${RouteName.Feed}/${v._id}`}
+                state={{ backgroundLocation: location }}
+                className={feedModuleStyles.link}
                 key={v._id}
-                ingredients={v.ingredients}
-                number={v.number}
-                createdAt={v.createdAt}
-                name={v.name}
-                click={() => onClick(v._id)}
-              />
+              >
+                <FeedCard
+                  ingredients={v.ingredients}
+                  number={v.number}
+                  createdAt={v.createdAt}
+                  name={v.name}
+                />
+              </Link>
             ))}
           </div>
         </div>

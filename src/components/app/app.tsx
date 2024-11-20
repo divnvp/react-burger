@@ -34,6 +34,7 @@ import { v4 } from 'uuid';
 import { Status } from '../../shared/consts/status.enum';
 import { ProfileForm } from '../profile-form/profile-form';
 import { FeedList } from '../feed-list/feed-list';
+import { FeedDetail } from '../feed-detail/feed-detail';
 
 type AppSelector = {
   loading: LoadingType;
@@ -166,6 +167,22 @@ function App() {
                 onClick={() => navigate(RouteName.Main)}
               >
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route
+            path={`${RoutesName.Feed}/:id`}
+            element={
+              <Modal
+                isOpen={true}
+                title=''
+                onClick={() => navigate(RouteName.Feed)}
+              >
+                <FeedDetail />
               </Modal>
             }
           />

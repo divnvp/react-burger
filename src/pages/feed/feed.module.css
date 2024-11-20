@@ -19,3 +19,9 @@
 .orderNumberText {
   color: #00cccc;
 }
+
+.link {
+  text-decoration: none;
+  color: white;
+  min-width: 40%;
+}

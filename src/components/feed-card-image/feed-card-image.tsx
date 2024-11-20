@@ -12,7 +12,7 @@ export function FeedCardImage({ image, index }: FeedCardImageProps) {
       style={{
         position: 'relative',
         right: index * 15,
-        zIndex: 9999 - index
+        zIndex: 997 - index
       }}
       alt='Ingredient modile'
       className={feedCardImageStyles.image}
