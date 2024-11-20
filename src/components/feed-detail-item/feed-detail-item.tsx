@@ -5,5 +5,9 @@ type FeedDetailItemProps = {
 };
 
 export function FeedDetailItem({ ingredient }: FeedDetailItemProps) {
-  return <></>;
+  return (
+    <>
+      <p>{ingredient?.name}</p>
+    </>
+  );
 }

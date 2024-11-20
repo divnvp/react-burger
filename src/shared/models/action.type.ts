@@ -2,6 +2,7 @@ import { RegisterUser } from './register-user.type';
 import { Ingredient } from './ingredient.type';
 import { Order } from './order.type';
 import { Response } from './response.type';
+import { Feed } from './feed.type';
 
 export type ActionType = {
   type: string;
@@ -22,5 +23,6 @@ export type ActionType = {
     loading?: boolean;
     logout?: Response;
     amount?: number;
+    feeds?: Feed;
   };
 };

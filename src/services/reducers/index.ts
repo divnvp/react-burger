@@ -8,6 +8,7 @@ import { registrationReducer } from './registration';
 import { userReducer } from './user';
 import { loginReducer } from './login';
 import { loaderReducer } from './loader';
+import { feedsReducer } from './feeds';
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
@@ -18,5 +19,6 @@ export const rootReducer = combineReducers({
   registration: registrationReducer,
   user: userReducer,
   login: loginReducer,
-  loading: loaderReducer
+  loading: loaderReducer,
+  feeds: feedsReducer
 });
