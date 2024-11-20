@@ -1,5 +1,5 @@
 import { ActionType } from '../../shared/models/action.type';
-import { INGREDIENT_DETAILS_GETTING } from '../actions/ingredient-details';
+import { INGREDIENT_DETAILS_GETTING } from '../constants/ingredient-details';
 
 const initialState = {
   ingredient: {}

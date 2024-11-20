@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
-import { INGREDIENT_DETAILS_GETTING } from '../../services/actions/ingredient-details';
+import { INGREDIENT_DETAILS_GETTING } from '../../services/constants/ingredient-details';
 
 type IngredientDeailSelector = {
   burgerIngredients: { ingredients: Ingredient[] };
