@@ -1,5 +1,4 @@
 // список всех ингредиентов в текущем конструкторе бургера
-import { ActionType } from '../../shared/models/action.type';
 import { makeOrder } from '../../shared/api/data.service';
 import {
   AMOUNT_RECALCULATING,
@@ -15,6 +14,7 @@ import {
 } from '../constants';
 import { Order } from '../../shared/models/order.type';
 import { Ingredient } from '../../shared/models/ingredient.type';
+import { AppDispatch, AppThunkAction } from '../types';
 
 export interface IMakingOrder {
   readonly type: typeof MAKING_ORDER;
@@ -66,8 +66,8 @@ export type TBurgerConstructorActions =
   | IBurgerConstructorGetting
   | IRejectMakingOrder;
 
-export const fetchMakingOrderThunk =
-  (order: string[]) => async (dispatch: (action: ActionType) => void) => {
+export const fetchMakingOrderThunk: AppThunkAction =
+  (order: string[]) => async (dispatch: AppDispatch) => {
     dispatch(makeRequest());
 
     try {

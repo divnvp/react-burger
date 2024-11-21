@@ -7,6 +7,7 @@ import {
   INGREDIENTS_GETTING_REQUEST
 } from '../constants';
 import { Ingredient } from '../../shared/models/ingredient.type';
+import { AppDispatch, AppThunkAction } from '../types';
 
 export interface IGetIngredients {
   readonly type: typeof INGREDIENTS_GETTING;
@@ -24,8 +25,8 @@ export type TBurgerIngredientsActions =
   | IRejectedOfIngredientGetting
   | IRequestOfIngredientGetting;
 
-export const fetchIngredientsThunk =
-  () => async (dispatch: (action: ActionType) => void) => {
+export const fetchIngredientsThunk: AppThunkAction =
+  () => async (dispatch: AppDispatch) => {
     dispatch(makeRequestOfIngredients());
 
     try {
