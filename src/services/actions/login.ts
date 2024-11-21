@@ -83,6 +83,7 @@ export type TLoginActions =
   | ILogoutRejected
   | IRefreshTokenRequest
   | IRefreshTokenRejected
+  | IRefreshToken
   | ICheckAuth;
 
 export const fetchLoginThunk =
@@ -165,15 +166,18 @@ export const checkUserAuthThunk = () => {
   };
 };
 
-export const makeRequestOfLogin = () => ({
+export const makeRequestOfLogin = (): IMakeLoginRequest => ({
   type: LOGIN_REQUEST
 });
 export const getLogin = (response: Response): IGetLogin => ({
   type: LOGIN,
   response
 });
-export const getUser = (user: LoginUser) => ({ type: USER_GETTING, user });
-export const checkAuth = (checkingAuth: boolean) => ({
+export const getUser = (user: LoginUser): IGetUser => ({
+  type: USER_GETTING,
+  user
+});
+export const checkAuth = (checkingAuth: boolean): ICheckAuth => ({
   type: CHECKING_AUTH,
   checkingAuth
 });
@@ -185,10 +189,10 @@ export const catchLoginRejected = (error: unknown): ILoginRejected => ({
   type: LOGIN_REJECTED,
   error
 });
-export const makeLoginRequest = () => ({
+export const makeLoginRequest = (): ILogoutRequest => ({
   type: LOGOUT_REQUEST
 });
-export const makeLogout = (response: Response) => ({
+export const makeLogout = (response: Response): IMakeLogout => ({
   type: LOGOUT,
   response
 });

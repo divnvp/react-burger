@@ -1,4 +1,3 @@
-import { ActionType } from '../../shared/models/action.type';
 import {
   CHECKING_AUTH,
   LOGIN,
@@ -8,28 +7,44 @@ import {
   LOGOUT_REJECTED,
   LOGOUT_REQUEST
 } from '../constants';
+import { LoginUser } from '../../shared/models/login-user.type';
+import { Response } from '../../shared/models/response.type';
+import { TLoginActions } from '../actions/login';
 
-const initialState = {
+type TLoginState = {
+  error: unknown;
+  accessToken?: string;
+  refreshToken?: string;
+  success: boolean;
+  user?: LoginUser;
+  logout?: Response | null;
+  checkingAuth?: boolean;
+};
+
+const initialState: TLoginState = {
   error: null,
   accessToken: '',
   refreshToken: '',
   success: false,
   user: {
     email: '',
-    name: ''
+    name: '',
+    password: ''
   },
   logout: null,
   checkingAuth: false
 };
 
-export const loginReducer = (state = initialState, action: ActionType) => {
+export const loginReducer = (
+  state = initialState,
+  action: TLoginActions
+): TLoginState => {
   switch (action.type) {
     case LOGIN: {
-      console.log(action);
       return {
         ...state,
         logout: null,
-        user: { ...action.response?.user },
+        user: action.response?.user,
         success: true,
         accessToken: action.response?.accessToken,
         refreshToken: action.response?.refreshToken,
@@ -43,7 +58,6 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       };
     }
     case LOGIN_REJECTED: {
-      console.log(action);
       return {
         ...state,
         error: action?.error
@@ -51,10 +65,9 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     }
 
     case LOGOUT: {
-      console.log(action);
       return {
         ...state,
-        logout: action?.logout,
+        logout: action?.response,
         checkingAuth: false
       };
     }
@@ -71,7 +84,6 @@ export const loginReducer = (state = initialState, action: ActionType) => {
       };
     }
     case CHECKING_AUTH: {
-      console.log(action);
       return {
         ...state,
         checkingAuth: action?.checkingAuth
