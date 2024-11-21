@@ -1,9 +1,7 @@
 import { RegisterUser } from '../../shared/models/register-user.type';
-import { ActionType } from '../../shared/models/action.type';
 import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
-import { UnknownAction } from 'redux';
 import { fetchUserThunk } from './user';
 import {
   CHECKING_AUTH,
@@ -21,6 +19,7 @@ import {
   USER_GETTING
 } from '../constants';
 import { LoginUser } from '../../shared/models/login-user.type';
+import { AppDispatch, AppThunkAction } from '../types';
 
 export interface IMakeLoginRequest {
   readonly type: typeof LOGIN_REQUEST;
@@ -86,8 +85,8 @@ export type TLoginActions =
   | IRefreshToken
   | ICheckAuth;
 
-export const fetchLoginThunk =
-  (credits: RegisterUser) => async (dispatch: (action: ActionType) => void) => {
+export const fetchLoginThunk: AppThunkAction =
+  (credits: RegisterUser) => async (dispatch: AppDispatch) => {
     dispatch(makeRequestOfLogin());
 
     try {
@@ -107,8 +106,8 @@ export const fetchLoginThunk =
     }
   };
 
-export const fetchLogoutThunk =
-  () => async (dispatch: (action: ActionType) => void) => {
+export const fetchLogoutThunk: AppThunkAction =
+  () => async (dispatch: AppDispatch) => {
     dispatch(makeLoginRequest());
 
     try {
@@ -129,9 +128,8 @@ export const fetchLogoutThunk =
     }
   };
 
-export const fetchRefreshTokenThunk =
-  (fetchCallback: () => void) =>
-  async (dispatch: (action: ActionType) => void) => {
+export const fetchRefreshTokenThunk: AppThunkAction =
+  (fetchCallback: () => void) => async (dispatch: AppDispatch) => {
     dispatch(makeRefreshToken());
 
     try {
@@ -146,17 +144,17 @@ export const fetchRefreshTokenThunk =
       );
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
-        dispatch(fetchLogoutThunk() as unknown as UnknownAction);
+        dispatch(fetchLogoutThunk() as unknown as AppThunkAction);
         dispatch(checkAuth(true));
       }
       dispatch(catchRefreshTokenRejected(e));
     }
   };
 
-export const checkUserAuthThunk = () => {
-  return (dispatch: (action: ActionType) => void) => {
+export const checkUserAuthThunk: AppThunkAction =
+  () => (dispatch: AppDispatch) => {
     if (localStorage.getItem('refreshToken')) {
-      dispatch(fetchUserThunk() as unknown as UnknownAction);
+      dispatch(fetchUserThunk() as unknown as AppThunkAction);
       dispatch(checkAuth(true));
     } else {
       dispatch(checkAuth(true));
@@ -164,7 +162,6 @@ export const checkUserAuthThunk = () => {
       dispatch(isUserAuth(false));
     }
   };
-};
 
 export const makeRequestOfLogin = (): IMakeLoginRequest => ({
   type: LOGIN_REQUEST

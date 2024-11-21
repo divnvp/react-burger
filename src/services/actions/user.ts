@@ -93,25 +93,25 @@ export const fetchUserUpdatingThunk: AppThunkAction =
     }
   };
 
-export const makeUserGettingRequest = () => ({
+export const makeUserGettingRequest = (): IUserRequest => ({
   type: USER_REQUEST
 });
-export const getUserRequest = (user: LoginUser) => ({
+export const getUserRequest = (user: LoginUser): IUserGetting => ({
   type: USER_GETTING,
   user
 });
-export const catchUserRequest = (error: unknown) => ({
+export const catchUserRequest = (error: unknown): IUserRejected => ({
   type: USER_REJECTED,
   error
 });
-export const makeUserUpdatingRequest = () => ({
+export const makeUserUpdatingRequest = (): IUserUpdatingRequest => ({
   type: USER_UPDATING_REQUEST
 });
-export const makeUserUpdating = (response: Response) => ({
+export const makeUserUpdating = (response: Response): IUserUpdating => ({
   type: USER_UPDATING,
   response
 });
-export const catchUserUpdating = (error: unknown) => ({
+export const catchUserUpdating = (error: unknown): IUserUpdatingRejected => ({
   type: USER_UPDATING_REJECTED,
   error
 });
