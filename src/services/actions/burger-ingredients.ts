@@ -1,6 +1,5 @@
 //список всех полученных ингредиентов
 import { getData } from '../../shared/api/data.service';
-import { ActionType } from '../../shared/models/action.type';
 import {
   INGREDIENTS_GETTING,
   INGREDIENTS_GETTING_REJECTED,

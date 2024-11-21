@@ -18,21 +18,24 @@ export const feedsReducer = (
 ): TFeedState => {
   switch (action.type) {
     case FEEDS: {
+      console.log(action);
       return {
         ...state,
         feeds: action.payload?.feeds
       };
     }
     case FEEDS_REQUEST: {
+      console.log(action);
       return {
         ...state,
         error: null
       };
     }
     case FEEDS_REJECTED: {
+      console.log(action);
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     default:

@@ -5,7 +5,7 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
   WS_SEND_MESSAGE
-} from '../../services/constants/ws-action-types';
+} from '../../services/constants';
 
 export type TWSStoreActions = {
   wsInit: typeof WS_CONNECTION_START;

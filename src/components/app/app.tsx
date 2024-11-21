@@ -29,12 +29,9 @@ import { LoadingType } from '../../shared/models/store/loading.type';
 import { RegisterUser } from '../../shared/models/register-user.type';
 import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
 import { FeedDetailPage } from '../../pages/feed-detail/feed-detail';
-import { v4 } from 'uuid';
-import { Status } from '../../shared/consts/status.enum';
 import { ProfileForm } from '../profile-form/profile-form';
 import { FeedList } from '../feed-list/feed-list';
 import { FeedDetail } from '../feed-detail/feed-detail';
-import { FEEDS } from '../../services/constants';
 
 type AppSelector = {
   loading: LoadingType;
@@ -52,102 +49,6 @@ function App() {
   useEffect(() => {
     dispatch(checkUserAuthThunk() as unknown as UnknownAction);
     dispatch(fetchIngredientsThunk() as unknown as UnknownAction);
-    dispatch({
-      type: FEEDS,
-      payload: {
-        feeds: {
-          success: true,
-          orders: [
-            {
-              ingredients: [
-                '643d69a5c3f7b9001cfa093c',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa093e',
-                '643d69a5c3f7b9001cfa0942'
-              ],
-              _id: v4(),
-              status: Status.Done,
-              number: '034531',
-              name: 'Interstellar бургер',
-              createdAt: '2021-06-23T14:43:22.587Z',
-              updatedAt: '2021-06-23T14:43:22.603Z'
-            },
-            {
-              ingredients: [
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa093c',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa093e',
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa093c'
-              ],
-              _id: v4(),
-              status: Status.Done,
-              number: '034532',
-              name: 'Black Hole Singularity острый бургер',
-              createdAt: '2024-11-17T20:13:23.654Z',
-              updatedAt: '2021-06-23T20:13:23.657Z'
-            },
-            {
-              ingredients: [
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa093c',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa093e',
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa0941'
-              ],
-              _id: v4(),
-              status: Status.Done,
-              number: '034533',
-              name: 'Black Hole Singularity острый бургер',
-              createdAt: '2024-11-17T20:13:23.654Z',
-              updatedAt: '2021-06-23T20:13:23.657Z'
-            },
-            {
-              ingredients: [
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa093c',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa093e',
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa0941'
-              ],
-              _id: v4(),
-              status: Status.Pending,
-              number: '034533',
-              name: 'Black Hole Singularity острый бургер',
-              createdAt: '2024-11-17T20:13:23.654Z',
-              updatedAt: '2021-06-23T20:13:23.657Z'
-            },
-            {
-              ingredients: [
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa093c',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa0941',
-                '643d69a5c3f7b9001cfa093e',
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa0942',
-                '643d69a5c3f7b9001cfa0941'
-              ],
-              _id: v4(),
-              status: Status.Created,
-              number: '034533',
-              name: 'Black Hole Singularity острый бургер',
-              createdAt: '2024-11-17T20:13:23.654Z',
-              updatedAt: '2021-06-23T20:13:23.657Z'
-            }
-          ],
-          total: 28752,
-          totalToday: 138
-        }
-      }
-    });
   }, [dispatch]);
 
   if (loading && !user?.email) {
