@@ -9,13 +9,17 @@ import {
 type TWSState = {
   wsConnected: boolean;
   error?: Event;
+  messages?: never[];
 };
 
 const initialState: TWSState = {
   wsConnected: false
 };
 
-export const wsReducer = (state = initialState, action: TWSAction) => {
+export const wsReducer = (
+  state = initialState,
+  action: TWSAction
+): TWSState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
