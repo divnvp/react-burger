@@ -1,5 +1,5 @@
-import { ActionType } from '../../shared/models/action.type';
 import { LOADING } from '../constants';
+import { TLoginActions } from '../actions/login';
 
 type TLoaderState = {
   loading?: boolean;
@@ -11,13 +11,13 @@ const initialState: TLoaderState = {
 
 export const loaderReducer = (
   state = initialState,
-  action: ActionType
+  action: TLoginActions
 ): TLoaderState => {
   switch (action.type) {
     case LOADING: {
       return {
         ...state,
-        loading: action.payload?.loading
+        loading: action?.loading
       };
     }
     default: {

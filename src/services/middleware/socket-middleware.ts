@@ -1,6 +1,7 @@
 import { Middleware, MiddlewareAPI } from 'redux';
 import { AppActions, AppDispatch, RootState } from '../types';
 import { WS_CONNECTION_START } from '../constants';
+import { getFeedsActions } from '../actions/feeds';
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -20,6 +21,7 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
 
         socket.onmessage = (event: MessageEvent) => {
           console.log(`Получены данные: ${event.data}`);
+          dispatch(getFeedsActions(event.data));
         };
       }
 
