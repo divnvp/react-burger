@@ -20,15 +20,15 @@ import { checkUserAuthThunk } from '../../services/actions/login';
 import { useNavigate } from 'react-router-dom';
 import { Routes } from '../../shared/consts/routes';
 import {
-  AMOUNT_RECALCULATING,
-  BUN_ADDING,
-  BURGER_CONSTRUCTOR_GETTING,
-  CLEAR_ORDER,
-  INGREDIENT_ADDING,
-  INGREDIENT_MOVING,
-  INGREDIENT_REMOVING
-} from '../../services/constants';
-import { fetchMakingOrderThunk } from '../../services/actions/burger-constructor';
+  addBun,
+  addIngredient,
+  clearOrderAction,
+  fetchMakingOrderThunk,
+  getOfBurgerConstructorAction,
+  moveIngredientAction,
+  recalculateAmountAction,
+  removeIngredientAction
+} from '../../services/actions/burger-constructor';
 
 type BurgerConstructorSelector = {
   burgerConstructor: {
@@ -63,15 +63,14 @@ function BurgerConstructor() {
     accept: DndType.NewIngredient,
     drop: (ingredient: Ingredient) => {
       if (ingredient.type === IngredientType.Bun) {
-        dispatch({
-          type: BUN_ADDING,
-          payload: ingredient
-        });
+        dispatch(addBun(ingredient) as unknown as UnknownAction);
       } else {
-        dispatch({
-          type: INGREDIENT_ADDING,
-          payload: { ...ingredient, uniqueId: uuid4() }
-        });
+        dispatch(
+          addIngredient({
+            ...ingredient,
+            uniqueId: uuid4()
+          }) as unknown as UnknownAction
+        );
       }
     },
     collect: monitor => ({
@@ -85,10 +84,11 @@ function BurgerConstructor() {
       updatedIngredients.splice(dragIndex, 1);
       updatedIngredients.splice(hoverIndex, 0, dragItem);
 
-      dispatch({
-        type: INGREDIENT_MOVING,
-        payload: updatedIngredients.filter(v => v !== undefined)
-      });
+      dispatch(
+        moveIngredientAction(
+          updatedIngredients.filter(v => v !== undefined)
+        ) as unknown as UnknownAction
+      );
     },
     [ingredients, dispatch]
   );
@@ -116,9 +116,7 @@ function BurgerConstructor() {
 
   const close = () => {
     setOrderDetails(false);
-    dispatch({
-      type: CLEAR_ORDER
-    });
+    dispatch(clearOrderAction() as unknown as UnknownAction);
     setMakingOrder(false);
     setIsCartEmpty(true);
   };
@@ -142,23 +140,17 @@ function BurgerConstructor() {
       );
     }
 
-    dispatch({
-      type: AMOUNT_RECALCULATING,
-      payload: { amount: totalAmount }
-    });
+    dispatch(recalculateAmountAction(totalAmount) as unknown as UnknownAction);
   };
 
   const onRemove = (uniqueId: string) => {
-    dispatch({
-      type: INGREDIENT_REMOVING,
-      payload: {
-        burgerConstructor: ingredients.filter(v => v && v.uniqueId !== uniqueId)
-      }
-    });
+    dispatch(
+      removeIngredientAction(
+        ingredients.filter(v => v && v.uniqueId !== uniqueId)
+      ) as unknown as UnknownAction
+    );
 
-    dispatch({
-      type: BURGER_CONSTRUCTOR_GETTING
-    });
+    dispatch(getOfBurgerConstructorAction() as unknown as UnknownAction);
   };
 
   useEffect(() => {

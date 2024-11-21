@@ -17,6 +17,10 @@ export type ActionType = {
   logout?: Response;
   checkingAuth?: boolean;
   isAuth?: boolean;
+  ingredient?: Ingredient;
+  bun?: Ingredient;
+  burgerConstructor?: Ingredient[];
+  amount?: number;
   payload?: {
     error?: unknown;
     name?: string;
