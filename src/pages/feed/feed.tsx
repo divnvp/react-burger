@@ -7,12 +7,20 @@ import { Routes as RouteName } from '../../shared/consts/routes';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import { useEffect } from 'react';
+import { useDispatch } from '../../shared/hooks/store';
+import { initWs } from '../../services/actions/ws';
 
 export function FeedPage() {
+  const dispatch = useDispatch();
   const location = useLocation();
   const mocks: Feed | undefined = useSelector(
     (state: { feeds?: { feeds: Feed } }) => state.feeds?.feeds
   );
+
+  useEffect(() => {
+    dispatch(initWs());
+  }, []);
 
   return (
     <Layout>

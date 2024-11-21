@@ -2,6 +2,7 @@ import { TWSAction } from '../../shared/models/ws-action.type';
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
+  WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE
 } from '../constants';
@@ -21,6 +22,13 @@ export const wsReducer = (
   action: TWSAction
 ): TWSState => {
   switch (action.type) {
+    case WS_CONNECTION_START:
+      return {
+        ...state,
+        error: undefined,
+        wsConnected: false
+      };
+
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
