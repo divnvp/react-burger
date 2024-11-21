@@ -1,17 +1,26 @@
 import { ActionType } from '../../shared/models/action.type';
 import { FEEDS, FEEDS_REJECTED, FEEDS_REQUEST } from '../constants';
+import { Feed } from '../../shared/models/feed.type';
 
-const initialState = {
-  feeds: [],
+type TFeedState = {
+  feeds?: Feed;
+  error: unknown;
+};
+
+const initialState: TFeedState = {
+  feeds: undefined,
   error: null
 };
 
-export const feedsReducer = (state = initialState, action: ActionType) => {
+export const feedsReducer = (
+  state = initialState,
+  action: ActionType
+): TFeedState => {
   switch (action.type) {
     case FEEDS: {
       return {
         ...state,
-        feeds: action.payload
+        feeds: action.payload?.feeds
       };
     }
     case FEEDS_REQUEST: {

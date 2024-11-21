@@ -11,7 +11,7 @@ import { useLocation } from 'react-router';
 export function FeedPage() {
   const location = useLocation();
   const mocks: Feed | undefined = useSelector(
-    (state: { feeds?: { feeds: { feeds: Feed } } }) => state.feeds?.feeds.feeds
+    (state: { feeds?: { feeds: Feed } }) => state.feeds?.feeds
   );
 
   return (

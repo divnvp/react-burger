@@ -21,6 +21,7 @@ export type ActionType = {
   bun?: Ingredient;
   burgerConstructor?: Ingredient[];
   amount?: number;
+  feeds?: Feed;
   payload?: {
     error?: unknown;
     name?: string;

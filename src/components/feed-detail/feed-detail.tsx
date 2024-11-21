@@ -27,7 +27,7 @@ export function FeedDetail() {
   );
 
   const feeds: Feed | undefined = useSelector(
-    (state: { feeds?: { feeds: { feeds: Feed } } }) => state.feeds?.feeds.feeds
+    (state: { feeds?: { feeds: Feed } }) => state.feeds?.feeds
   );
 
   const currentFeed = feeds?.orders.find(f => f._id === id);

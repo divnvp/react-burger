@@ -8,7 +8,7 @@ import { useLocation } from 'react-router';
 export function FeedList() {
   const location = useLocation();
   const mocks: Feed | undefined = useSelector(
-    (state: { feeds?: { feeds: { feeds: Feed } } }) => state.feeds?.feeds.feeds
+    (state: { feeds?: { feeds: Feed } }) => state.feeds?.feeds
   );
 
   return (
