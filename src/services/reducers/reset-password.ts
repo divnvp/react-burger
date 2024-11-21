@@ -1,20 +1,26 @@
-import { ActionType } from '../../shared/models/action.type';
 import {
   RESET_PASSWORD_REJECTED,
   RESET_PASSWORD_REQUEST,
   RESETTING_PASSWORD
 } from '../constants';
+import { Response } from '../../shared/models/response.type';
+import { TResetPasswordAction } from '../actions/reset-password';
 
-const initialState = {
-  response: {},
+type TResetPasswordState = {
+  response?: Response;
+  error: unknown;
+  email: string;
+};
+
+const initialState: TResetPasswordState = {
   error: null,
   email: ''
 };
 
 export const resetPasswordReducer = (
   state = initialState,
-  action: ActionType
-) => {
+  action: TResetPasswordAction
+): TResetPasswordState => {
   switch (action.type) {
     case RESETTING_PASSWORD: {
       return {
