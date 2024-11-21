@@ -21,6 +21,7 @@ export interface IRejectedOfIngredientGetting {
 }
 export type TBurgerIngredientsActions =
   | IGetIngredients
+  | IRejectedOfIngredientGetting
   | IRequestOfIngredientGetting;
 
 export const fetchIngredientsThunk =
