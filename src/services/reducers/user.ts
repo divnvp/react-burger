@@ -1,17 +1,27 @@
-import { ActionType } from '../../shared/models/action.type';
 import { IS_USER_AUTH, USER_GETTING } from '../constants';
+import { TUserActions } from '../actions/user';
+import { TLoginActions } from '../actions/login';
 
-const initialState = {
+type TUserState = {
+  name?: string;
+  email: string;
+  password: string;
+  isAuth: boolean;
+};
+
+const initialState: TUserState = {
   name: '',
   email: '',
   password: '',
   isAuth: false
 };
 
-export const userReducer = (state = initialState, action: ActionType) => {
+export const userReducer = (
+  state = initialState,
+  action: TUserActions | TLoginActions
+): TUserState => {
   switch (action.type) {
     case USER_GETTING: {
-      console.log(action);
       return {
         ...state,
         name: action.user?.name,
@@ -20,7 +30,6 @@ export const userReducer = (state = initialState, action: ActionType) => {
       };
     }
     case IS_USER_AUTH: {
-      console.log(action);
       return {
         ...state,
         isAuth: action?.isAuth
