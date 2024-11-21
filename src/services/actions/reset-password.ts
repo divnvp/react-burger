@@ -1,4 +1,3 @@
-import { ActionType } from '../../shared/models/action.type';
 import { resetPassword } from '../../shared/api/data.service';
 import { ResetPassword } from '../../shared/models/reset-password.type';
 import {
@@ -7,6 +6,7 @@ import {
   RESETTING_PASSWORD
 } from '../constants';
 import { Response } from '../../shared/models/response.type';
+import { AppDispatch, AppThunkAction } from '../types';
 
 export interface IResetPasswordRequest {
   readonly type: typeof RESET_PASSWORD_REQUEST;
@@ -24,9 +24,8 @@ export type TResetPasswordAction =
   | IResettingPassword
   | IResetPasswordRejected;
 
-export const fetchResetPasswordThunk =
-  (credits: ResetPassword) =>
-  async (dispatch: (action: ActionType) => void) => {
+export const fetchResetPasswordThunk: AppThunkAction =
+  (credits: ResetPassword) => async (dispatch: AppDispatch) => {
     dispatch(makeResetPasswordRequest());
 
     try {
