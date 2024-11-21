@@ -1,4 +1,3 @@
-import { ActionType } from '../../shared/models/action.type';
 import {
   AMOUNT_RECALCULATING,
   BUN_ADDING,
@@ -13,6 +12,7 @@ import {
 } from '../constants';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { Order } from '../../shared/models/order.type';
+import { TBurgerConstructorActions } from '../actions/burger-constructor';
 
 type TBurgerConstructorState = {
   burgerConstructor: Ingredient[];
@@ -33,7 +33,7 @@ const initialState: TBurgerConstructorState = {
 
 export const burgerConstructorReducer = (
   state = initialState,
-  action: ActionType
+  action: TBurgerConstructorActions
 ): TBurgerConstructorState => {
   switch (action.type) {
     case BURGER_CONSTRUCTOR_GETTING: {
