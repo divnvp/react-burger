@@ -1,8 +1,6 @@
-import { ActionType } from '../../shared/models/action.type';
 import { getUser, updateUser } from '../../shared/api/user.service';
 import { Response } from '../../shared/models/response.type';
 import { checkAuth, fetchRefreshTokenThunk, isUserAuth } from './login';
-import { UnknownAction } from 'redux';
 import { RegisterUser } from '../../shared/models/register-user.type';
 import {
   USER_GETTING,
@@ -13,6 +11,7 @@ import {
   USER_UPDATING_REQUEST
 } from '../constants';
 import { LoginUser } from '../../shared/models/login-user.type';
+import { AppDispatch, AppThunkAction } from '../types';
 
 export interface IUserRequest {
   readonly type: typeof USER_REQUEST;
@@ -44,8 +43,8 @@ export type TUserActions =
   | IUserUpdatingRejected
   | IUserUpdatingRequest;
 
-export const fetchUserThunk =
-  () => async (dispatch: (action: ActionType) => void) => {
+export const fetchUserThunk: AppThunkAction =
+  () => async (dispatch: AppDispatch) => {
     dispatch(makeUserGettingRequest());
 
     try {
@@ -60,8 +59,8 @@ export const fetchUserThunk =
         dispatch(checkAuth(true));
         dispatch(
           fetchRefreshTokenThunk(() =>
-            dispatch(fetchUserThunk() as unknown as UnknownAction)
-          ) as unknown as UnknownAction
+            dispatch(fetchUserThunk() as unknown as AppThunkAction)
+          ) as unknown as AppThunkAction
         );
       } else {
         dispatch(catchUserRequest(e));
@@ -69,8 +68,8 @@ export const fetchUserThunk =
     }
   };
 
-export const fetchUserUpdatingThunk =
-  (credits: RegisterUser) => async (dispatch: (action: ActionType) => void) => {
+export const fetchUserUpdatingThunk: AppThunkAction =
+  (credits: RegisterUser) => async (dispatch: AppDispatch) => {
     dispatch(makeUserUpdatingRequest());
 
     try {
@@ -84,9 +83,9 @@ export const fetchUserUpdatingThunk =
         dispatch(
           fetchRefreshTokenThunk(() =>
             dispatch(
-              fetchUserUpdatingThunk(credits) as unknown as UnknownAction
+              fetchUserUpdatingThunk(credits) as unknown as AppThunkAction
             )
-          ) as unknown as UnknownAction
+          ) as unknown as AppThunkAction
         );
       } else {
         dispatch(catchUserUpdating(e));

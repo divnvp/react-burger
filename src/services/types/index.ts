@@ -7,8 +7,7 @@ import { TLoginActions } from '../actions/login';
 import { TRegistrationActions } from '../actions/registration';
 import { TResetPasswordAction } from '../actions/reset-password';
 import { TUserActions } from '../actions/user';
-import { Action } from 'redux';
-import { Dispatch } from 'react';
+import { Action, ActionCreator } from 'redux';
 
 export type AppActions =
   | TBurgerIngredientsActions
@@ -19,10 +18,7 @@ export type AppActions =
   | TResetPasswordAction
   | TUserActions;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = Dispatch<AppActions>;
-export type AppThunkAction<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  Action,
-  AppActions
+export type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
+export type AppThunkAction<ReturnType = void> = ActionCreator<
+  ThunkAction<ReturnType, Action, RootState, AppActions>
 >;
