@@ -1,5 +1,4 @@
 import { RegisterUser } from '../../shared/models/register-user.type';
-import { ActionType } from '../../shared/models/action.type';
 import { registerUser } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import {
@@ -8,6 +7,7 @@ import {
   REGISTRATION_REQUEST
 } from '../constants';
 import { Response } from '../../shared/models/response.type';
+import { AppDispatch, AppThunkAction } from '../types';
 
 export interface IRegistrationRequest {
   readonly type: typeof REGISTRATION_REQUEST;
@@ -25,8 +25,8 @@ export type TRegistrationActions =
   | IGetRegistration
   | IRegistrationRejected;
 
-export const fetchRegisterThunk =
-  (credits: RegisterUser) => async (dispatch: (action: ActionType) => void) => {
+export const fetchRegisterThunk: AppThunkAction =
+  (credits: RegisterUser) => async (dispatch: AppDispatch) => {
     dispatch(makeRegistrationRequest());
 
     try {
@@ -48,6 +48,9 @@ export const makeRegistration = (response: Response) => ({
   type: REGISTRATION,
   response
 });
-export const catchRegistrationRejected = (error: unknown) => ({
-  type: REGISTRATION_REJECTED
+export const catchRegistrationRejected = (
+  error: unknown
+): IRegistrationRejected => ({
+  type: REGISTRATION_REJECTED,
+  error
 });
