@@ -1,20 +1,26 @@
-import { ActionType } from '../../shared/models/action.type';
 import {
   FORGOT_PASSWORD_REJECTED,
   FORGOT_PASSWORD_REQUEST,
   SENDING_EMAIL
 } from '../constants';
+import { TForgotPasswordActions } from '../actions/forgot-password';
+import { Response } from '../../shared/models/response.type';
 
-const initialState = {
+type TForgotPasswordState = {
+  error: unknown;
+  response?: Response;
+  email: string;
+};
+
+const initialState: TForgotPasswordState = {
   error: null,
-  response: {},
   email: ''
 };
 
 export const forgotPasswordReducer = (
   state = initialState,
-  action: ActionType
-) => {
+  action: TForgotPasswordActions
+): TForgotPasswordState => {
   switch (action.type) {
     case SENDING_EMAIL: {
       return {
