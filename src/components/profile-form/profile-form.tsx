@@ -6,11 +6,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { fetchUserUpdatingThunk } from '../../services/actions/user';
-import { UnknownAction } from 'redux';
 import { useForm } from '../../shared/hooks/use-form';
 import { RegisterUser } from '../../shared/models/register-user.type';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Logout } from '../../shared/models/store/logout.type';
+import { useDispatch } from '../../shared/hooks/store';
+import { AppThunkAction } from '../../services/types';
 
 type ProfileSelector = {
   user: RegisterUser;
@@ -37,7 +38,7 @@ export function ProfileForm() {
     dispatch(
       fetchUserUpdatingThunk({
         ...values
-      }) as unknown as UnknownAction
+      }) as unknown as AppThunkAction
     );
   };
 

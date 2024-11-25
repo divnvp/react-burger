@@ -7,12 +7,13 @@ import {
 import React, { FormEvent, useEffect } from 'react';
 import registerStyles from '../register/register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { fetchForgotPasswordThunk } from '../../services/actions/forgot-password';
-import { UnknownAction } from 'redux';
 import { Response } from '../../shared/models/response.type';
 import { Routes } from '../../shared/consts/routes';
 import { useForm } from '../../shared/hooks/use-form';
+import { useDispatch } from '../../shared/hooks/store';
+import { AppThunkAction } from '../../services/types';
 
 type RegisterPageSelector = {
   forgotPassword: { response: Response };
@@ -32,7 +33,7 @@ export function ForgotPasswordPage() {
   const recoverPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
-      fetchForgotPasswordThunk(values.email) as unknown as UnknownAction
+      fetchForgotPasswordThunk(values.email) as unknown as AppThunkAction
     );
   };
 

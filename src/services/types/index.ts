@@ -10,6 +10,7 @@ import { TUserActions } from '../actions/user';
 import { Action, ActionCreator } from 'redux';
 import { TFeedActions } from '../actions/feeds';
 import { TWsActions } from '../actions/ws';
+import { TIngredientDetailsActions } from '../actions/ingredient-details';
 
 export type AppActions =
   | TBurgerIngredientsActions
@@ -20,7 +21,8 @@ export type AppActions =
   | TResetPasswordAction
   | TUserActions
   | TWsActions
-  | TFeedActions;
+  | TFeedActions
+  | TIngredientDetailsActions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
 export type AppThunkAction<ReturnType = void> = ActionCreator<

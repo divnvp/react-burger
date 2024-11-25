@@ -17,9 +17,8 @@ import {
   ProtectedAuthElement,
   ProtectedUnAuthElement
 } from '../protected-route-element/protected-route-element';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { checkUserAuthThunk } from '../../services/actions/login';
-import { UnknownAction } from 'redux';
 import { useLocation } from 'react-router';
 import Modal from '../modal/modal';
 import { Routes as RouteName } from '../../shared/consts/routes';
@@ -32,6 +31,8 @@ import { FeedDetailPage } from '../../pages/feed-detail/feed-detail';
 import { ProfileForm } from '../profile-form/profile-form';
 import { FeedList } from '../feed-list/feed-list';
 import { FeedDetail } from '../feed-detail/feed-detail';
+import { useDispatch } from '../../shared/hooks/store';
+import { AppThunkAction } from '../../services/types';
 
 type AppSelector = {
   loading: LoadingType;
@@ -47,8 +48,8 @@ function App() {
   const state = location.state as { backgroundLocation?: Location };
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(checkUserAuthThunk() as unknown as UnknownAction);
-    dispatch(fetchIngredientsThunk() as unknown as UnknownAction);
+    dispatch(checkUserAuthThunk() as unknown as AppThunkAction);
+    dispatch(fetchIngredientsThunk() as unknown as AppThunkAction);
   }, [dispatch]);
 
   if (loading && !user?.email) {

@@ -7,13 +7,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { DndType } from '../../shared/consts/dnd-type.enum';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import { v4 as uuid4 } from 'uuid';
-import { UnknownAction } from 'redux';
 import { ErrorType } from '../../shared/models/error.type';
 import { Order } from '../../shared/models/order.type';
 import { checkUserAuthThunk } from '../../services/actions/login';
@@ -29,6 +28,8 @@ import {
   recalculateAmountAction,
   removeIngredientAction
 } from '../../services/actions/burger-constructor';
+import { useDispatch } from '../../shared/hooks/store';
+import { AppThunkAction } from '../../services/types';
 
 type BurgerConstructorSelector = {
   burgerConstructor: {
@@ -63,13 +64,13 @@ function BurgerConstructor() {
     accept: DndType.NewIngredient,
     drop: (ingredient: Ingredient) => {
       if (ingredient.type === IngredientType.Bun) {
-        dispatch(addBun(ingredient) as unknown as UnknownAction);
+        dispatch(addBun(ingredient) as unknown as AppThunkAction);
       } else {
         dispatch(
           addIngredient({
             ...ingredient,
             uniqueId: uuid4()
-          }) as unknown as UnknownAction
+          }) as unknown as AppThunkAction
         );
       }
     },
@@ -87,7 +88,7 @@ function BurgerConstructor() {
       dispatch(
         moveIngredientAction(
           updatedIngredients.filter(v => v !== undefined)
-        ) as unknown as UnknownAction
+        ) as unknown as AppThunkAction
       );
     },
     [ingredients, dispatch]
@@ -99,7 +100,7 @@ function BurgerConstructor() {
 
   const showOrderDetails = () => {
     setMakingOrder(true);
-    dispatch(checkUserAuthThunk() as unknown as UnknownAction);
+    dispatch(checkUserAuthThunk() as unknown as AppThunkAction);
   };
 
   const makeOrder = () => {
@@ -110,13 +111,13 @@ function BurgerConstructor() {
       orderDetails = [...ingredients.map(v => v._id)];
     }
 
-    dispatch(fetchMakingOrderThunk(orderDetails) as unknown as UnknownAction);
+    dispatch(fetchMakingOrderThunk(orderDetails) as unknown as AppThunkAction);
     setOrderDetails(true);
   };
 
   const close = () => {
     setOrderDetails(false);
-    dispatch(clearOrderAction() as unknown as UnknownAction);
+    dispatch(clearOrderAction() as unknown as AppThunkAction);
     setMakingOrder(false);
     setIsCartEmpty(true);
   };
@@ -140,17 +141,17 @@ function BurgerConstructor() {
       );
     }
 
-    dispatch(recalculateAmountAction(totalAmount) as unknown as UnknownAction);
+    dispatch(recalculateAmountAction(totalAmount) as unknown as AppThunkAction);
   };
 
   const onRemove = (uniqueId: string) => {
     dispatch(
       removeIngredientAction(
         ingredients.filter(v => v && v.uniqueId !== uniqueId)
-      ) as unknown as UnknownAction
+      ) as unknown as AppThunkAction
     );
 
-    dispatch(getOfBurgerConstructorAction() as unknown as UnknownAction);
+    dispatch(getOfBurgerConstructorAction() as unknown as AppThunkAction);
   };
 
   useEffect(() => {
