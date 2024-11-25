@@ -4,12 +4,17 @@ import {
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
+  WS_GET_USER_ORDERS,
   WS_SEND_MESSAGE
-} from '../../services/constants/ws-action-types';
+} from '../../services/constants';
 import { IMessage } from './message.interface';
 
 export interface IWSConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
+}
+
+export interface IWSGetUserOrders {
+  readonly type: typeof WS_GET_USER_ORDERS;
 }
 
 export interface IWSConnectionSuccessAction {
@@ -41,4 +46,5 @@ export type TWSAction =
   | IWSConnectionClosedAction
   | IWSConnectionSuccessAction
   | IWSConnectionStart
+  | IWSGetUserOrders
   | IWSConnectionErrorAction;

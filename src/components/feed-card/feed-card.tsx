@@ -8,6 +8,7 @@ import React from 'react';
 import { FeedCardImages } from '../feed-card-images/feed-card-images';
 import { useSelector } from 'react-redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
+import { Status, statuses } from '../../shared/consts/status.enum';
 
 type FeedCardSelector = {
   burgerIngredients: {
@@ -19,7 +20,8 @@ export function FeedCard({
   ingredients,
   createdAt,
   number,
-  name
+  name,
+  status
 }: Partial<FeedDetail>) {
   const useFeedCardSelector = useSelector.withTypes<FeedCardSelector>();
   const ingredientsList = useFeedCardSelector(
@@ -28,6 +30,10 @@ export function FeedCard({
   const calculatedAmount = ingredients
     ?.map(i => ingredientsList?.find(v => v._id === i))
     .reduce((a, b) => a + (b?.price ?? 0), 0);
+
+  const getStateName = (statusCode: Status) => {
+    return statuses[statusCode];
+  };
 
   return (
     <div className={feedCardStyles.card}>
@@ -38,6 +44,11 @@ export function FeedCard({
         </p>
       </div>
       <p className='text text_type_main-medium pt-6'>{name}</p>
+      <p
+        className={`text text_type_main-small pt-2 pb-6 ${status === Status.Done ? feedCardStyles.statusSuccessText : null}`}
+      >
+        {getStateName(status as Status)}
+      </p>
       <div className={`${feedCardStyles.row} pt-6`}>
         <FeedCardImages ingredients={ingredients!} />
         <div className={`${feedCardStyles.amount}`}>

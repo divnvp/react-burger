@@ -1,14 +1,15 @@
 import profileStyles from './profile.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from '../../components/layout/layout';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { fetchUserThunk } from '../../services/actions/user';
-import { UnknownAction } from 'redux';
 import { fetchLogoutThunk } from '../../services/actions/login';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import { Logout } from '../../shared/models/store/logout.type';
+import { useDispatch } from '../../shared/hooks/store';
+import { AppThunkAction } from '../../services/types';
 
 type ProfileSelector = {
   login: Logout;
@@ -21,11 +22,11 @@ export function ProfilePage() {
   const logout = useProfilePageSelector(state => state.login.logout);
 
   useEffect(() => {
-    dispatch(fetchUserThunk() as unknown as UnknownAction);
+    dispatch(fetchUserThunk() as unknown as AppThunkAction);
   }, []);
 
   const onLogout = () => {
-    dispatch(fetchLogoutThunk() as unknown as UnknownAction);
+    dispatch(fetchLogoutThunk() as unknown as AppThunkAction);
   };
 
   useEffect(() => {

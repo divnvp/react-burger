@@ -33,6 +33,7 @@ import { FeedList } from '../feed-list/feed-list';
 import { FeedDetail } from '../feed-detail/feed-detail';
 import { useDispatch } from '../../shared/hooks/store';
 import { AppThunkAction } from '../../services/types';
+import { initWs } from '../../services/actions/ws';
 
 type AppSelector = {
   loading: LoadingType;

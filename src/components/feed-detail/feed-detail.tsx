@@ -5,12 +5,14 @@ import {
   CurrencyIcon,
   FormattedDate
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Status, statuses } from '../../shared/consts/status.enum';
 import { Ingredient } from '../../shared/models/ingredient.type';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { Feed } from '../../shared/models/feed.type';
+import { initWs } from '../../services/actions/ws';
+import { useDispatch } from '../../shared/hooks/store';
 
 type FeedDetailSelector = {
   burgerIngredients: {
@@ -20,6 +22,9 @@ type FeedDetailSelector = {
 };
 
 export function FeedDetail() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const state = location.state as { backgroundLocation?: Location };
   const { id } = useParams();
   const useFeedDetailSelector = useSelector.withTypes<FeedDetailSelector>();
   const ingredientsList = useFeedDetailSelector(
@@ -41,6 +46,12 @@ export function FeedDetail() {
   const getStateName = (statusCode: Status) => {
     return statuses[statusCode];
   };
+
+  useEffect(() => {
+    if (!state?.backgroundLocation) {
+      dispatch(initWs());
+    }
+  }, []);
 
   return (
     <>

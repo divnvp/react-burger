@@ -30,7 +30,9 @@ export function FeedPage() {
       >
         <div className={feedModuleStyles.col}>
           <p className='text text_type_main-large pb-6'>Лента заказов</p>
-          <div className={feedModuleStyles.feedGrid}>
+          <div
+            className={`${feedModuleStyles.feedGrid} ${feedModuleStyles.scroll}`}
+          >
             {mocks?.orders?.map(v => (
               <Link
                 to={`${RouteName.Feed}/${v._id}`}
@@ -48,36 +50,40 @@ export function FeedPage() {
             ))}
           </div>
         </div>
-        <div className={feedModuleStyles.col}>
+        <div className={`${feedModuleStyles.col}`}>
           <div
             className={`${feedModuleStyles.row} pb-15`}
             style={{ gap: '36px' }}
           >
-            <div className={feedModuleStyles.col}>
+            <div className={`${feedModuleStyles.col}`}>
               <p className='text text_type_main-medium pb-6'>Готовы:</p>
-              {mocks?.orders
-                ?.filter(o => o.status === Status.Done)
-                .map(o => (
-                  <p
-                    key={o._id}
-                    className={`text text_type_digits-default ${feedModuleStyles.orderNumberText}`}
-                  >
-                    {o.number}
-                  </p>
-                ))}
+              <div className={feedModuleStyles.scrollReady}>
+                {mocks?.orders
+                  ?.filter(o => o.status === Status.Done)
+                  .map(o => (
+                    <p
+                      key={o._id}
+                      className={`text text_type_digits-default ${feedModuleStyles.orderNumberText}`}
+                    >
+                      {o.number}
+                    </p>
+                  ))}
+              </div>
             </div>
             <div className={feedModuleStyles.col}>
               <p className='text text_type_main-medium pb-6'>В работе:</p>
-              {mocks?.orders
-                ?.filter(
-                  o =>
-                    o.status === Status.Pending || o.status === Status.Created
-                )
-                .map(o => (
-                  <p key={o._id} className={`text text_type_digits-default`}>
-                    {o.number}
-                  </p>
-                ))}
+              <div className={feedModuleStyles.scrollReady}>
+                {mocks?.orders
+                  ?.filter(
+                    o =>
+                      o.status === Status.Pending || o.status === Status.Created
+                  )
+                  .map(o => (
+                    <p key={o._id} className={`text text_type_digits-default`}>
+                      {o.number}
+                    </p>
+                  ))}
+              </div>
             </div>
           </div>
           <p className='text text_type_main-medium'>Выполнено за все время:</p>

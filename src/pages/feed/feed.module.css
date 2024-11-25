@@ -10,10 +10,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-
-  overflow: auto;
-  height: auto;
-  max-height: calc(100vh - 25vh);
 }
 
 .orderNumberText {
@@ -24,4 +20,16 @@
   text-decoration: none;
   color: white;
   min-width: 40%;
+}
+
+.scroll {
+  overflow: auto;
+  height: auto;
+  max-height: calc(100vh - 25vh);
+}
+
+.scrollReady {
+  overflow: auto;
+  height: auto;
+  max-height: calc(100vh - 75vh);
 }

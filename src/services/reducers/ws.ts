@@ -4,7 +4,8 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
-  WS_GET_MESSAGE
+  WS_GET_MESSAGE,
+  WS_GET_USER_ORDERS
 } from '../constants';
 
 type TWSState = {
@@ -30,6 +31,13 @@ export const wsReducer = (
       };
 
     case WS_CONNECTION_SUCCESS:
+      return {
+        ...state,
+        error: undefined,
+        wsConnected: true
+      };
+
+    case WS_GET_USER_ORDERS:
       return {
         ...state,
         error: undefined,

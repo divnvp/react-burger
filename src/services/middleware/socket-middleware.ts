@@ -1,7 +1,8 @@
 import { Middleware, MiddlewareAPI } from 'redux';
 import { AppActions, AppDispatch, RootState } from '../types';
-import { WS_CONNECTION_START } from '../constants';
+import { WS_CONNECTION_START, WS_GET_USER_ORDERS } from '../constants';
 import { getFeedsActions } from '../actions/feeds';
+import { getCookie } from '../../shared/utils/get-cookie';
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -12,6 +13,13 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
 
       if (action.type === WS_CONNECTION_START) {
         socket = new WebSocket(`${wsUrl}orders/all`);
+      } else if (action.type === WS_GET_USER_ORDERS) {
+        const accessToken = getCookie('accessToken');
+        if (accessToken) {
+          socket = new WebSocket(
+            `${wsUrl}orders?token=${accessToken.split('Bearer ')[1]}`
+          );
+        }
       }
 
       if (socket) {
