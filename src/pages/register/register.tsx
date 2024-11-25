@@ -29,9 +29,7 @@ export function RegisterPage() {
   const dispatch = useDispatch();
   const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
   const navigate = useNavigate();
-  const registration = useRegisterPageSelector(
-    state => state.registration.response
-  );
+  const registration = useRegisterPageSelector(state => state.registration);
 
   const registerUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +41,7 @@ export function RegisterPage() {
   };
 
   useEffect(() => {
-    if (registration.success) {
+    if (registration?.response?.success) {
       navigate(RouteName.Login);
     }
   }, [registration]);
