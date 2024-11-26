@@ -2,24 +2,17 @@ import profileStyles from './profile.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect } from 'react';
 import { Layout } from '../../components/layout/layout';
-import { useSelector } from 'react-redux';
 import { fetchUserThunk } from '../../services/actions/user';
 import { fetchLogoutThunk } from '../../services/actions/login';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { Logout } from '../../shared/models/store/logout.type';
-import { useDispatch } from '../../shared/hooks/store';
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 import { AppThunkAction } from '../../services/types';
-
-type ProfileSelector = {
-  login: Logout;
-};
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const useProfilePageSelector = useSelector.withTypes<ProfileSelector>();
-  const logout = useProfilePageSelector(state => state.login.logout);
+  const logout = useSelector(state => state.login.logout);
 
   useEffect(() => {
     dispatch(fetchUserThunk() as unknown as AppThunkAction);

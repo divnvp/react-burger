@@ -6,15 +6,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
 import { FeedCardImages } from '../feed-card-images/feed-card-images';
-import { useSelector } from 'react-redux';
-import { Ingredient } from '../../shared/models/ingredient.type';
 import { Status, statuses } from '../../shared/consts/status.enum';
-
-type FeedCardSelector = {
-  burgerIngredients: {
-    ingredients: Ingredient[];
-  };
-};
+import { useSelector } from '../../shared/hooks/store';
+import { Ingredient } from '../../shared/models/ingredient.type';
 
 export function FeedCard({
   ingredients,
@@ -23,12 +17,11 @@ export function FeedCard({
   name,
   status
 }: Partial<FeedDetail>) {
-  const useFeedCardSelector = useSelector.withTypes<FeedCardSelector>();
-  const ingredientsList = useFeedCardSelector(
+  const ingredientsList = useSelector(
     state => state.burgerIngredients.ingredients
   );
   const calculatedAmount = ingredients
-    ?.map(i => ingredientsList?.find(v => v._id === i))
+    ?.map(i => ingredientsList?.find((v: Ingredient) => v._id === i))
     .reduce((a, b) => a + (b?.price ?? 0), 0);
 
   const getStateName = (statusCode: Status) => {

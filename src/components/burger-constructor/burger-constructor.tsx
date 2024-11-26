@@ -7,14 +7,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import BurgerConstructorElement from '../burger-constructor-element/burger-constructor-element';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
-import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { DndType } from '../../shared/consts/dnd-type.enum';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
 import { v4 as uuid4 } from 'uuid';
-import { ErrorType } from '../../shared/models/error.type';
-import { Order } from '../../shared/models/order.type';
 import { checkUserAuthThunk } from '../../services/actions/login';
 import { useNavigate } from 'react-router-dom';
 import { Routes } from '../../shared/consts/routes';
@@ -28,37 +25,18 @@ import {
   recalculateAmountAction,
   removeIngredientAction
 } from '../../services/actions/burger-constructor';
-import { useDispatch } from '../../shared/hooks/store';
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 import { AppThunkAction } from '../../services/types';
-
-type BurgerConstructorSelector = {
-  burgerConstructor: {
-    burgerConstructor: Ingredient[];
-    buns: Ingredient | null;
-    amount: number;
-    order: Order;
-  };
-  error?: ErrorType;
-  user: {
-    isAuth: boolean;
-  };
-};
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const useBurgerConstructorSelector =
-    useSelector.withTypes<BurgerConstructorSelector>();
-  const error = useBurgerConstructorSelector(state => state?.error?.message);
-  const ingredients = useBurgerConstructorSelector(
+  const error = useSelector(state => state?.error?.message);
+  const ingredients = useSelector(
     state => state.burgerConstructor.burgerConstructor
   );
-  const buns = useBurgerConstructorSelector(
-    state => state.burgerConstructor.buns
-  );
-  const amount = useBurgerConstructorSelector(
-    state => state.burgerConstructor.amount
-  );
-  const isAuth = useBurgerConstructorSelector(state => state.user.isAuth);
+  const buns = useSelector(state => state.burgerConstructor.buns);
+  const amount = useSelector(state => state.burgerConstructor.amount);
+  const isAuth = useSelector(state => state.user.isAuth);
 
   const [{ isOver }, drop] = useDrop({
     accept: DndType.NewIngredient,
@@ -106,9 +84,13 @@ function BurgerConstructor() {
   const makeOrder = () => {
     let orderDetails = [];
     if (buns) {
-      orderDetails = [...ingredients.map(v => v._id), buns?._id, buns?._id];
+      orderDetails = [
+        ...ingredients.map((v: { _id: string }) => v._id),
+        buns?._id,
+        buns?._id
+      ];
     } else {
-      orderDetails = [...ingredients.map(v => v._id)];
+      orderDetails = [...ingredients.map((v: { _id: string }) => v._id)];
     }
 
     dispatch(fetchMakingOrderThunk(orderDetails) as unknown as AppThunkAction);
@@ -131,12 +113,12 @@ function BurgerConstructor() {
     if (buns && Object.keys(buns).length) {
       setIsCartEmpty(false);
       totalAmount = ingredients.reduce(
-        (sum, ingredient) => sum + ingredient?.price,
+        (sum: number, ingredient: Ingredient) => sum + ingredient?.price,
         buns?.price * 2
       );
     } else if (ingredients.length) {
       totalAmount = ingredients.reduce(
-        (sum, ingredient) => sum + ingredient?.price,
+        (sum: number, ingredient: Ingredient) => sum + ingredient?.price,
         0
       );
     }
@@ -147,7 +129,7 @@ function BurgerConstructor() {
   const onRemove = (uniqueId: string) => {
     dispatch(
       removeIngredientAction(
-        ingredients.filter(v => v && v.uniqueId !== uniqueId)
+        ingredients.filter((v: Ingredient) => v && v.uniqueId !== uniqueId)
       ) as unknown as AppThunkAction
     );
 
@@ -193,7 +175,7 @@ function BurgerConstructor() {
             className={`${burgerConstructorStyle.scrollbar} ${burgerConstructorStyle.elementsGrid}`}
           >
             {ingredients.map(
-              (ingredient, index) =>
+              (ingredient: Ingredient, index?: number) =>
                 ingredient?._id && (
                   <BurgerConstructorElement
                     key={ingredient.uniqueId}

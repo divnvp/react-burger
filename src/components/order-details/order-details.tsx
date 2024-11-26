@@ -1,19 +1,11 @@
 import orderDetailsStyles from './order-details.module.css';
 import doneImage from '../../images/done.svg';
-import { useSelector } from 'react-redux';
-import { Order } from '../../shared/models/order.type';
 import { Loader } from '../loader/loader';
-
-type OrderDetailsSelector = {
-  burgerConstructor: { order: Order; loading: boolean };
-};
+import { useSelector } from '../../shared/hooks/store';
 
 function OrderDetails() {
-  const useOrderDetailsSelector = useSelector.withTypes<OrderDetailsSelector>();
-  const order = useOrderDetailsSelector(state => state.burgerConstructor.order);
-  const loading = useOrderDetailsSelector(
-    state => state.burgerConstructor.loading
-  );
+  const order = useSelector(state => state.burgerConstructor.order);
+  const loading = useSelector(state => state.burgerConstructor.loading);
 
   return (
     <div className={`${orderDetailsStyles.grid} pt-8`}>

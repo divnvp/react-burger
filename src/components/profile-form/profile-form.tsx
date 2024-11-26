@@ -8,20 +8,12 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { fetchUserUpdatingThunk } from '../../services/actions/user';
 import { useForm } from '../../shared/hooks/use-form';
 import { RegisterUser } from '../../shared/models/register-user.type';
-import { useSelector } from 'react-redux';
-import { Logout } from '../../shared/models/store/logout.type';
-import { useDispatch } from '../../shared/hooks/store';
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 import { AppThunkAction } from '../../services/types';
-
-type ProfileSelector = {
-  user: RegisterUser;
-  login: Logout;
-};
 
 export function ProfileForm() {
   const dispatch = useDispatch();
-  const useProfilePageSelector = useSelector.withTypes<ProfileSelector>();
-  const user = useProfilePageSelector(state => state.user);
+  const user = useSelector(state => state.user);
   const [showButtons, setShowButtons] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const loginRef = useRef<HTMLInputElement>(null);

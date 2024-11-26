@@ -8,8 +8,10 @@ import { thunk } from 'redux-thunk';
 const wsUrl = 'wss://norma.nomoreparties.space/';
 
 const store = createStore(
-  rootReducer as Reducer<unknown, unknown>,
+  rootReducer as Reducer<any, any>,
   composeWithDevTools(applyMiddleware(thunk, socketMiddleware(wsUrl)))
 );
+
+console.log(store.getState());
 
 export default store;

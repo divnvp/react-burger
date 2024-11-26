@@ -2,38 +2,20 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect, useState } from 'react';
 import BurgerIngredientsCard from '../burger-ingredients-card/burger-ingredients';
 import ingredientsStyles from './burger-ingredients.module.css';
-import { Ingredient } from '../../shared/models/ingredient.type';
 import { IngredientType } from '../../shared/consts/ingredient-type.enum';
-import { useSelector } from 'react-redux';
 import { TabEnum } from '../../shared/consts/tab.enum';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import { useInView } from 'react-intersection-observer';
-
-type BurgerIngredientSelector = {
-  burgerIngredients: {
-    ingredients: Ingredient[];
-  };
-  burgerConstructor: {
-    burgerConstructor: Ingredient[];
-    buns: Ingredient;
-  };
-};
+import { useSelector } from '../../shared/hooks/store';
+import { Ingredient } from '../../shared/models/ingredient.type';
 
 function BurgerIngredients() {
   const location = useLocation();
-  const useBurgerIngredientSelector =
-    useSelector.withTypes<BurgerIngredientSelector>();
-  const ingredients = useBurgerIngredientSelector(
-    state => state.burgerIngredients.ingredients
-  );
-  const cart = useBurgerIngredientSelector(
-    state => state.burgerConstructor.burgerConstructor
-  );
-  const buns = useBurgerIngredientSelector(
-    state => state.burgerConstructor.buns
-  );
+  const ingredients = useSelector(state => state.burgerIngredients.ingredients);
+  const cart = useSelector(state => state.burgerConstructor.burgerConstructor);
+  const buns = useSelector(state => state.burgerConstructor.buns);
   const [current, setCurrent] = useState(TabEnum.One);
 
   const [bunRef, inViewBun, entryBun] = useInView({
@@ -97,7 +79,7 @@ function BurgerIngredients() {
           >
             <p className='text text_type_main-medium'>Булки</p>
             <div className={ingredientsStyles.wrap}>
-              {ingredients?.map(element =>
+              {ingredients?.map((element: Ingredient) =>
                 element.type === IngredientType.Bun ? (
                   <Link
                     key={element._id}
@@ -129,7 +111,7 @@ function BurgerIngredients() {
           >
             <p className='text text_type_main-medium pb-6'>Соусы</p>
             <div className={ingredientsStyles.wrap}>
-              {ingredients?.map(element =>
+              {ingredients?.map((element: Ingredient) =>
                 element?._id && element.type === IngredientType.Sauce ? (
                   <Link
                     key={element._id}
@@ -141,7 +123,9 @@ function BurgerIngredients() {
                       element={element}
                       count={
                         cart?.length && element?._id
-                          ? cart?.filter(c => c?._id === element?._id).length
+                          ? cart?.filter(
+                              (c: Ingredient) => c?._id === element?._id
+                            ).length
                           : undefined
                       }
                     />
@@ -156,7 +140,7 @@ function BurgerIngredients() {
           <section className={ingredientsStyles.wrapper} ref={mainRef}>
             <p className='text text_type_main-medium pb-6'>Начинки</p>
             <div className={ingredientsStyles.wrap}>
-              {ingredients?.map(element =>
+              {ingredients?.map((element: Ingredient) =>
                 element.type === IngredientType.Main ? (
                   <Link
                     key={element._id}
@@ -168,7 +152,9 @@ function BurgerIngredients() {
                       element={element}
                       count={
                         cart?.length && element?._id
-                          ? cart?.filter(c => c?._id === element?._id).length
+                          ? cart?.filter(
+                              (c: Ingredient) => c?._id === element?._id
+                            ).length
                           : undefined
                       }
                     />

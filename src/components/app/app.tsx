@@ -17,35 +17,25 @@ import {
   ProtectedAuthElement,
   ProtectedUnAuthElement
 } from '../protected-route-element/protected-route-element';
-import { useSelector } from 'react-redux';
 import { checkUserAuthThunk } from '../../services/actions/login';
 import { useLocation } from 'react-router';
 import Modal from '../modal/modal';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { LoaderPage } from '../../pages/loader/loader';
-import { LoadingType } from '../../shared/models/store/loading.type';
-import { RegisterUser } from '../../shared/models/register-user.type';
 import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
 import { FeedDetailPage } from '../../pages/feed-detail/feed-detail';
 import { ProfileForm } from '../profile-form/profile-form';
 import { FeedList } from '../feed-list/feed-list';
 import { FeedDetail } from '../feed-detail/feed-detail';
-import { useDispatch } from '../../shared/hooks/store';
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 import { AppThunkAction } from '../../services/types';
-import { initWs } from '../../services/actions/ws';
-
-type AppSelector = {
-  loading: LoadingType;
-  user: RegisterUser;
-};
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const useAppSelector = useSelector.withTypes<AppSelector>();
-  const loading = useAppSelector(state => state.loading.loading);
-  const user = useAppSelector(state => state.user);
+  const loading = useSelector(state => state.loading.loading);
+  const user = useSelector(state => state.user);
   const state = location.state as { backgroundLocation?: Location };
   const dispatch = useDispatch();
   useEffect(() => {

@@ -1,29 +1,23 @@
 import feedCardStyles from './feed-card-images.module.css';
-import { useSelector } from 'react-redux';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { v4 } from 'uuid';
 import { Fragment } from 'react';
 import { FeedCardImage } from '../feed-card-image/feed-card-image';
+import { useSelector } from '../../shared/hooks/store';
 
 type FeedCardImagesProps = {
   ingredients: string[];
 };
 
-type FeedCardImagesSelector = {
-  burgerIngredients: {
-    ingredients: Ingredient[];
-  };
-};
-
 export function FeedCardImages({ ingredients }: FeedCardImagesProps) {
-  const useFeedCardImagesSelector =
-    useSelector.withTypes<FeedCardImagesSelector>();
-  const ingredientsList = useFeedCardImagesSelector(
+  const ingredientsList = useSelector(
     state => state.burgerIngredients.ingredients
   );
 
   const images = ingredients.map(
-    ingredient => ingredientsList.find(i => i._id === ingredient)?.image_mobile
+    ingredient =>
+      ingredientsList.find((i: Ingredient) => i._id === ingredient)
+        ?.image_mobile
   );
 
   return (

@@ -1,29 +1,18 @@
 import { JSX } from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { RegisterUser } from '../../shared/models/register-user.type';
 import { LoaderPage } from '../../pages/loader/loader';
+import { useSelector } from '../../shared/hooks/store';
 
 type Props = {
   element: JSX.Element;
   onlyUnAuth: boolean;
 };
-type ProtectedRouteSelector = {
-  login: { checkingAuth: boolean };
-  user: RegisterUser & { isAuth?: boolean };
-};
 
 export const ProtectedRouteElement = (props: Props) => {
-  const useProtectedRouteSelector =
-    useSelector.withTypes<ProtectedRouteSelector>();
-  const isAuthChecked = useProtectedRouteSelector(
-    state => state.login.checkingAuth
-  );
-  const user = useProtectedRouteSelector(store => store.user);
+  const isAuthChecked = useSelector(state => state.login.checkingAuth);
+  const user = useSelector(store => store.user);
   const location = useLocation();
-
-  console.log(isAuthChecked, user);
 
   if (!isAuthChecked) {
     return <LoaderPage />;

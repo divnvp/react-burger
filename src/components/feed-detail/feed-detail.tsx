@@ -9,25 +9,16 @@ import React, { useEffect } from 'react';
 import { Status, statuses } from '../../shared/consts/status.enum';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { useLocation, useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 import { Feed } from '../../shared/models/feed.type';
 import { closeConnection, initWs } from '../../services/actions/ws';
-import { useDispatch } from '../../shared/hooks/store';
-
-type FeedDetailSelector = {
-  burgerIngredients: {
-    ingredients: Ingredient[];
-  };
-  feeds: any;
-};
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 
 export function FeedDetail() {
   const dispatch = useDispatch();
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
   const { id } = useParams();
-  const useFeedDetailSelector = useSelector.withTypes<FeedDetailSelector>();
-  const ingredientsList = useFeedDetailSelector(
+  const ingredientsList = useSelector(
     state => state.burgerIngredients.ingredients
   );
 
@@ -37,10 +28,10 @@ export function FeedDetail() {
 
   const currentFeed = feeds?.orders.find(f => f._id === id);
   const compound = currentFeed?.ingredients?.map(ingredient =>
-    ingredientsList.find(i => i._id === ingredient)
+    ingredientsList.find((i: Ingredient) => i._id === ingredient)
   );
   const calculatedAmount = currentFeed?.ingredients
-    ?.map(i => ingredientsList?.find(v => v._id === i))
+    ?.map(i => ingredientsList?.find((v: Ingredient) => v._id === i))
     .reduce((a, b) => a + b!.price, 0);
 
   const getStateName = (statusCode: Status) => {
