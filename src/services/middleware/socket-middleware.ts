@@ -33,6 +33,10 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
           dispatch(getFeedsActions(event.data));
         };
 
+        socket.onerror = () => {
+          dispatch(closeConnection());
+        };
+
         socket.onclose = (event: Event) => {
           dispatch(closeConnection());
         };
