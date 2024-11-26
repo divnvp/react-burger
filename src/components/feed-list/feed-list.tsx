@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import { useEffect } from 'react';
-import { getUserOrders } from '../../services/actions/ws';
+import { closeConnection, getUserOrders } from '../../services/actions/ws';
 import { useDispatch } from '../../shared/hooks/store';
 
 export function FeedList() {
@@ -17,6 +17,10 @@ export function FeedList() {
 
   useEffect(() => {
     dispatch(getUserOrders());
+
+    return () => {
+      dispatch(closeConnection());
+    };
   }, []);
 
   return (

@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { useEffect } from 'react';
 import { useDispatch } from '../../shared/hooks/store';
-import { initWs } from '../../services/actions/ws';
+import { closeConnection, initWs } from '../../services/actions/ws';
 
 export function FeedPage() {
   const dispatch = useDispatch();
@@ -20,6 +20,10 @@ export function FeedPage() {
 
   useEffect(() => {
     dispatch(initWs());
+
+    return () => {
+      dispatch(closeConnection());
+    };
   }, []);
 
   return (

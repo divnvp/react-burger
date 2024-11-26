@@ -11,7 +11,7 @@ import { Ingredient } from '../../shared/models/ingredient.type';
 import { useLocation, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { Feed } from '../../shared/models/feed.type';
-import { initWs } from '../../services/actions/ws';
+import { closeConnection, initWs } from '../../services/actions/ws';
 import { useDispatch } from '../../shared/hooks/store';
 
 type FeedDetailSelector = {
@@ -51,6 +51,10 @@ export function FeedDetail() {
     if (!state?.backgroundLocation) {
       dispatch(initWs());
     }
+
+    return () => {
+      dispatch(closeConnection());
+    };
   }, []);
 
   return (

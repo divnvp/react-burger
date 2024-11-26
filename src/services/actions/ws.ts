@@ -51,7 +51,7 @@ export const sendMessageWithWs = (): IWsSendMessage => ({
 export const checkSuccessConnection = (): IWsConnectionSuccess => ({
   type: WS_CONNECTION_SUCCESS
 });
-export const checkClosedConnection = (): IWsConnectionClosed => ({
+export const closeConnection = (): IWsConnectionClosed => ({
   type: WS_CONNECTION_CLOSED
 });
 export const getMessageWithWs = (): IWsGetMessage => ({
