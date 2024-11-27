@@ -29,7 +29,6 @@ import { ProfileForm } from '../profile-form/profile-form';
 import { FeedList } from '../feed-list/feed-list';
 import { FeedDetail } from '../feed-detail/feed-detail';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
-import { AppThunkAction } from '../../services/types';
 
 function App() {
   const location = useLocation();
@@ -39,8 +38,8 @@ function App() {
   const state = location.state as { backgroundLocation?: Location };
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(checkUserAuthThunk() as unknown as AppThunkAction);
-    dispatch(fetchIngredientsThunk() as unknown as AppThunkAction);
+    dispatch(checkUserAuthThunk());
+    dispatch(fetchIngredientsThunk());
   }, [dispatch]);
 
   if (loading && !user?.email) {

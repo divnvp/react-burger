@@ -26,7 +26,6 @@ import {
   removeIngredientAction
 } from '../../services/actions/burger-constructor';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
-import { AppThunkAction } from '../../services/types';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -42,13 +41,13 @@ function BurgerConstructor() {
     accept: DndType.NewIngredient,
     drop: (ingredient: Ingredient) => {
       if (ingredient.type === IngredientType.Bun) {
-        dispatch(addBun(ingredient) as unknown as AppThunkAction);
+        dispatch(addBun(ingredient));
       } else {
         dispatch(
           addIngredient({
             ...ingredient,
             uniqueId: uuid4()
-          }) as unknown as AppThunkAction
+          })
         );
       }
     },
@@ -64,9 +63,7 @@ function BurgerConstructor() {
       updatedIngredients.splice(hoverIndex, 0, dragItem);
 
       dispatch(
-        moveIngredientAction(
-          updatedIngredients.filter(v => v !== undefined)
-        ) as unknown as AppThunkAction
+        moveIngredientAction(updatedIngredients.filter(v => v !== undefined))
       );
     },
     [ingredients, dispatch]
@@ -78,7 +75,7 @@ function BurgerConstructor() {
 
   const showOrderDetails = () => {
     setMakingOrder(true);
-    dispatch(checkUserAuthThunk() as unknown as AppThunkAction);
+    dispatch(checkUserAuthThunk());
   };
 
   const makeOrder = () => {
@@ -93,13 +90,13 @@ function BurgerConstructor() {
       orderDetails = [...ingredients.map((v: { _id: string }) => v._id)];
     }
 
-    dispatch(fetchMakingOrderThunk(orderDetails) as unknown as AppThunkAction);
+    dispatch(fetchMakingOrderThunk(orderDetails));
     setOrderDetails(true);
   };
 
   const close = () => {
     setOrderDetails(false);
-    dispatch(clearOrderAction() as unknown as AppThunkAction);
+    dispatch(clearOrderAction());
     setMakingOrder(false);
     setIsCartEmpty(true);
   };
@@ -123,17 +120,17 @@ function BurgerConstructor() {
       );
     }
 
-    dispatch(recalculateAmountAction(totalAmount) as unknown as AppThunkAction);
+    dispatch(recalculateAmountAction(totalAmount));
   };
 
   const onRemove = (uniqueId: string) => {
     dispatch(
       removeIngredientAction(
         ingredients.filter((v: Ingredient) => v && v.uniqueId !== uniqueId)
-      ) as unknown as AppThunkAction
+      )
     );
 
-    dispatch(getOfBurgerConstructorAction() as unknown as AppThunkAction);
+    dispatch(getOfBurgerConstructorAction());
   };
 
   useEffect(() => {

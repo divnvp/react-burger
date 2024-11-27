@@ -144,7 +144,7 @@ export const fetchRefreshTokenThunk: AppThunkAction =
       );
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
-        dispatch(fetchLogoutThunk() as unknown as AppThunkAction);
+        dispatch(fetchLogoutThunk());
         dispatch(checkAuth(true));
       }
       dispatch(catchRefreshTokenRejected(e));
@@ -154,7 +154,7 @@ export const fetchRefreshTokenThunk: AppThunkAction =
 export const checkUserAuthThunk: AppThunkAction =
   () => (dispatch: AppDispatch) => {
     if (localStorage.getItem('refreshToken')) {
-      dispatch(fetchUserThunk() as unknown as AppThunkAction);
+      dispatch(fetchUserThunk());
       dispatch(checkAuth(true));
     } else {
       dispatch(checkAuth(true));

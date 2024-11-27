@@ -13,7 +13,6 @@ import { Routes as RoutesName } from '../../shared/consts/routes';
 import { useForm } from '../../shared/hooks/use-form';
 import { ResetPassword } from '../../shared/models/reset-password.type';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
-import { AppThunkAction } from '../../services/types';
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ export function ResetPasswordPage() {
     dispatch(
       fetchResetPasswordThunk({
         ...values
-      }) as unknown as AppThunkAction
+      })
     );
   };
 

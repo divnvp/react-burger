@@ -10,12 +10,16 @@ export const socketMiddleware = (
 ): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
+    const { wsInit, wsGetUserOrder } = wsActions;
 
     return next => (action: AppActions) => {
       const { dispatch } = store;
+      const { type } = action;
 
-      if ('payload' in action) {
-        socket = new WebSocket(`${wsUrl}${action.payload}`);
+      if (type === wsInit || type === wsGetUserOrder) {
+        if ('payload' in action) {
+          socket = new WebSocket(`${wsUrl}${action.payload}`);
+        }
       }
 
       if (socket) {

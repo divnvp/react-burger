@@ -57,11 +57,7 @@ export const fetchUserThunk: AppThunkAction =
       if (e.status === 401 || e.status === 403) {
         dispatch(isUserAuth(false));
         dispatch(checkAuth(true));
-        dispatch(
-          fetchRefreshTokenThunk(() =>
-            dispatch(fetchUserThunk() as unknown as AppThunkAction)
-          ) as unknown as AppThunkAction
-        );
+        dispatch(fetchRefreshTokenThunk(() => dispatch(fetchUserThunk())));
       } else {
         dispatch(catchUserRequest(e));
       }
@@ -82,10 +78,8 @@ export const fetchUserUpdatingThunk: AppThunkAction =
         dispatch(checkAuth(true));
         dispatch(
           fetchRefreshTokenThunk(() =>
-            dispatch(
-              fetchUserUpdatingThunk(credits) as unknown as AppThunkAction
-            )
-          ) as unknown as AppThunkAction
+            dispatch(fetchUserUpdatingThunk(credits))
+          )
         );
       } else {
         dispatch(catchUserUpdating(e));

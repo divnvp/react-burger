@@ -9,7 +9,6 @@ import { fetchUserUpdatingThunk } from '../../services/actions/user';
 import { useForm } from '../../shared/hooks/use-form';
 import { RegisterUser } from '../../shared/models/register-user.type';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
-import { AppThunkAction } from '../../services/types';
 
 export function ProfileForm() {
   const dispatch = useDispatch();
@@ -30,7 +29,7 @@ export function ProfileForm() {
     dispatch(
       fetchUserUpdatingThunk({
         ...values
-      }) as unknown as AppThunkAction
+      })
     );
   };
 

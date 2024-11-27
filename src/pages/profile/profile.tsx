@@ -7,7 +7,6 @@ import { fetchLogoutThunk } from '../../services/actions/login';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
-import { AppThunkAction } from '../../services/types';
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -15,11 +14,11 @@ export function ProfilePage() {
   const logout = useSelector(state => state.login.logout);
 
   useEffect(() => {
-    dispatch(fetchUserThunk() as unknown as AppThunkAction);
+    dispatch(fetchUserThunk());
   }, []);
 
   const onLogout = () => {
-    dispatch(fetchLogoutThunk() as unknown as AppThunkAction);
+    dispatch(fetchLogoutThunk());
   };
 
   useEffect(() => {

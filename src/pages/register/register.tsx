@@ -13,7 +13,6 @@ import { Routes as RouteName } from '../../shared/consts/routes';
 import { useForm } from '../../shared/hooks/use-form';
 import { RegisterUser } from '../../shared/models/register-user.type';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
-import { AppThunkAction } from '../../services/types';
 
 export function RegisterPage() {
   const [values, handleChange] = useForm<Required<RegisterUser>>({
@@ -30,7 +29,7 @@ export function RegisterPage() {
     dispatch(
       fetchRegisterThunk({
         ...values
-      }) as unknown as AppThunkAction
+      })
     );
   };
 

@@ -11,7 +11,6 @@ import { fetchForgotPasswordThunk } from '../../services/actions/forgot-password
 import { Routes } from '../../shared/consts/routes';
 import { useForm } from '../../shared/hooks/use-form';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
-import { AppThunkAction } from '../../services/types';
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -23,9 +22,7 @@ export function ForgotPasswordPage() {
 
   const recoverPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
-      fetchForgotPasswordThunk(values.email) as unknown as AppThunkAction
-    );
+    dispatch(fetchForgotPasswordThunk(values.email));
   };
 
   useEffect(() => {

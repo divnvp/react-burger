@@ -10,7 +10,6 @@ import { Layout } from '../../components/layout/layout';
 import { fetchLoginThunk } from '../../services/actions/login';
 import { useForm } from '../../shared/hooks/use-form';
 import { LoginUser } from '../../shared/models/login-user.type';
-import { AppThunkAction } from '../../services/types';
 import { useDispatch } from '../../shared/hooks/store';
 
 export function LoginPage() {
@@ -25,7 +24,7 @@ export function LoginPage() {
     dispatch(
       fetchLoginThunk({
         ...values
-      }) as unknown as AppThunkAction
+      })
     );
   };
 
