@@ -6,6 +6,7 @@ import { useLocation } from 'react-router';
 import { useEffect } from 'react';
 import { closeConnection, getUserOrders } from '../../services/actions/ws';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
+import { getCookie } from '../../shared/utils/get-cookie';
 
 export function FeedList() {
   const dispatch = useDispatch();
@@ -13,7 +14,11 @@ export function FeedList() {
   const feeds: Feed | undefined = useSelector(state => state.feeds?.feeds);
 
   useEffect(() => {
-    dispatch(getUserOrders());
+    dispatch(
+      getUserOrders(
+        `orders?token=${getCookie('accessToken')?.split('Bearer ')[1]}`
+      )
+    );
 
     return () => {
       dispatch(closeConnection());

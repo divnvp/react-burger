@@ -16,7 +16,7 @@ export function FeedPage() {
   const mocks: Feed | undefined = useSelector(state => state.feeds?.feeds);
 
   useEffect(() => {
-    dispatch(initWs());
+    dispatch(initWs('orders/all'));
 
     return () => {
       dispatch(closeConnection());

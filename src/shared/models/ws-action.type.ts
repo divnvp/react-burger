@@ -11,10 +11,12 @@ import { IMessage } from './message.interface';
 
 export interface IWSConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
+  readonly payload: string;
 }
 
 export interface IWSGetUserOrders {
   readonly type: typeof WS_GET_USER_ORDERS;
+  readonly payload: string;
 }
 
 export interface IWSConnectionSuccessAction {

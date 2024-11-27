@@ -16,6 +16,7 @@ import {
   initWs
 } from '../../services/actions/ws';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
+import { getCookie } from '../../shared/utils/get-cookie';
 
 export function FeedDetail() {
   const dispatch = useDispatch();
@@ -45,9 +46,13 @@ export function FeedDetail() {
   useEffect(() => {
     if (!state?.backgroundLocation) {
       if (location.pathname.startsWith('/profile')) {
-        dispatch(getUserOrders());
+        dispatch(
+          getUserOrders(
+            `orders?token=${getCookie('accessToken')?.split('Bearer ')[1]}`
+          )
+        );
       } else {
-        dispatch(initWs());
+        dispatch(initWs('orders/all'));
       }
     }
 

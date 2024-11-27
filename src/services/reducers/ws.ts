@@ -12,6 +12,7 @@ type TWSState = {
   wsConnected: boolean;
   error?: Event;
   messages?: never[];
+  payload?: string;
 };
 
 const initialState: TWSState = {
@@ -27,7 +28,8 @@ export const wsReducer = (
       return {
         ...state,
         error: undefined,
-        wsConnected: false
+        wsConnected: false,
+        payload: action.payload
       };
 
     case WS_CONNECTION_SUCCESS:

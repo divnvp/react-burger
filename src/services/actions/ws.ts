@@ -7,13 +7,14 @@ import {
   WS_GET_USER_ORDERS,
   WS_SEND_MESSAGE
 } from '../constants';
-import { IWSConnectionStart } from '../../shared/models/ws-action.type';
 
 export interface IWsInit {
   readonly type: typeof WS_CONNECTION_START;
+  readonly payload: string;
 }
 export interface IWsGetUserOrders {
   readonly type: typeof WS_GET_USER_ORDERS;
+  readonly payload: string;
 }
 export interface IWsSendMessage {
   readonly type: typeof WS_SEND_MESSAGE;
@@ -39,11 +40,13 @@ export type TWsActions =
   | IWsGetUserOrders
   | IWsConnectionError;
 
-export const initWs = (): IWSConnectionStart => ({
-  type: WS_CONNECTION_START
+export const initWs = (payload: string): IWsInit => ({
+  type: WS_CONNECTION_START,
+  payload
 });
-export const getUserOrders = (): IWsGetUserOrders => ({
-  type: WS_GET_USER_ORDERS
+export const getUserOrders = (payload: string): IWsGetUserOrders => ({
+  type: WS_GET_USER_ORDERS,
+  payload
 });
 export const sendMessageWithWs = (): IWsSendMessage => ({
   type: WS_SEND_MESSAGE
