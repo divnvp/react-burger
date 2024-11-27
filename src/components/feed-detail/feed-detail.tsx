@@ -10,7 +10,11 @@ import { Status, statuses } from '../../shared/consts/status.enum';
 import { Ingredient } from '../../shared/models/ingredient.type';
 import { useLocation, useParams } from 'react-router';
 import { Feed } from '../../shared/models/feed.type';
-import { closeConnection, initWs } from '../../services/actions/ws';
+import {
+  closeConnection,
+  getUserOrders,
+  initWs
+} from '../../services/actions/ws';
 import { useDispatch, useSelector } from '../../shared/hooks/store';
 
 export function FeedDetail() {
@@ -40,7 +44,11 @@ export function FeedDetail() {
 
   useEffect(() => {
     if (!state?.backgroundLocation) {
-      dispatch(initWs());
+      if (location.pathname.startsWith('/profile')) {
+        dispatch(getUserOrders());
+      } else {
+        dispatch(initWs());
+      }
     }
 
     return () => {
