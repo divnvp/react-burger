@@ -32,13 +32,16 @@ export function FeedDetail() {
   );
 
   const currentFeed = feeds?.orders.find(f => f._id === id);
-  const compound = currentFeed?.ingredients
-    ?.map(ingredient =>
-      ingredientsList.find((i: Ingredient) => i._id === ingredient)
-    )
-    ?.filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    });
+  const mappedIngredients = currentFeed?.ingredients?.map(ingredient =>
+    ingredientsList.find((i: Ingredient) => i._id === ingredient)
+  );
+  const compound = mappedIngredients?.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
+  const counts: { [key: string]: number } = {};
+  mappedIngredients?.forEach(function (x: Ingredient) {
+    counts[x._id] = (counts[x._id] || 0) + 1;
+  });
   const calculatedAmount = currentFeed?.ingredients
     ?.map(i => ingredientsList?.find((v: Ingredient) => v._id === i))
     .reduce((a, b) => a + b!.price, 0);
@@ -87,7 +90,11 @@ export function FeedDetail() {
             <p className='text text_type_main-medium pb-6'>Состав:</p>
             <div className={`${feedDetailStyles.scrollbar} pb-10`}>
               {compound?.map(ingredient => (
-                <FeedDetailItem ingredient={ingredient} key={v4()} />
+                <FeedDetailItem
+                  ingredient={ingredient}
+                  key={v4()}
+                  counts={counts}
+                />
               ))}
             </div>
             <div className={`${feedDetailStyles.row} pt-6`}>

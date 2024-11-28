@@ -6,9 +6,10 @@ import React from 'react';
 
 type FeedDetailItemProps = {
   ingredient?: Ingredient;
+  counts?: { [key: string]: number };
 };
 
-export function FeedDetailItem({ ingredient }: FeedDetailItemProps) {
+export function FeedDetailItem({ ingredient, counts }: FeedDetailItemProps) {
   return (
     <div className={`${feedDetailItemStyles.grid} pl-5 pr-6`}>
       <FeedCardImage image={ingredient?.image_mobile} index={1} />
@@ -19,6 +20,9 @@ export function FeedDetailItem({ ingredient }: FeedDetailItemProps) {
       </p>
       <div className={feedDetailItemStyles.amount}>
         <p className='text text_type_digits-default pr-2'>
+          {counts && counts[ingredient!._id] > 1
+            ? `${counts[ingredient!._id]} x `
+            : ''}
           {ingredient?.price}
         </p>
         <CurrencyIcon type='primary' />
