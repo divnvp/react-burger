@@ -138,7 +138,6 @@ function BurgerConstructor() {
       if (isAuth) {
         makeOrder();
       } else {
-        close();
         navigate(Routes.Login, { replace: true });
       }
     }
