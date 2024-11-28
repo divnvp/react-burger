@@ -32,9 +32,13 @@ export function FeedDetail() {
   );
 
   const currentFeed = feeds?.orders.find(f => f._id === id);
-  const compound = currentFeed?.ingredients?.map(ingredient =>
-    ingredientsList.find((i: Ingredient) => i._id === ingredient)
-  );
+  const compound = currentFeed?.ingredients
+    ?.map(ingredient =>
+      ingredientsList.find((i: Ingredient) => i._id === ingredient)
+    )
+    ?.filter((value, index, self) => {
+      return self.indexOf(value) === index;
+    });
   const calculatedAmount = currentFeed?.ingredients
     ?.map(i => ingredientsList?.find((v: Ingredient) => v._id === i))
     .reduce((a, b) => a + b!.price, 0);
