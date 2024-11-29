@@ -113,7 +113,7 @@ export const fetchLogoutThunk: AppThunkAction =
     try {
       await logout(localStorage.getItem('refreshToken')!).then(
         (response: Response) => {
-          setCookie('accessToken', '');
+          setCookie('accessToken', '', { expires: 0 });
           localStorage.removeItem('refreshToken');
 
           dispatch(makeLogout(response));
@@ -136,6 +136,7 @@ export const fetchRefreshTokenThunk: AppThunkAction =
       await refreshToken(localStorage.getItem('refreshToken')!).then(
         (response: Response) => {
           dispatch(getRefreshToken(response));
+          setCookie('accessToken', '', { expires: 0 });
           setCookie('accessToken', response.accessToken!);
           localStorage.setItem('refreshToken', response.refreshToken!);
 
