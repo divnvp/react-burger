@@ -2,9 +2,27 @@ import { RegisterUser } from './register-user.type';
 import { Ingredient } from './ingredient.type';
 import { Order } from './order.type';
 import { Response } from './response.type';
+import { Feed } from './feed.type';
 
 export type ActionType = {
   type: string;
+  order?: Order;
+  error?: unknown;
+  ingredients?: Ingredient[];
+  email?: string;
+  response?: Response;
+  user?: RegisterUser;
+  accessToken?: string;
+  refreshToken?: string;
+  logout?: Response;
+  checkingAuth?: boolean;
+  isAuth?: boolean;
+  ingredient?: Ingredient;
+  bun?: Ingredient;
+  burgerConstructor?: Ingredient[];
+  amount?: number;
+  feeds?: Feed;
+  feed?: Feed;
   payload?: {
     error?: unknown;
     name?: string;
@@ -17,10 +35,9 @@ export type ActionType = {
     checkingAuth?: boolean;
     ingredient?: Ingredient;
     burgerConstructor?: Ingredient[];
-    order?: Order;
-    isAuth?: boolean;
     loading?: boolean;
     logout?: Response;
     amount?: number;
+    feeds?: Feed;
   };
 };

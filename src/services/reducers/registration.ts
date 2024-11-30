@@ -1,24 +1,29 @@
-import { ActionType } from '../../shared/models/action.type';
 import {
   REGISTRATION,
   REGISTRATION_REJECTED,
   REGISTRATION_REQUEST
-} from '../actions/registration';
+} from '../constants';
+import { Response } from '../../shared/models/response.type';
+import { TRegistrationActions } from '../actions/registration';
 
-const initialState = {
-  response: {},
+type TRegistrationState = {
+  response?: Response;
+  error: unknown;
+};
+
+const initialState: TRegistrationState = {
   error: null
 };
 
 export const registrationReducer = (
   state = initialState,
-  action: ActionType
-) => {
+  action: TRegistrationActions
+): TRegistrationState => {
   switch (action.type) {
     case REGISTRATION: {
       return {
         ...state,
-        response: action.payload
+        response: action?.response
       };
     }
     case REGISTRATION_REQUEST: {
@@ -30,7 +35,7 @@ export const registrationReducer = (
     case REGISTRATION_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     default: {

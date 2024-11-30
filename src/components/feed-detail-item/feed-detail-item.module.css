@@ -1,0 +1,23 @@
+.grid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.amount {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ingredientName {
+  text-align: start;
+  display: flex;
+  flex: 1;
+}

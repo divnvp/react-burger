@@ -7,33 +7,22 @@ import {
 import React, { FormEvent, useEffect } from 'react';
 import registerStyles from '../register/register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchForgotPasswordThunk } from '../../services/actions/forgot-password';
-import { UnknownAction } from 'redux';
-import { Response } from '../../shared/models/response.type';
 import { Routes } from '../../shared/consts/routes';
 import { useForm } from '../../shared/hooks/use-form';
-
-type RegisterPageSelector = {
-  forgotPassword: { response: Response };
-};
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
-  const response = useRegisterPageSelector(
-    state => state.forgotPassword.response
-  );
+  const response = useSelector(state => state.forgotPassword.response);
   const [values, handleChange] = useForm<Required<{ email: string }>>({
     email: ''
   });
 
   const recoverPassword = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
-      fetchForgotPasswordThunk(values.email) as unknown as UnknownAction
-    );
+    dispatch(fetchForgotPasswordThunk(values.email));
   };
 
   useEffect(() => {

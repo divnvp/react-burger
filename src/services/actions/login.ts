@@ -1,81 +1,142 @@
 import { RegisterUser } from '../../shared/models/register-user.type';
-import { ActionType } from '../../shared/models/action.type';
 import { loginUser, logout, refreshToken } from '../../shared/api/auth.service';
 import { setCookie } from '../../shared/utils/set-cookie';
 import { Response } from '../../shared/models/response.type';
-import { UnknownAction } from 'redux';
-import { fetchUserThunk, IS_USER_AUTH, USER_GETTING } from './user';
-import { LOADING } from './loader';
+import { fetchUserThunk } from './user';
+import {
+  CHECKING_AUTH,
+  IS_USER_AUTH,
+  LOADING,
+  LOGIN,
+  LOGIN_REJECTED,
+  LOGIN_REQUEST,
+  LOGOUT,
+  LOGOUT_REJECTED,
+  LOGOUT_REQUEST,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_REJECTED,
+  REFRESH_TOKEN_REQUEST,
+  USER_GETTING
+} from '../constants';
+import { LoginUser } from '../../shared/models/login-user.type';
+import { AppDispatch, AppThunkAction } from '../types';
 
-export const LOGIN = 'LOGIN';
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_REJECTED = 'LOGIN_REJECTED';
+export interface IMakeLoginRequest {
+  readonly type: typeof LOGIN_REQUEST;
+}
+export interface IGetLogin {
+  readonly type: typeof LOGIN;
+  response: Response;
+}
+export interface IGetUser {
+  readonly type: typeof USER_GETTING;
+  user: LoginUser;
+}
+export interface ICheckAuth {
+  readonly type: typeof CHECKING_AUTH;
+  checkingAuth: boolean;
+}
+export interface IIsUserAuth {
+  readonly type: typeof IS_USER_AUTH;
+  isAuth: boolean;
+}
+export interface ILoginRejected {
+  readonly type: typeof LOGIN_REJECTED;
+  error: unknown;
+}
+export interface ILogoutRequest {
+  readonly type: typeof LOGOUT_REQUEST;
+}
+export interface IMakeLogout {
+  readonly type: typeof LOGOUT;
+  response: Response;
+}
+export interface ILoading {
+  readonly type: typeof LOADING;
+  loading: boolean;
+}
+export interface ILogoutRejected {
+  readonly type: typeof LOGOUT_REJECTED;
+  error: unknown;
+}
+export interface IRefreshTokenRequest {
+  readonly type: typeof REFRESH_TOKEN_REQUEST;
+}
+export interface IRefreshTokenRejected {
+  readonly type: typeof REFRESH_TOKEN_REJECTED;
+  error: unknown;
+}
+export interface IRefreshToken {
+  readonly type: typeof REFRESH_TOKEN;
+  response: Response;
+}
+export type TLoginActions =
+  | IMakeLoginRequest
+  | IGetLogin
+  | IGetUser
+  | IIsUserAuth
+  | ILoginRejected
+  | ILogoutRequest
+  | IMakeLogout
+  | ILoading
+  | ILogoutRejected
+  | IRefreshTokenRequest
+  | IRefreshTokenRejected
+  | IRefreshToken
+  | ICheckAuth;
 
-export const LOGOUT = 'LOGOUT';
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_REJECTED = 'LOGOUT_REJECTED';
-
-export const REFRESH_TOKEN = 'REFRESH_TOKEN';
-export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
-export const REFRESH_TOKEN_REJECTED = 'REFRESH_TOKEN_REJECTED';
-
-export const CHECKING_AUTH = 'CHECKING_AUTH';
-
-export const fetchLoginThunk =
-  (credits: RegisterUser) => async (dispatch: (action: ActionType) => void) => {
-    dispatch({ type: LOGIN_REQUEST });
+export const fetchLoginThunk: AppThunkAction =
+  (credits: RegisterUser) => async (dispatch: AppDispatch) => {
+    dispatch(makeRequestOfLogin());
 
     try {
       await loginUser(credits).then((response: Response) => {
         setCookie('accessToken', response.accessToken!);
         localStorage.setItem('refreshToken', response.refreshToken!);
 
-        dispatch({ type: LOGIN, payload: response });
-        dispatch({ type: USER_GETTING, payload: response.user });
-        dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
-        dispatch({ type: IS_USER_AUTH, payload: { isAuth: true } });
+        dispatch(getLogin(response));
+        dispatch(getUser(response.user!));
+        dispatch(checkAuth(true));
+        dispatch(isUserAuth(true));
       });
     } catch (e) {
-      dispatch({ type: LOGIN_REJECTED, payload: { error: e } });
-      dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
-      dispatch({ type: IS_USER_AUTH, payload: { isAuth: false } });
+      dispatch(catchLoginRejected(e));
+      dispatch(checkAuth(true));
+      dispatch(isUserAuth(false));
     }
   };
 
-export const fetchLogoutThunk =
-  () => async (dispatch: (action: ActionType) => void) => {
-    dispatch({ type: LOGOUT_REQUEST });
+export const fetchLogoutThunk: AppThunkAction =
+  () => async (dispatch: AppDispatch) => {
+    dispatch(makeLoginRequest());
 
     try {
       await logout(localStorage.getItem('refreshToken')!).then(
         (response: Response) => {
-          setCookie('accessToken', '');
+          setCookie('accessToken', '', { expires: 0 });
           localStorage.removeItem('refreshToken');
 
-          dispatch({ type: LOGOUT, payload: response });
-          dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
-          dispatch({
-            type: USER_GETTING,
-            payload: { email: undefined, password: undefined, name: undefined }
-          });
-          dispatch({ type: LOADING, payload: { loading: false } });
-          dispatch({ type: IS_USER_AUTH, payload: { isAuth: false } });
+          dispatch(makeLogout(response));
+          dispatch(checkAuth(true));
+          dispatch(getUser({ email: '', password: '', name: undefined }));
+          dispatch(makeLoading(false));
+          dispatch(isUserAuth(false));
         }
       );
     } catch (e) {
-      dispatch({ type: LOGOUT_REJECTED, payload: { error: e } });
+      dispatch(catchLogoutRejected(e));
     }
   };
 
-export const fetchRefreshTokenThunk =
-  (fetchCallback: () => void) =>
-  async (dispatch: (action: ActionType) => void) => {
-    dispatch({ type: REFRESH_TOKEN_REQUEST });
+export const fetchRefreshTokenThunk: AppThunkAction =
+  (fetchCallback: () => void) => async (dispatch: AppDispatch) => {
+    dispatch(makeRefreshToken());
 
     try {
       await refreshToken(localStorage.getItem('refreshToken')!).then(
         (response: Response) => {
-          dispatch({ type: REFRESH_TOKEN, payload: response });
+          dispatch(getRefreshToken(response));
+          setCookie('accessToken', '', { expires: 0 });
           setCookie('accessToken', response.accessToken!);
           localStorage.setItem('refreshToken', response.refreshToken!);
 
@@ -84,22 +145,73 @@ export const fetchRefreshTokenThunk =
       );
     } catch (e: any) {
       if (e.status === 401 || e.status === 403) {
-        dispatch(fetchLogoutThunk() as unknown as UnknownAction);
-        dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
+        dispatch(fetchLogoutThunk());
+        dispatch(checkAuth(true));
       }
-      dispatch({ type: REFRESH_TOKEN_REJECTED, payload: e });
+      dispatch(catchRefreshTokenRejected(e));
     }
   };
 
-export const checkUserAuthThunk = () => {
-  return (dispatch: (action: ActionType) => void) => {
+export const checkUserAuthThunk: AppThunkAction =
+  () => (dispatch: AppDispatch) => {
     if (localStorage.getItem('refreshToken')) {
-      dispatch(fetchUserThunk() as unknown as UnknownAction);
-      dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
+      dispatch(fetchUserThunk());
+      dispatch(checkAuth(true));
     } else {
-      dispatch({ type: CHECKING_AUTH, payload: { checkingAuth: true } });
-      dispatch({ type: LOADING, payload: { loading: false } });
-      dispatch({ type: IS_USER_AUTH, payload: { isAuth: false } });
+      dispatch(checkAuth(true));
+      dispatch(makeLoading(false));
+      dispatch(isUserAuth(false));
     }
   };
-};
+
+export const makeRequestOfLogin = (): IMakeLoginRequest => ({
+  type: LOGIN_REQUEST
+});
+export const getLogin = (response: Response): IGetLogin => ({
+  type: LOGIN,
+  response
+});
+export const getUser = (user: LoginUser): IGetUser => ({
+  type: USER_GETTING,
+  user
+});
+export const checkAuth = (checkingAuth: boolean): ICheckAuth => ({
+  type: CHECKING_AUTH,
+  checkingAuth
+});
+export const isUserAuth = (isAuth: boolean): IIsUserAuth => ({
+  type: IS_USER_AUTH,
+  isAuth
+});
+export const catchLoginRejected = (error: unknown): ILoginRejected => ({
+  type: LOGIN_REJECTED,
+  error
+});
+export const makeLoginRequest = (): ILogoutRequest => ({
+  type: LOGOUT_REQUEST
+});
+export const makeLogout = (response: Response): IMakeLogout => ({
+  type: LOGOUT,
+  response
+});
+export const makeLoading = (loading: boolean): ILoading => ({
+  type: LOADING,
+  loading
+});
+export const catchLogoutRejected = (error: unknown): ILogoutRejected => ({
+  type: LOGOUT_REJECTED,
+  error
+});
+export const getRefreshToken = (response: Response): IRefreshToken => ({
+  type: REFRESH_TOKEN,
+  response
+});
+export const makeRefreshToken = (): IRefreshTokenRequest => ({
+  type: REFRESH_TOKEN_REQUEST
+});
+export const catchRefreshTokenRejected = (
+  error: unknown
+): IRefreshTokenRejected => ({
+  type: REFRESH_TOKEN_REJECTED,
+  error
+});

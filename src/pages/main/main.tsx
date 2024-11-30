@@ -4,17 +4,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { ErrorType } from '../../shared/models/error.type';
 import { Layout } from '../../components/layout/layout';
-
-type MailPageSelector = {
-  error?: ErrorType;
-};
+import { useSelector } from '../../shared/hooks/store';
 
 export function MainPage() {
-  const useMailPageSelector = useSelector.withTypes<MailPageSelector>();
-  const error = useMailPageSelector(state => state?.error?.message);
+  const error = useSelector(state => state?.error?.message);
 
   return (
     <Layout>

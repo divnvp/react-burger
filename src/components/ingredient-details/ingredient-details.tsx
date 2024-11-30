@@ -1,22 +1,14 @@
 import ingredientDetailsStyles from './ingredient-details.module.css';
 import MacronutrientComponent from '../macronutrient/macronutrient';
 import { Macronutrient } from '../../shared/consts/macronutrient.enum';
-import { useSelector } from 'react-redux';
-import { Ingredient } from '../../shared/models/ingredient.type';
 import { useParams } from 'react-router';
-
-type IngredientDetailsSelector = {
-  burgerIngredients: { ingredients: Ingredient[] };
-};
+import { useSelector } from '../../shared/hooks/store';
+import { Ingredient } from '../../shared/models/ingredient.type';
 
 function IngredientDetails() {
   const { id } = useParams();
-  const useIngredientDetailsSelector =
-    useSelector.withTypes<IngredientDetailsSelector>();
-  const ingredients = useIngredientDetailsSelector(
-    state => state.burgerIngredients.ingredients
-  );
-  const ingredient = ingredients.find(v => v._id === id);
+  const ingredients = useSelector(state => state.burgerIngredients.ingredients);
+  const ingredient = ingredients.find((v: Ingredient) => v._id === id);
 
   return (
     <>

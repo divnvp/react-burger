@@ -7,11 +7,10 @@ import React, { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import loginStyles from './login.module.css';
 import { Layout } from '../../components/layout/layout';
-import { useDispatch } from 'react-redux';
 import { fetchLoginThunk } from '../../services/actions/login';
-import { UnknownAction } from 'redux';
 import { useForm } from '../../shared/hooks/use-form';
 import { LoginUser } from '../../shared/models/login-user.type';
+import { useDispatch } from '../../shared/hooks/store';
 
 export function LoginPage() {
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ export function LoginPage() {
     dispatch(
       fetchLoginThunk({
         ...values
-      }) as unknown as UnknownAction
+      })
     );
   };
 

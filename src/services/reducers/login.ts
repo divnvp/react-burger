@@ -1,4 +1,3 @@
-import { ActionType } from '../../shared/models/action.type';
 import {
   CHECKING_AUTH,
   LOGIN,
@@ -7,31 +6,48 @@ import {
   LOGOUT,
   LOGOUT_REJECTED,
   LOGOUT_REQUEST
-} from '../actions/login';
+} from '../constants';
+import { LoginUser } from '../../shared/models/login-user.type';
+import { Response } from '../../shared/models/response.type';
+import { TLoginActions } from '../actions/login';
 
-const initialState = {
+type TLoginState = {
+  error: unknown;
+  accessToken?: string;
+  refreshToken?: string;
+  success: boolean;
+  user?: LoginUser;
+  logout?: Response | null;
+  checkingAuth?: boolean;
+};
+
+const initialState: TLoginState = {
   error: null,
   accessToken: '',
   refreshToken: '',
   success: false,
   user: {
     email: '',
-    name: ''
+    name: '',
+    password: ''
   },
   logout: null,
   checkingAuth: false
 };
 
-export const loginReducer = (state = initialState, action: ActionType) => {
+export const loginReducer = (
+  state = initialState,
+  action: TLoginActions
+): TLoginState => {
   switch (action.type) {
     case LOGIN: {
       return {
         ...state,
         logout: null,
-        user: { ...action.payload?.user },
+        user: action.response?.user,
         success: true,
-        accessToken: action.payload?.accessToken,
-        refreshToken: action.payload?.refreshToken,
+        accessToken: action.response?.accessToken,
+        refreshToken: action.response?.refreshToken,
         checkingAuth: true
       };
     }
@@ -44,14 +60,14 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGIN_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
 
     case LOGOUT: {
       return {
         ...state,
-        logout: action.payload?.logout,
+        logout: action?.response,
         checkingAuth: false
       };
     }
@@ -64,13 +80,13 @@ export const loginReducer = (state = initialState, action: ActionType) => {
     case LOGOUT_REJECTED: {
       return {
         ...state,
-        error: action.payload?.error
+        error: action?.error
       };
     }
     case CHECKING_AUTH: {
       return {
         ...state,
-        checkingAuth: action.payload?.checkingAuth
+        checkingAuth: action?.checkingAuth
       };
     }
     default: {

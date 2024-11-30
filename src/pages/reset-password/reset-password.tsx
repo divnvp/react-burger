@@ -8,26 +8,16 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import registerStyles from '../register/register.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchResetPasswordThunk } from '../../services/actions/reset-password';
-import { UnknownAction } from 'redux';
 import { Routes as RoutesName } from '../../shared/consts/routes';
-import { ResponseState } from '../../shared/models/store/response.type';
 import { useForm } from '../../shared/hooks/use-form';
 import { ResetPassword } from '../../shared/models/reset-password.type';
-
-type ResetPasswordSelector = {
-  resetPassword: ResponseState;
-};
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 
 export function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const useResetPasswordSelector =
-    useSelector.withTypes<ResetPasswordSelector>();
-  const resettingPassword = useResetPasswordSelector(
-    state => state.resetPassword.response
-  );
+  const resettingPassword = useSelector(state => state.resetPassword.response);
   const [values, handleChange] = useForm<Required<ResetPassword>>({
     password: '',
     token: ''
@@ -38,7 +28,7 @@ export function ResetPasswordPage() {
     dispatch(
       fetchResetPasswordThunk({
         ...values
-      }) as unknown as UnknownAction
+      })
     );
   };
 

@@ -8,17 +8,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { Layout } from '../../components/layout/layout';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchRegisterThunk } from '../../services/actions/registration';
-import { UnknownAction } from 'redux';
 import { Routes as RouteName } from '../../shared/consts/routes';
-import { ResponseState } from '../../shared/models/store/response.type';
 import { useForm } from '../../shared/hooks/use-form';
 import { RegisterUser } from '../../shared/models/register-user.type';
-
-type RegisterPageSelector = {
-  registration: ResponseState;
-};
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 
 export function RegisterPage() {
   const [values, handleChange] = useForm<Required<RegisterUser>>({
@@ -27,23 +21,20 @@ export function RegisterPage() {
     name: ''
   });
   const dispatch = useDispatch();
-  const useRegisterPageSelector = useSelector.withTypes<RegisterPageSelector>();
   const navigate = useNavigate();
-  const registration = useRegisterPageSelector(
-    state => state.registration.response
-  );
+  const registration = useSelector(state => state.registration);
 
   const registerUser = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(
       fetchRegisterThunk({
         ...values
-      }) as unknown as UnknownAction
+      })
     );
   };
 
   useEffect(() => {
-    if (registration.success) {
+    if (registration?.response?.success) {
       navigate(RouteName.Login);
     }
   }, [registration]);

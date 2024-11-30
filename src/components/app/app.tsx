@@ -9,41 +9,37 @@ import {
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
-  IngredientDetailPage
+  IngredientDetailPage,
+  FeedPage
 } from '../../pages';
 import { Routes as RoutesName } from '../../shared/consts/routes';
 import {
   ProtectedAuthElement,
   ProtectedUnAuthElement
 } from '../protected-route-element/protected-route-element';
-import { useDispatch, useSelector } from 'react-redux';
 import { checkUserAuthThunk } from '../../services/actions/login';
-import { UnknownAction } from 'redux';
 import { useLocation } from 'react-router';
 import Modal from '../modal/modal';
 import { Routes as RouteName } from '../../shared/consts/routes';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { LoaderPage } from '../../pages/loader/loader';
-import { LoadingType } from '../../shared/models/store/loading.type';
-import { RegisterUser } from '../../shared/models/register-user.type';
 import { fetchIngredientsThunk } from '../../services/actions/burger-ingredients';
-
-type AppSelector = {
-  loading: LoadingType;
-  user: RegisterUser;
-};
+import { FeedDetailPage } from '../../pages/feed-detail/feed-detail';
+import { ProfileForm } from '../profile-form/profile-form';
+import { FeedList } from '../feed-list/feed-list';
+import { FeedDetail } from '../feed-detail/feed-detail';
+import { useDispatch, useSelector } from '../../shared/hooks/store';
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const useAppSelector = useSelector.withTypes<AppSelector>();
-  const loading = useAppSelector(state => state.loading.loading);
-  const user = useAppSelector(state => state.user);
+  const loading = useSelector(state => state.loading.loading);
+  const user = useSelector(state => state.user);
   const state = location.state as { backgroundLocation?: Location };
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(checkUserAuthThunk() as unknown as UnknownAction);
-    dispatch(fetchIngredientsThunk() as unknown as UnknownAction);
+    dispatch(checkUserAuthThunk());
+    dispatch(fetchIngredientsThunk());
   }, [dispatch]);
 
   if (loading && !user?.email) {
@@ -63,6 +59,40 @@ function App() {
                 onClick={() => navigate(RouteName.Main)}
               >
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route
+            path={`${RoutesName.Feed}/:id`}
+            element={
+              <Modal
+                isOpen={true}
+                title=''
+                onClick={() => navigate(RouteName.Feed)}
+              >
+                <FeedDetail />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route
+            path={`${RoutesName.Profile}/${RoutesName.ProfileOrders}/:id`}
+            element={
+              <Modal
+                isOpen={true}
+                title=''
+                onClick={() =>
+                  navigate(`${RoutesName.Profile}/${RoutesName.ProfileOrders}`)
+                }
+              >
+                <FeedDetail />
               </Modal>
             }
           />
@@ -91,14 +121,22 @@ function App() {
           path={RoutesName.ResetPassword}
           element={<ProtectedUnAuthElement element={<ResetPasswordPage />} />}
         />
+        <Route path={RoutesName.Feed} element={<FeedPage />} />
         <Route
-          path={RoutesName.Profile}
+          path={`${RoutesName.Profile}/*`}
           element={
             <ProtectedAuthElement
               onlyUnAuth={false}
               element={<ProfilePage />}
             />
           }
+        >
+          <Route path='' element={<ProfileForm />} />
+          <Route path={RoutesName.ProfileOrders} element={<FeedList />} />
+        </Route>
+        <Route
+          path={`${RoutesName.Profile}/${RoutesName.ProfileOrders}/:id`}
+          element={<FeedDetailPage />}
         />
         <Route
           path={`${RoutesName.Ingredients}/:id`}
@@ -109,6 +147,7 @@ function App() {
             />
           }
         />
+        <Route path={`${RoutesName.Feed}/:id`} element={<FeedDetailPage />} />
         <Route path={RoutesName.NotFound} element={<NotFoundPage />} />
       </Routes>
     </>
