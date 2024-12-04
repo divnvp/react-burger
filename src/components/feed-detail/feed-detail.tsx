@@ -85,7 +85,7 @@ export function FeedDetail() {
             <p
               className={`text text_type_main-small ${feedDetailStyles.statusText} pb-15`}
             >
-              {getStateName(currentFeed.status)}
+              {getStateName(currentFeed.status as Status)}
             </p>
             <p className='text text_type_main-medium pb-6'>Состав:</p>
             <div className={`${feedDetailStyles.scrollbar} pb-10`}>
