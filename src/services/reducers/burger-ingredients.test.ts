@@ -1,60 +1,69 @@
-import { burgerConstructorReducer } from './burger-constructor';
-import { TBurgerConstructorActions } from '../actions/burger-constructor';
-import { BUN_ADDING } from '../constants';
 import { v4 } from 'uuid';
+import { Ingredient } from '../../shared/models/ingredient.type';
+import { burgerIngredientsReducer } from './burger-ingredients';
+import {
+  getErrorOfIngredients,
+  getIngredients,
+  makeRequestOfIngredients,
+  TBurgerIngredientsActions
+} from '../actions/burger-ingredients';
+
+const _id = v4();
+
+const testIngredient: Ingredient = {
+  _id,
+  name: 'string;',
+  type: 'string;',
+  proteins: 1,
+  fat: 1,
+  carbohydrates: 1,
+  calories: 1,
+  price: 1,
+  image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+  __v: 0
+};
+const initialState = {
+  ingredients: [],
+  error: null
+};
 
 describe('Burger ingredients reducer', () => {
   it('should return the initial state', () => {
     expect(
-      burgerConstructorReducer(undefined, {} as TBurgerConstructorActions)
+      burgerIngredientsReducer(initialState, {} as TBurgerIngredientsActions)
+    ).toEqual(initialState);
+  });
+
+  it('should get ingredients', () => {
+    expect(
+      burgerIngredientsReducer(initialState, getIngredients([testIngredient]))
     ).toEqual({
-      burgerConstructor: [],
-      amount: 0,
-      error: null,
-      loading: false
+      ...initialState,
+      ingredients: [testIngredient]
     });
   });
 
-  it('should add bun to constructor', () => {
-    const _id = v4();
+  it('should catch ingredients error', () => {
     expect(
-      burgerConstructorReducer(undefined, {
-        type: BUN_ADDING,
-        bun: {
-          _id,
-          name: 'string;',
-          type: 'string;',
-          proteins: 1,
-          fat: 1,
-          carbohydrates: 1,
-          calories: 1,
-          price: 1,
-          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-          image_mobile:
-            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-          __v: 0
-        }
-      })
+      burgerIngredientsReducer(
+        initialState,
+        getErrorOfIngredients({ error: 'lalala' })
+      )
     ).toEqual({
-      amount: 0,
-      burgerConstructor: [],
-      error: null,
-      loading: false,
-      buns: {
-        _id,
-        name: 'string;',
-        type: 'string;',
-        proteins: 1,
-        fat: 1,
-        carbohydrates: 1,
-        calories: 1,
-        price: 1,
-        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-        image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-        __v: 0
+      ...initialState,
+      error: {
+        error: 'lalala'
       }
+    });
+  });
+
+  it('should request ingredients', () => {
+    expect(
+      burgerIngredientsReducer(initialState, makeRequestOfIngredients())
+    ).toEqual({
+      ...initialState
     });
   });
 });
