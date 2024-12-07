@@ -34,7 +34,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier:fix-all": "npx prettier . --write",
-    "cypress:open": "npx cypress open"
+    "cypress:open": "npx cypress open",
+    "deploy-script": "npm run build && scp -r ./build/* divnvp@89.169.145.101:/home/praktikum/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
