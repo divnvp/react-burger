@@ -66,6 +66,7 @@ export function FeedDetail() {
     return () => {
       dispatch(closeConnection());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

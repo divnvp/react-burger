@@ -3,7 +3,7 @@ import {
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import constructorElementStyles from './burger-constructor-element.module.css';
-import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
+import { useDrag, useDrop } from 'react-dnd';
 import { DndType } from '../../shared/consts/dnd-type.enum';
 import { useRef } from 'react';
 
@@ -21,7 +21,7 @@ type Props = {
 function BurgerConstructorElement(props: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [, drag] = useDrag(() => ({
     type: DndType.Ingredient,
     item: { index: props.index },
     collect: monitor => {
@@ -31,20 +31,17 @@ function BurgerConstructorElement(props: Props) {
     }
   }));
 
-  const [{ isOver }, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: DndType.Ingredient,
-    hover: (item: Props, monitor) => {
-      calculateNewElementPosition(item, monitor);
+    hover: (item: Props) => {
+      calculateNewElementPosition(item);
     },
     collect: monitor => ({
       isOver: monitor.isOver()
     })
   });
 
-  const calculateNewElementPosition = (
-    item: Props,
-    monitor: DropTargetMonitor<Props, unknown>
-  ) => {
+  const calculateNewElementPosition = (item: Props) => {
     if (!ref.current) {
       return;
     }

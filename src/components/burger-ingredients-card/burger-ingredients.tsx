@@ -14,7 +14,7 @@ type Props = {
 };
 
 function BurgerIngredientsCard(props: Props) {
-  const [{ isDragging }, drag] = useDrag(
+  const [, drag] = useDrag(
     () => ({
       type: DndType.NewIngredient,
       item: props.element,
