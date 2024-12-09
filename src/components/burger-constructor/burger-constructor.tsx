@@ -37,7 +37,7 @@ function BurgerConstructor() {
   const amount = useSelector(state => state.burgerConstructor.amount);
   const isAuth = useSelector(state => state.user.isAuth);
 
-  const [{ isOver }, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: DndType.NewIngredient,
     drop: (ingredient: Ingredient) => {
       if (ingredient.type === IngredientType.Bun) {
@@ -79,7 +79,7 @@ function BurgerConstructor() {
   };
 
   const makeOrder = () => {
-    let orderDetails = [];
+    let orderDetails: any[];
     if (buns) {
       orderDetails = [
         ...ingredients.map((v: { _id: string }) => v._id),
@@ -103,6 +103,7 @@ function BurgerConstructor() {
 
   useEffect(() => {
     recalculateAmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ingredients, buns]);
 
   const recalculateAmount = () => {
@@ -141,6 +142,7 @@ function BurgerConstructor() {
         navigate(Routes.Login, { replace: true });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, makingOrder]);
 
   return (

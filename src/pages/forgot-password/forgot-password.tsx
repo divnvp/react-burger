@@ -29,6 +29,7 @@ export function ForgotPasswordPage() {
     if (response.success) {
       navigate(Routes.ResetPassword);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [response]);
 
   return (

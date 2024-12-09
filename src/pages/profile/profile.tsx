@@ -15,6 +15,7 @@ export function ProfilePage() {
 
   useEffect(() => {
     dispatch(fetchUserThunk());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onLogout = () => {
@@ -25,6 +26,7 @@ export function ProfilePage() {
     if (logout?.success) {
       navigate(RouteName.Login, { replace: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logout]);
 
   return (
