@@ -52,7 +52,7 @@ describe('Burger Constructor works correctly', () => {
     }
   });
 
-  it('should authorization work', () => {
+  it('should authorization work and modal of order exists', () => {
     cy.visit('http://localhost:3000/login');
     cy.get('input.text.input__textfield.text_type_main-default')
       .first()
@@ -79,6 +79,12 @@ describe('Burger Constructor works correctly', () => {
         )
         .trigger('drop', { dataTransfer });
       cy.get('button').contains('Оформить заказ').click();
+
+      cy.get('div.modal-overlay_modalCard__De5BR');
+      cy.get('svg.modal_closeButton__DsCEZ').click();
+      cy.get('p.text.text_type_main-default.text_color_inactive').contains(
+        'Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа'
+      );
     }
   });
 });
