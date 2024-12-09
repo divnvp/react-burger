@@ -2,11 +2,11 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.108",
@@ -34,7 +34,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier:fix-all": "npx prettier . --write"
+    "prettier:fix-all": "npx prettier . --write",
+    "cypress:open": "npx cypress open",
+    "deploy-script": "npm run build && scp -r ./build/* divnvp@89.169.145.101:/home/divnvp/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
@@ -55,8 +57,15 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.13",
-    "lodash": "^4.17.21",
-    "prettier": "3.3.3"
+    "@testing-library/react": "^16.0.1",
+    "@types/fetch-mock": "^7.3.8",
+    "@types/react-test-renderer": "^18.3.0",
+    "@types/redux-mock-store": "^1.5.0",
+    "cypress": "^13.16.0",
+    "fetch-mock": "^12.2.0",
+    "jest": "^27.5.1",
+    "prettier": "3.3.3",
+    "react-test-renderer": "^18.3.1",
+    "redux-mock-store": "^1.5.5"
   }
 }
