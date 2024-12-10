@@ -29,7 +29,10 @@ function AppHeader() {
   }, [location]);
 
   return (
-    <header className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}>
+    <header
+      id={'uniqueHeader'}
+      className={`pt-4 pb-4 ${appHeaderStyle.navigationPanel}`}
+    >
       <nav className={appHeaderStyle.grid}>
         <div className={appHeaderStyle.itemGroup}>
           <NavLink to={RouteName.Main} className={`${appHeaderStyle.link}`}>
