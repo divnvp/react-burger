@@ -9,8 +9,8 @@ export type Feed = {
 
 export type FeedDetail = {
   _id: string;
-  status: Status;
-  number: string;
+  status: Status | string;
+  number: number;
   name: string;
   ingredients: string[];
   createdAt: Date | string;

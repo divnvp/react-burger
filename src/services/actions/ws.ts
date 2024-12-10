@@ -27,6 +27,7 @@ export interface IWsConnectionClosed {
 }
 export interface IWsConnectionError {
   readonly type: typeof WS_CONNECTION_ERROR;
+  readonly error: unknown;
 }
 export interface IWsGetMessage {
   readonly type: typeof WS_GET_MESSAGE;
@@ -59,4 +60,8 @@ export const closeConnection = (): IWsConnectionClosed => ({
 });
 export const getMessageWithWs = (): IWsGetMessage => ({
   type: WS_GET_MESSAGE
+});
+export const catchConnectionError = (error: unknown): IWsConnectionError => ({
+  type: WS_CONNECTION_ERROR,
+  error
 });
