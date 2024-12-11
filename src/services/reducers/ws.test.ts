@@ -1,4 +1,4 @@
-import { wsReducer } from './ws';
+import { initialStateOfWs, wsReducer } from './ws';
 import {
   catchConnectionError,
   checkSuccessConnection,
@@ -10,26 +10,24 @@ import {
 } from '../actions/ws';
 import { getCookie } from '../../shared/utils/get-cookie';
 
-const initialState = {
-  wsConnected: false
-};
-
 describe('WS reducer', () => {
   it('should return initial state', () => {
-    expect(wsReducer(initialState, {} as TWsActions)).toEqual(initialState);
+    expect(wsReducer(initialStateOfWs, {} as TWsActions)).toEqual(
+      initialStateOfWs
+    );
   });
 
   it('should init webSocket', () => {
-    expect(wsReducer(initialState, initWs('orders/all'))).toEqual({
-      ...initialState,
+    expect(wsReducer(initialStateOfWs, initWs('orders/all'))).toEqual({
+      ...initialStateOfWs,
       error: undefined,
       wsConnected: false
     });
   });
 
   it('should success connect', () => {
-    expect(wsReducer(initialState, checkSuccessConnection())).toEqual({
-      ...initialState,
+    expect(wsReducer(initialStateOfWs, checkSuccessConnection())).toEqual({
+      ...initialStateOfWs,
       error: undefined,
       wsConnected: true
     });
@@ -38,13 +36,13 @@ describe('WS reducer', () => {
   it('should get user orders', () => {
     expect(
       wsReducer(
-        initialState,
+        initialStateOfWs,
         getUserOrders(
           `orders?token=${getCookie('accessToken')?.split('Bearer ')[1]}`
         )
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfWs,
       error: undefined,
       wsConnected: true
     });
@@ -53,28 +51,28 @@ describe('WS reducer', () => {
   it('should catch connection error', () => {
     expect(
       wsReducer(
-        initialState,
+        initialStateOfWs,
         catchConnectionError({
           error: 'error'
         })
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfWs,
       error: { error: 'error' }
     });
   });
 
   it('should make connection close', () => {
-    expect(wsReducer(initialState, closeConnection())).toEqual({
-      ...initialState,
+    expect(wsReducer(initialStateOfWs, closeConnection())).toEqual({
+      ...initialStateOfWs,
       error: undefined,
       wsConnected: false
     });
   });
 
   it('should get message', () => {
-    expect(wsReducer(initialState, getMessageWithWs())).toEqual({
-      ...initialState,
+    expect(wsReducer(initialStateOfWs, getMessageWithWs())).toEqual({
+      ...initialStateOfWs,
       error: undefined,
       messages: []
     });

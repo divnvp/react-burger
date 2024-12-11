@@ -14,12 +14,12 @@ type TWSState = {
   messages?: never[];
 };
 
-const initialState: TWSState = {
+export const initialStateOfWs: TWSState = {
   wsConnected: false
 };
 
 export const wsReducer = (
-  state = initialState,
+  state = initialStateOfWs,
   action: TWsActions
 ): TWSState => {
   switch (action.type) {
