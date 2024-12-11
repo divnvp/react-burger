@@ -1,4 +1,7 @@
-import { burgerConstructorReducer } from './burger-constructor';
+import {
+  burgerConstructorReducer,
+  initialStateOfBurgerConstructor
+} from './burger-constructor';
 import {
   addBun,
   addIngredient,
@@ -33,45 +36,54 @@ const testIngredient: Ingredient = {
   __v: 0
 };
 const testOrder: Order = { name: 'name', order: { number: 1 }, success: true };
-const initialState = {
-  burgerConstructor: [],
-  amount: 0,
-  error: null,
-  loading: false
-};
 
 describe('Constructor reducer', () => {
   it('should return the initial state', () => {
     expect(
-      burgerConstructorReducer(initialState, {} as TBurgerConstructorActions)
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        {} as TBurgerConstructorActions
+      )
     ).toEqual({
-      ...initialState
+      ...initialStateOfBurgerConstructor
     });
   });
 
   it('should get constructor', () => {
     expect(
-      burgerConstructorReducer(initialState, getOfBurgerConstructorAction())
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        getOfBurgerConstructorAction()
+      )
     ).toEqual({
-      ...initialState
+      ...initialStateOfBurgerConstructor
     });
   });
 
   it('should add bun to constructor', () => {
     expect(
-      burgerConstructorReducer(initialState, addBun(testIngredient))
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        addBun(testIngredient)
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfBurgerConstructor,
       buns: testIngredient
     });
   });
 
   it('should add ingredient', () => {
     expect(
-      burgerConstructorReducer(initialState, addIngredient(testIngredient))
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        addIngredient(testIngredient)
+      )
     ).toEqual({
-      ...initialState,
-      burgerConstructor: [...initialState.burgerConstructor, testIngredient]
+      ...initialStateOfBurgerConstructor,
+      burgerConstructor: [
+        ...initialStateOfBurgerConstructor.burgerConstructor,
+        testIngredient
+      ]
     });
   });
 
@@ -79,22 +91,25 @@ describe('Constructor reducer', () => {
     expect(
       burgerConstructorReducer(
         {
-          ...initialState,
+          ...initialStateOfBurgerConstructor,
           burgerConstructor: [testIngredient, { ...testIngredient, _id: v4() }]
         },
         removeIngredientAction([testIngredient])
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfBurgerConstructor,
       burgerConstructor: [testIngredient]
     });
   });
 
   it('should recalculate amount', () => {
     expect(
-      burgerConstructorReducer(initialState, recalculateAmountAction(12))
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        recalculateAmountAction(12)
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfBurgerConstructor,
       amount: 12
     });
   });
@@ -114,27 +129,35 @@ describe('Constructor reducer', () => {
     updatedIngredients.splice(hoverIndex, 0, dragItem);
     expect(
       burgerConstructorReducer(
-        initialState,
+        initialStateOfBurgerConstructor,
         moveIngredientAction(updatedIngredients)
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfBurgerConstructor,
       burgerConstructor: updatedIngredients
     });
   });
 
   it('should make order', () => {
-    expect(burgerConstructorReducer(initialState, getOrder(testOrder))).toEqual(
-      {
-        ...initialState,
-        order: testOrder
-      }
-    );
+    expect(
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        getOrder(testOrder)
+      )
+    ).toEqual({
+      ...initialStateOfBurgerConstructor,
+      order: testOrder
+    });
   });
 
   it('should clear order', () => {
-    expect(burgerConstructorReducer(initialState, clearOrderAction())).toEqual({
-      ...initialState,
+    expect(
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        clearOrderAction()
+      )
+    ).toEqual({
+      ...initialStateOfBurgerConstructor,
       burgerConstructor: [],
       buns: undefined
     });
@@ -142,9 +165,12 @@ describe('Constructor reducer', () => {
 
   it('should catch order error', () => {
     expect(
-      burgerConstructorReducer(initialState, getError({ error: 'lalala' }))
+      burgerConstructorReducer(
+        initialStateOfBurgerConstructor,
+        getError({ error: 'lalala' })
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfBurgerConstructor,
       error: {
         error: 'lalala'
       }
@@ -152,8 +178,10 @@ describe('Constructor reducer', () => {
   });
 
   it('should make order request', () => {
-    expect(burgerConstructorReducer(initialState, makeRequest())).toEqual({
-      ...initialState,
+    expect(
+      burgerConstructorReducer(initialStateOfBurgerConstructor, makeRequest())
+    ).toEqual({
+      ...initialStateOfBurgerConstructor,
       loading: true
     });
   });
