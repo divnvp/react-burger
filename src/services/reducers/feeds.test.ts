@@ -1,4 +1,4 @@
-import { feedsReducer } from './feeds';
+import { feedsReducer, initialStateOfFeeds } from './feeds';
 import {
   getFeedRejected,
   getFeedsActions,
@@ -52,42 +52,38 @@ const feedTest: Feed = {
   total: 61139,
   totalToday: 149
 };
-const initialState = {
-  feeds: undefined,
-  error: null
-};
 
 describe('Feeds Reducer', () => {
   it('should return the initial state', () => {
-    expect(feedsReducer(initialState, {} as TFeedActions)).toEqual({
-      ...initialState
+    expect(feedsReducer(initialStateOfFeeds, {} as TFeedActions)).toEqual({
+      ...initialStateOfFeeds
     });
   });
 
   it('should get feeds', () => {
     expect(
       feedsReducer(
-        initialState,
+        initialStateOfFeeds,
         getFeedsActions(JSON.stringify({ feed: feedTest }) as unknown as Feed)
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfFeeds,
       feeds: { feed: feedTest }
     });
   });
 
   it('should catch ingredients error', () => {
     expect(
-      feedsReducer(initialState, getFeedRejected({ error: 'lalala' }))
+      feedsReducer(initialStateOfFeeds, getFeedRejected({ error: 'lalala' }))
     ).toEqual({
-      ...initialState,
+      ...initialStateOfFeeds,
       error: { error: 'lalala' }
     });
   });
 
   it('should ingredients request', () => {
-    expect(feedsReducer(initialState, getFeedsRequest())).toEqual({
-      ...initialState,
+    expect(feedsReducer(initialStateOfFeeds, getFeedsRequest())).toEqual({
+      ...initialStateOfFeeds,
       error: null
     });
   });
