@@ -1,4 +1,7 @@
-import { ingredientDetailsReducer } from './ingredient-details';
+import {
+  ingredientDetailsReducer,
+  initialStateOfIngredientDetails
+} from './ingredient-details';
 import {
   getIngredientDetails,
   TIngredientDetailsActions
@@ -8,9 +11,6 @@ import { v4 } from 'uuid';
 
 const _id = v4();
 
-const initialState = {
-  ingredient: undefined
-};
 const testIngredient: Ingredient = {
   _id,
   name: 'string;',
@@ -29,18 +29,21 @@ const testIngredient: Ingredient = {
 describe('Ingredient details reducer', () => {
   it('should return initial state', () => {
     expect(
-      ingredientDetailsReducer(initialState, {} as TIngredientDetailsActions)
-    ).toEqual(initialState);
+      ingredientDetailsReducer(
+        initialStateOfIngredientDetails,
+        {} as TIngredientDetailsActions
+      )
+    ).toEqual(initialStateOfIngredientDetails);
   });
 
   it('should get ingredient details', () => {
     expect(
       ingredientDetailsReducer(
-        initialState,
+        initialStateOfIngredientDetails,
         getIngredientDetails(testIngredient)
       )
     ).toEqual({
-      ...initialState
+      ...initialStateOfIngredientDetails
     });
   });
 });

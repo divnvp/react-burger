@@ -4,13 +4,12 @@ import {
   sendEmail,
   TForgotPasswordActions
 } from '../actions/forgot-password';
-import { forgotPasswordReducer } from './forgot-password';
+import {
+  forgotPasswordReducer,
+  initialStateOfForgotPassword
+} from './forgot-password';
 import { Response } from '../../shared/models/response.type';
 
-const initialState = {
-  error: null,
-  email: ''
-};
 const testResponse: Response = {
   success: true
 };
@@ -18,24 +17,33 @@ const testResponse: Response = {
 describe('Forgot password reducer', () => {
   it('should return initial state', () => {
     expect(
-      forgotPasswordReducer(initialState, {} as TForgotPasswordActions)
-    ).toEqual(initialState);
+      forgotPasswordReducer(
+        initialStateOfForgotPassword,
+        {} as TForgotPasswordActions
+      )
+    ).toEqual(initialStateOfForgotPassword);
   });
 
   it('should send email', () => {
     expect(
-      forgotPasswordReducer(initialState, sendEmail(testResponse))
+      forgotPasswordReducer(
+        initialStateOfForgotPassword,
+        sendEmail(testResponse)
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfForgotPassword,
       response: testResponse
     });
   });
 
   it('should request password', () => {
     expect(
-      forgotPasswordReducer(initialState, makeRequestOfForgotPassword('a@a.ru'))
+      forgotPasswordReducer(
+        initialStateOfForgotPassword,
+        makeRequestOfForgotPassword('a@a.ru')
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfForgotPassword,
       email: 'a@a.ru'
     });
   });
@@ -43,13 +51,13 @@ describe('Forgot password reducer', () => {
   it('should catch error forgot password', () => {
     expect(
       forgotPasswordReducer(
-        initialState,
+        initialStateOfForgotPassword,
         catchErrorOfForgotPassword({
           error: 'error'
         })
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfForgotPassword,
       error: {
         error: 'error'
       }
