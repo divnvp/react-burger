@@ -1,6 +1,6 @@
 describe('Burger Constructor works correctly', () => {
   beforeEach(function () {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.get('[id="dragstart"]').first().as('dragstartDiv');
     cy.get('p.text.text_type_main-medium').first().as('bunsBlock');
     cy.get('button').contains('Оформить заказ').as('confirmButton');
@@ -39,7 +39,7 @@ describe('Burger Constructor works correctly', () => {
   });
 
   it('should authorization work and modal of order exists', () => {
-    cy.visit('http://localhost:3000/login');
+    cy.visit('/login');
     cy.get('input.text.input__textfield.text_type_main-default')
       .first()
       .type('dxs@d.ru');
