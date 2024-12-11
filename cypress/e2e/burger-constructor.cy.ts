@@ -1,6 +1,14 @@
 describe('Burger Constructor works correctly', () => {
   beforeEach(function () {
     cy.visit('http://localhost:3000');
+    cy.get('[id="dragstart"]').first().as('dragstartDiv');
+    cy.get('p.text.text_type_main-medium').first().as('bunsBlock');
+    cy.get('button').contains('Оформить заказ').as('confirmButton');
+    cy.get('p.text.text_type_main-default.text_color_inactive')
+      .contains(
+        'Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа'
+      )
+      .as('dropWindow');
   });
 
   it('initial state of page', () => {
@@ -8,38 +16,22 @@ describe('Burger Constructor works correctly', () => {
       'have.text',
       'Соберите бургер'
     );
-    cy.get('button').contains('Оформить заказ').should('be.disabled');
+    cy.get('@confirmButton').should('be.disabled');
   });
 
   it('should drag-and-drop Bun to Cart redirect to login after Confirm order clicked', () => {
     const dataTransfer = new DataTransfer();
 
-    if (
-      cy
-        .get('p.text.text_type_main-medium')
-        .first()
-        .should('have.text', 'Булки')
-    ) {
-      cy.get('div.burger-ingredients_card__AqzE1')
-        .first()
-        .trigger('dragstart', { dataTransfer });
-      cy.get('p.text.text_type_main-default.text_color_inactive')
-        .contains(
-          'Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа'
-        )
-        .trigger('drop', { dataTransfer });
-      cy.get('button').contains('Оформить заказ').click();
+    if (cy.get('@bunsBlock').should('have.text', 'Булки')) {
+      cy.get('@dragstartDiv').trigger('dragstart', { dataTransfer });
+      cy.get('@dropWindow').trigger('drop', { dataTransfer });
+      cy.get('@confirmButton').click();
     }
   });
 
   it('should open modal of bun details', () => {
-    if (
-      cy
-        .get('p.text.text_type_main-medium')
-        .first()
-        .should('have.text', 'Булки')
-    ) {
-      cy.get('div.burger-ingredients_card__AqzE1').first().click();
+    if (cy.get('@bunsBlock').should('have.text', 'Булки')) {
+      cy.get('@dragstartDiv').click();
       cy.get('p.text.text_type_main-large')
         .first()
         .should('have.text', 'Детали ингредиента');
@@ -64,21 +56,13 @@ describe('Burger Constructor works correctly', () => {
         .last()
         .should('have.text', 'Начинки')
     ) {
-      cy.get('div.burger-ingredients_card__AqzE1')
-        .first()
-        .trigger('dragstart', { dataTransfer });
-      cy.get('p.text.text_type_main-default.text_color_inactive')
-        .contains(
-          'Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа'
-        )
-        .trigger('drop', { dataTransfer });
-      cy.get('button').contains('Оформить заказ').click();
+      cy.get('@dragstartDiv').trigger('dragstart', { dataTransfer });
+      cy.get('@dropWindow').trigger('drop', { dataTransfer });
+      cy.get('@confirmButton').click();
 
-      cy.get('div.modal-overlay_modalCard__De5BR');
-      cy.get('svg.modal_closeButton__DsCEZ').click();
-      cy.get('p.text.text_type_main-default.text_color_inactive').contains(
-        'Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа'
-      );
+      cy.get('[id="modal-overlay"]');
+      cy.get('[class*="closeButton"]').click();
+      cy.get('@dropWindow');
     }
   });
 });
