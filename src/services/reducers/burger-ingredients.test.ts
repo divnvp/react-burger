@@ -1,6 +1,9 @@
 import { v4 } from 'uuid';
 import { Ingredient } from '../../shared/models/ingredient.type';
-import { burgerIngredientsReducer } from './burger-ingredients';
+import {
+  burgerIngredientsReducer,
+  initialStateOfBurgerIngredients
+} from './burger-ingredients';
 import {
   getErrorOfIngredients,
   getIngredients,
@@ -24,23 +27,25 @@ const testIngredient: Ingredient = {
   image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
   __v: 0
 };
-const initialState = {
-  ingredients: [],
-  error: null
-};
 
 describe('Burger ingredients reducer', () => {
   it('should return the initial state', () => {
     expect(
-      burgerIngredientsReducer(initialState, {} as TBurgerIngredientsActions)
-    ).toEqual(initialState);
+      burgerIngredientsReducer(
+        initialStateOfBurgerIngredients,
+        {} as TBurgerIngredientsActions
+      )
+    ).toEqual(initialStateOfBurgerIngredients);
   });
 
   it('should get ingredients', () => {
     expect(
-      burgerIngredientsReducer(initialState, getIngredients([testIngredient]))
+      burgerIngredientsReducer(
+        initialStateOfBurgerIngredients,
+        getIngredients([testIngredient])
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfBurgerIngredients,
       ingredients: [testIngredient]
     });
   });
@@ -48,11 +53,11 @@ describe('Burger ingredients reducer', () => {
   it('should catch ingredients error', () => {
     expect(
       burgerIngredientsReducer(
-        initialState,
+        initialStateOfBurgerIngredients,
         getErrorOfIngredients({ error: 'lalala' })
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfBurgerIngredients,
       error: {
         error: 'lalala'
       }
@@ -61,9 +66,12 @@ describe('Burger ingredients reducer', () => {
 
   it('should request ingredients', () => {
     expect(
-      burgerIngredientsReducer(initialState, makeRequestOfIngredients())
+      burgerIngredientsReducer(
+        initialStateOfBurgerIngredients,
+        makeRequestOfIngredients()
+      )
     ).toEqual({
-      ...initialState
+      ...initialStateOfBurgerIngredients
     });
   });
 });
