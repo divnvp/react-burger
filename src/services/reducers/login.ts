@@ -21,7 +21,7 @@ type TLoginState = {
   checkingAuth?: boolean;
 };
 
-const initialState: TLoginState = {
+export const initialStateOfLogin: TLoginState = {
   error: null,
   accessToken: '',
   refreshToken: '',
@@ -36,7 +36,7 @@ const initialState: TLoginState = {
 };
 
 export const loginReducer = (
-  state = initialState,
+  state = initialStateOfLogin,
   action: TLoginActions
 ): TLoginState => {
   switch (action.type) {

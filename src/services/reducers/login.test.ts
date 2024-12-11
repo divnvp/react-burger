@@ -1,4 +1,4 @@
-import { loginReducer } from './login';
+import { initialStateOfLogin, loginReducer } from './login';
 import {
   catchLoginRejected,
   catchLogoutRejected,
@@ -10,19 +10,6 @@ import {
   TLoginActions
 } from '../actions/login';
 
-const initialState = {
-  error: null,
-  accessToken: '',
-  refreshToken: '',
-  success: false,
-  user: {
-    email: '',
-    name: '',
-    password: ''
-  },
-  logout: null,
-  checkingAuth: false
-};
 const testResponse = {
   success: true,
   user: {
@@ -38,14 +25,14 @@ const testResponse = {
 
 describe('Login reducer', () => {
   it('should return initial state', () => {
-    expect(loginReducer(initialState, {} as TLoginActions)).toEqual(
-      initialState
+    expect(loginReducer(initialStateOfLogin, {} as TLoginActions)).toEqual(
+      initialStateOfLogin
     );
   });
 
   it('should make login', () => {
-    expect(loginReducer(initialState, getLogin(testResponse))).toEqual({
-      ...initialState,
+    expect(loginReducer(initialStateOfLogin, getLogin(testResponse))).toEqual({
+      ...initialStateOfLogin,
       accessToken: 'a',
       checkingAuth: true,
       logout: null,
@@ -56,8 +43,8 @@ describe('Login reducer', () => {
   });
 
   it('should make login request', () => {
-    expect(loginReducer(initialState, makeRequestOfLogin())).toEqual({
-      ...initialState,
+    expect(loginReducer(initialStateOfLogin, makeRequestOfLogin())).toEqual({
+      ...initialStateOfLogin,
       error: null
     });
   });
@@ -65,13 +52,13 @@ describe('Login reducer', () => {
   it('should catch login request', () => {
     expect(
       loginReducer(
-        initialState,
+        initialStateOfLogin,
         catchLoginRejected({
           error: 'error'
         })
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfLogin,
       error: {
         error: 'error'
       }
@@ -79,25 +66,27 @@ describe('Login reducer', () => {
   });
 
   it('should make logout', () => {
-    expect(loginReducer(initialState, makeLogout(testResponse))).toEqual({
-      ...initialState,
-      logout: testResponse,
-      checkingAuth: false
-    });
+    expect(loginReducer(initialStateOfLogin, makeLogout(testResponse))).toEqual(
+      {
+        ...initialStateOfLogin,
+        logout: testResponse,
+        checkingAuth: false
+      }
+    );
   });
 
   it('should make logout request', () => {
-    expect(loginReducer(initialState, makeLoginRequest())).toEqual({
-      ...initialState,
+    expect(loginReducer(initialStateOfLogin, makeLoginRequest())).toEqual({
+      ...initialStateOfLogin,
       error: null
     });
   });
 
   it('should catch logout request', () => {
     expect(
-      loginReducer(initialState, catchLogoutRejected({ error: 'error' }))
+      loginReducer(initialStateOfLogin, catchLogoutRejected({ error: 'error' }))
     ).toEqual({
-      ...initialState,
+      ...initialStateOfLogin,
       error: {
         error: 'error'
       }
@@ -105,8 +94,8 @@ describe('Login reducer', () => {
   });
 
   it('should checking auth', () => {
-    expect(loginReducer(initialState, checkAuth(true))).toEqual({
-      ...initialState,
+    expect(loginReducer(initialStateOfLogin, checkAuth(true))).toEqual({
+      ...initialStateOfLogin,
       checkingAuth: true
     });
   });
