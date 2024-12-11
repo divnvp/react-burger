@@ -1,20 +1,16 @@
-import { loaderReducer } from './loader';
+import { initialStateOfLoader, loaderReducer } from './loader';
 import { makeLoading, TLoginActions } from '../actions/login';
-
-const initialState = {
-  loading: true
-};
 
 describe('Loader reducer', () => {
   it('should return initial state', () => {
-    expect(loaderReducer(initialState, {} as TLoginActions)).toEqual(
-      initialState
+    expect(loaderReducer(initialStateOfLoader, {} as TLoginActions)).toEqual(
+      initialStateOfLoader
     );
   });
 
   it('should make loading', () => {
-    expect(loaderReducer(initialState, makeLoading(true))).toEqual({
-      ...initialState,
+    expect(loaderReducer(initialStateOfLoader, makeLoading(true))).toEqual({
+      ...initialStateOfLoader,
       loading: true
     });
   });
