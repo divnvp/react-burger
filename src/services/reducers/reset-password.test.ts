@@ -1,4 +1,7 @@
-import { resetPasswordReducer } from './reset-password';
+import {
+  initialStateOfResetPassword,
+  resetPasswordReducer
+} from './reset-password';
 import {
   catchResetPasswordThunk,
   makeResetPassword,
@@ -7,10 +10,6 @@ import {
 } from '../actions/reset-password';
 import { Response } from '../../shared/models/response.type';
 
-const initialState = {
-  error: null,
-  email: ''
-};
 const testResponse: Response = {
   success: true
 };
@@ -18,24 +17,33 @@ const testResponse: Response = {
 describe('Reset password reducer', () => {
   it('should return initial state', () => {
     expect(
-      resetPasswordReducer(initialState, {} as TResetPasswordAction)
-    ).toEqual(initialState);
+      resetPasswordReducer(
+        initialStateOfResetPassword,
+        {} as TResetPasswordAction
+      )
+    ).toEqual(initialStateOfResetPassword);
   });
 
   it('should make request password', () => {
     expect(
-      resetPasswordReducer(initialState, makeResetPassword(testResponse))
+      resetPasswordReducer(
+        initialStateOfResetPassword,
+        makeResetPassword(testResponse)
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfResetPassword,
       response: testResponse
     });
   });
 
   it('should get request password', () => {
     expect(
-      resetPasswordReducer(initialState, makeResetPasswordRequest())
+      resetPasswordReducer(
+        initialStateOfResetPassword,
+        makeResetPasswordRequest()
+      )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfResetPassword,
       error: null
     });
   });
@@ -43,13 +51,13 @@ describe('Reset password reducer', () => {
   it('should catch password request', () => {
     expect(
       resetPasswordReducer(
-        initialState,
+        initialStateOfResetPassword,
         catchResetPasswordThunk({
           error: 'error'
         })
       )
     ).toEqual({
-      ...initialState,
+      ...initialStateOfResetPassword,
       error: {
         error: 'error'
       }
