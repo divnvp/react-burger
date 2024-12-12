@@ -9,13 +9,11 @@ describe('Burger Constructor works correctly', () => {
         'Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа'
       )
       .as('dropWindow');
+    cy.get('p.text.text_type_main-large').as('title');
   });
 
   it('initial state of page', () => {
-    cy.get('p.text.text_type_main-large.pb-5').should(
-      'have.text',
-      'Соберите бургер'
-    );
+    cy.get('@title').should('have.text', 'Соберите бургер');
     cy.get('@confirmButton').should('be.disabled');
   });
 
@@ -36,9 +34,7 @@ describe('Burger Constructor works correctly', () => {
       cy.get('@productCompositionBlock').first().should('have.text', 'Булки')
     ) {
       cy.get('@dragstartDiv').click();
-      cy.get('p.text.text_type_main-large')
-        .first()
-        .should('have.text', 'Детали ингредиента');
+      cy.get('@title').first().should('have.text', 'Детали ингредиента');
     }
   });
 
