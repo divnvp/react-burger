@@ -12,13 +12,13 @@ type TResetPasswordState = {
   email: string;
 };
 
-const initialState: TResetPasswordState = {
+export const initialStateOfResetPassword: TResetPasswordState = {
   error: null,
   email: ''
 };
 
 export const resetPasswordReducer = (
-  state = initialState,
+  state = initialStateOfResetPassword,
   action: TResetPasswordAction
 ): TResetPasswordState => {
   switch (action.type) {

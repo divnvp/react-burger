@@ -5,12 +5,12 @@ type TLoaderState = {
   loading?: boolean;
 };
 
-const initialState: TLoaderState = {
+export const initialStateOfLoader: TLoaderState = {
   loading: true
 };
 
 export const loaderReducer = (
-  state = initialState,
+  state = initialStateOfLoader,
   action: TLoginActions
 ): TLoaderState => {
   switch (action.type) {
